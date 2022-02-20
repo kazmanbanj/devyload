@@ -2,17 +2,20 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use App\Models\Reply;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReplyTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    use DatabaseMigrations, RefreshDatabase;
+
+    public function test_a_reply_has_an_owner()
     {
-        $this->assertTrue(true);
+        $reply = Reply::factory(200)->create();
+
+        $this->assertInstanceOf(Collection::class, $reply->user);
     }
 }

@@ -7,16 +7,18 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations, RefreshDatabase;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->thread = Thread::factory()->create();
+        $this->thread = Thread::factory(450)->create();
+        $this->user = User::factory(500)->create();
     }
 
     /**
@@ -51,7 +53,7 @@ class ThreadsTest extends TestCase
 
     public function a_user_can_read_replies_associated_with_a_thread()
     {
-        $reply = Reply::factory()->create(['thread_id' => $this->thread->id]);
+        $reply = Reply::factory(400)->create(['thread_id' => $this->thread->id]);
 
         $response = $this->get('/threads/' . $this->thread->id)->assertSee($reply->body);
     }

@@ -18,14 +18,8 @@
             <div class="card">
                 <b>Replies</b>
                 @foreach ($thread->replies as $reply)
-                <div class="card-header">
-                    {{ $reply->user->name }} said {{ $reply->created_at->diffForHumans() }}
-                </div>
-
-                <div class="card-body">
-                    <div class="body">{{ $reply->body }}</div>
-                </div>
-                <hr>
+                    @include('threads.reply')
+                    <hr>
                 @endforeach
             </div>
         </div>
