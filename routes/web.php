@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
-Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
+    Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
+    Route::post('/threads/{thread}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+});

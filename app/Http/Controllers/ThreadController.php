@@ -8,13 +8,21 @@ use Illuminate\Http\Request;
 class ThreadController extends Controller
 {
     /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $threads = Thread::latest()->get();
+        $threads = Thread::latest()->paginate(10);
 
         return view('threads.index', compact('threads'));
     }

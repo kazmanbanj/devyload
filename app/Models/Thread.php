@@ -33,8 +33,13 @@ class Thread extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function creator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function addReply($reply)
+    {
+        $this->replies()->create($reply);
     }
 }
