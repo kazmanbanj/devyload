@@ -21,18 +21,6 @@ class ThreadsTest extends TestCase
         $this->user = User::factory(500)->create();
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    // public function test_example()
-    // {
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(200);
-    // }
-
     /** @test */
     public function a_user_can_browse_threads()
     {
@@ -54,6 +42,7 @@ class ThreadsTest extends TestCase
     public function a_user_can_read_replies_associated_with_a_thread()
     {
         $reply = Reply::factory(400)->create(['thread_id' => $this->thread->id]);
+        // $reply = create(new Reply);
 
         $response = $this->get('/threads/' . $this->thread->id)->assertSee($reply->body);
     }
