@@ -10,7 +10,7 @@
                 <div class="card-body">
                     @foreach ($threads as $thread)
                         <article>
-                            <a href="{{ route('threads.show', [$thread->id]) }}">{{ $thread->title }}</a>
+                            <a href="{{ route('threads.show', [$thread->channel->id, $thread->id]) }}">{{ $thread->title }}</a>
                             <div class="body">{{ $thread->body }}</div>
                         </article>
                         <hr>
@@ -18,6 +18,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-2">
+        {!! $threads->links() !!}
     </div>
 </div>
 @endsection

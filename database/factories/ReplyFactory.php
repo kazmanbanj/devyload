@@ -17,7 +17,7 @@ class ReplyFactory extends Factory
         return [
             'thread_id' => rand(1, 100),
             'user_id' => rand(1, 200),
-            'body' => $this->faker->paragraph(),
+            'body' => $this->faker->sentence(),
         ];
     }
 }

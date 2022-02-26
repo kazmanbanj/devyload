@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ThreadFactory extends Factory
+class ChannelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,10 +14,8 @@ class ThreadFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 200),
-            'channel_id' => rand(1, 20),
-            'title' => $this->faker->text(15),
-            'body' => $this->faker->sentence(),
+            'name' => $this->faker->text(10),
+            'slug' => $this->faker->text(10),
         ];
     }
 }

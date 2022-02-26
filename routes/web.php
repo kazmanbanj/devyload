@@ -20,6 +20,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
-Route::get('/threads/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
+    Route::get('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
+    Route::get('/threads/create', [App\Http\Controllers\ThreadController::class, 'create'])->name('threads.create');
+    Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store'])->name('threads.store');
+
+
+    Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+});
