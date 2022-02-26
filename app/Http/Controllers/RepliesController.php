@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reply;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReplyRequest;
 
 class RepliesController extends Controller
 {
@@ -15,12 +16,12 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Request $request, $channelId, Reply $reply)
+    public function store(ReplyRequest $request, $channelId, $threadId, Reply $reply)
     {
-        // dd($request->all());
-        $reply->addReply([
-            'body' => $request['body'],
+        $reply->create([
+            'body' => $request->body,
             'user_id' => auth()->id(),
+            'thread_id' => $threadId,
         ]);
 
         return back();

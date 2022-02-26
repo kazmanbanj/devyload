@@ -31,10 +31,12 @@
         @if (auth()->check())
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <form action="{{ route('replies.store', [$channelId, $thread->id]) }}" method="POST">
+                    @include('common.sessions')
+                    <form action="{{ route('replies.store', ['channelId' => $channelId, 'threadId' => $thread->id]) }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <textarea id="summernote" class="form-control" placeholder="Add new reply" name="body" rows="3"></textarea>
+                            <input class="form-control" type="text" placeholder="Add new reply" name="body">
+                            {{-- <textarea name="body" id="summernote" class="form-control" placeholder="Add new reply" rows="3"></textarea> --}}
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-1">Save</button>

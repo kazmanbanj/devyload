@@ -28,5 +28,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store'])->name('threads.store');
 
 
-    Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+    Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
 });

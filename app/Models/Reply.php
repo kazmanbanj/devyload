@@ -10,9 +10,9 @@ class Reply extends Model
     use HasFactory;
 
     protected $fillable = [
+        'body',
         'thread_id',
         'user_id',
-        'body',
     ];
 
     /**

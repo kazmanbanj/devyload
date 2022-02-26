@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ThreadRequest extends FormRequest
+class ReplyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,6 @@ class ThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
-            'channel_id' => 'required|exists:channels,id',
-            'title' => 'required',
             'body' => 'required',
         ];
     }
