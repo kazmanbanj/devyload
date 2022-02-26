@@ -15,7 +15,8 @@ class Thread extends Model
 
     public function path()
     {
-        return '/threads/' . $this->id;
+        return '/threads/{$this->channel->slug}/{$this->id}';
+        // return '/threads/' . $this->channel->slug . '/' . $this->id;
     }
 
     /**
@@ -28,11 +29,11 @@ class Thread extends Model
         return $this->hasMany(Reply::class);
     }
 
-    /**
-     * Get the user that owns the Thread
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class);
+    }
+    
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');

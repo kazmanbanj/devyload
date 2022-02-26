@@ -36,7 +36,7 @@ class ThreadsTest extends TestCase
      /** @test */
     public function a_user_can_see_a_particular_thread()
     {        
-        $this->get('/threads/' . $this->thread->id)->assertSee($this->thread->title);
+        $this->get('/threads/{$this->thread->id}')->assertSee($this->thread->title);
     }
 
     public function a_user_can_read_replies_associated_with_a_thread()
@@ -44,6 +44,6 @@ class ThreadsTest extends TestCase
         $reply = Reply::factory(400)->create(['thread_id' => $this->thread->id]);
         // $reply = create(new Reply);
 
-        $response = $this->get('/threads/' . $this->thread->id)->assertSee($reply->body);
+        $response = $this->get('/threads/{$this->thread->id}')->assertSee($reply->body);
     }
 }

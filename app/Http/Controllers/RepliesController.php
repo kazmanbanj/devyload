@@ -15,7 +15,7 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Request $request, Reply $reply)
+    public function store(Request $request, $channelId, Reply $reply)
     {
         // dd($request->all());
         $reply->addReply([

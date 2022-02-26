@@ -34,7 +34,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        return view('threads.create');
     }
 
     /**
@@ -43,9 +43,16 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ThreadRequest $request)
     {
-        //
+        $thread = Thread::create([
+            'user_id' => auth()->id(),
+            'channel_id' => request('channel_id'),
+            'title' => request('title'),
+            'body' => request('body')
+        ]);
+
+        return redirect($thread->path());
     }
 
     /**
@@ -54,9 +61,9 @@ class ThreadController extends Controller
      * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($channelId, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', compact('channelId', 'thread'));
     }
 
     /**
