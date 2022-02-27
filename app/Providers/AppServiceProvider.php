@@ -27,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        view()->share('channels', Channel::all());
+        // view()->share('channels', Channel::all());
+        view()->composer('*', function ($view) {
+            $view->with('channels', Channel::all());
+        });
     }
 }
