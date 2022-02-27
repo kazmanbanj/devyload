@@ -16,7 +16,7 @@
                         </article>
                         <hr>
                     @empty
-                        <p>No thread for this channel</p>
+                        <p>No threads yet</p>
                     @endforelse
                 </div>
             </div>
