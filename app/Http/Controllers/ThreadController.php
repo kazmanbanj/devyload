@@ -16,33 +16,20 @@ class ThreadController extends Controller
         $this->middleware('auth');
     }
 
-    // private function getThreads(Channel $channel)
-    // {
-    //     if ($channel->exists) {
-    //         $threads = $channel->threads()->latest();
-    //     } else {
-    //         $threads = Thread::latest();
-    //     };
+    protected function getThreads($channel, $filters)
+    {
+        $threads = Thread::latest()->filter($filters);
 
-    //     if ($username = request('by')) {
-    //         $user = User::where('name', $username)->firstOrFail();
+        if ($channel->exists) {
+            $threads->where('channel_id', $channel->id);
+        };
 
-    //         $threads->where('user_id', $user->id);
-    //     }
-
-    //     return $threads->paginate(10);
-    // }
+        return $threads->paginate(10);
+    }
 
     public function index(Channel $channel, ThreadFilters $filters)
     {
-        if ($channel->exists) {
-            $threads = $channel->threads()->latest();
-        } else {
-            $threads = Thread::latest();
-        };
-
-        // $threads = $this->getThreads($channel);
-        $threads = $threads->filter($filters)->paginate(10);
+        $threads = $this->getThreads($channel, $filters);
 
         return view('threads.index', compact('threads'));
     }
