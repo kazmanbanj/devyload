@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Thread;
 use App\Models\Channel;
 use Illuminate\Http\Request;
+use App\Http\Requests\ThreadRequest;
 
 class ThreadController extends Controller
 {
@@ -42,7 +43,9 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        return view('threads.create');
+        $channels = Channel::all();
+
+        return view('threads.create', compact('channels'));
     }
 
     /**
@@ -60,7 +63,7 @@ class ThreadController extends Controller
             'body' => request('body')
         ]);
 
-        return redirect($thread->path());
+        return redirect()->route('threads')->with('success', 'Thread created successfully!');
     }
 
     /**
