@@ -19,15 +19,25 @@ class Thread extends Model
         // return '/threads/' . $this->channel->slug . '/' . $this->id;
     }
 
-    /**
-     * Get all of the replies for the Thread
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function ($builder)
+        {
+            $builder->withCount('replies');
+        });
+    }
+
     public function replies()
     {
         return $this->hasMany(Reply::class);
     }
+
+    // public function getReplyCountAttribute()
+    // {
+    //     return $this->replies()->count();
+    // }
 
     public function channel()
     {

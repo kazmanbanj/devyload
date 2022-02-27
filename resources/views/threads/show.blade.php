@@ -15,13 +15,16 @@
                     </div>
                 </div>
                 <br>
-                <div class="card">
+                <div class="card mb-2">
                     <b>Replies</b>
-                    @foreach ($thread->replies as $reply)
+
+                    @foreach ($replies as $reply)
                         @include('threads.reply')
                     @endforeach
                 </div>
+                {{ $replies->links() }}
                 <br>
+
                 @if (auth()->check())
                     @include('common.sessions')
                     <form action="{{ route('replies.store', ['channelId' => $channelId, 'threadId' => $thread->id]) }}"
@@ -48,7 +51,7 @@
 
                     <div class="card-body">
                         <div class="body">
-                            This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="#">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies()->count() }} comments.
+                            This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="#">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                         </div>
                     </div>
                 </div>
