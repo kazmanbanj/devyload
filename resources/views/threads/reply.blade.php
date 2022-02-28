@@ -1,5 +1,5 @@
 <div class="card-header">
-    {{ $reply->creator->name }} said {{ $reply->created_at->diffForHumans() }}
+    <b>{{ $reply->creator->name }} said {{ $reply->created_at->diffForHumans() }}</b>
 </div>
 
 <div class="card-body">

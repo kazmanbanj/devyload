@@ -12,7 +12,15 @@
                     @forelse ($threads as $thread)
                         <article>
                             <a href="{{ route('threads.show', [$thread->channel->id, $thread->id]) }}">{{ $thread->title }}</a>
-                            <div class="body">{{ $thread->body }}</div>
+
+                            <a href="{{ route('threads.show', [$thread->channel->id, $thread->id]) }}">
+                                <strong class="float-end">
+                                    {{ $thread->replies_count }}
+                                    {{ Illuminate\Support\Str::plural('reply', $thread->replies_count) }}
+                                </strong>
+                            </a>
+
+                            <div class="body font-weight-light">{{ $thread->body }}</div>
                         </article>
                         <hr>
                     @empty
