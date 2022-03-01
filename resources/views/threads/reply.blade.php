@@ -4,7 +4,7 @@
     <form method="POST" action="{{ route('favorites', $reply->id) }}" class="float-end">
         @csrf
         <button class="btn btn-info" type="submit" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-            {{ $reply->favorites()->count() }} {{ Illuminate\Support\Str::plural('favorite', $reply->favorites()->count()) }}
+            {{ $reply->favorites_count }} {{ Illuminate\Support\Str::plural('favorite', $reply->favorites_count) }}
         </button>
     </form>
 </div>
