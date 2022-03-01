@@ -36,5 +36,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('replies/{reply}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('favorites');
 
 
-    Route::post('profiles/{user}', [App\Http\Controllers\ProfilesController::class, 'show'])->name('profile.show');
+    Route::get('profiles/{user}', [App\Http\Controllers\ProfilesController::class, 'show'])->name('profile.show');
 });

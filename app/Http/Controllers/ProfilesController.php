@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfilesController extends Controller
@@ -37,15 +38,11 @@ class ProfilesController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show($user)
     {
-        return view('profiles.show');
+        $profileUser = User::where('name', $user)->firstOrFail();
+
+        return view('profiles.show', compact('profileUser'));
     }
 
     /**
