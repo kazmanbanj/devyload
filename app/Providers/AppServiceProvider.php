@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\Channel;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Barryvdh\Debugbar\ServiceProvider as BarryvdhServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(BarryvdhServiceProvider::class);
+        }
     }
 
     /**
@@ -27,9 +31,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        // view()->share('channels', Channel::all());
         view()->composer('*', function ($view) {
-            $view->with('channels', Channel::all());
+            $channels = Cache::rememberForever('channels', function () {
+                return Channel::all();
+            });
+
+            $view->with('channels', $channels);
         });
     }
 }

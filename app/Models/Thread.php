@@ -13,6 +13,8 @@ class Thread extends Model
 
     protected $fillable = ["user_id", "channel_id", "title", "body"];
 
+    protected $with = ['creator', 'channel'];
+
     public function path()
     {
         return '/threads/{$this->channel->slug}/{$this->id}';
@@ -31,7 +33,9 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)
+            ->withCount('favorites')
+            ->with('creator');
     }
 
     // public function getReplyCountAttribute()
