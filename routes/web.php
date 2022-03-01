@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
     Route::get('/threads/create', [App\Http\Controllers\ThreadController::class, 'create'])->name('threads.create');
     Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
     Route::get('/threads/{channel}', [App\Http\Controllers\ThreadController::class, 'index'])->name('channels');
@@ -32,4 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
 
     Route::post('replies/{reply}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('favorites');
+
+
+    Route::post('profiles/{user}', [App\Http\Controllers\ProfilesController::class, 'show'])->name('profile.show');
 });
