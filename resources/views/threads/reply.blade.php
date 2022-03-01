@@ -1,5 +1,12 @@
-<div class="card-header">
-    <b>{{ $reply->creator->name }} said {{ $reply->created_at->diffForHumans() }}</b>
+<div class="card-header d-block">
+    <p class=""><b>{{ $reply->creator->name }}</b> said {{ $reply->created_at->diffForHumans() }}</p>
+
+    <form method="POST" action="{{ route('favorites', $reply->id) }}" class="float-end">
+        @csrf
+        <button class="btn btn-info" type="submit" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+            {{ $reply->favorites()->count() }} {{ Illuminate\Support\Str::plural('favorite', $reply->favorites()->count()) }}
+        </button>
+    </form>
 </div>
 
 <div class="card-body">

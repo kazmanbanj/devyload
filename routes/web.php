@@ -30,4 +30,6 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+
+    Route::post('replies/{reply}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('favorites');
 });
