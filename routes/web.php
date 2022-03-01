@@ -24,11 +24,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-    Route::get('/threads/create', [App\Http\Controllers\ThreadController::class, 'create'])->name('threads.create');
-    Route::get('/threads', [App\Http\Controllers\ThreadController::class, 'index'])->name('threads');
-    Route::get('/threads/{channel}', [App\Http\Controllers\ThreadController::class, 'index'])->name('channels');
-    Route::get('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadController::class, 'show'])->name('threads.show');
-    Route::post('/threads', [App\Http\Controllers\ThreadController::class, 'store'])->name('threads.store');
+    Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
+    Route::get('/threads', [App\Http\Controllers\ThreadsController::class, 'index'])->name('threads');
+    Route::get('/threads/{channel}', [App\Http\Controllers\ThreadsController::class, 'index'])->name('channels');
+    Route::get('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
+    Route::delete('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'destroy'])->name('threads.destroy');
+    Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store');
 
 
     Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');

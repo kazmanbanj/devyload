@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
 
-class ThreadController extends Controller
+class ThreadsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     protected function getThreads($channel, $filters)
@@ -68,8 +68,11 @@ class ThreadController extends Controller
         //
     }
 
-    public function destroy(Thread $thread)
+    public function destroy($channel, Thread $thread)
     {
-        //
+        // $thread->replies()->delete();
+        $thread->delete();
+
+        return redirect()->route('threads')->with('success', 'Deleted Successfully');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Create a new thread</h1>
-    @include('common.sessions')
+    @include('partials.sessions')
     <form action="{{ route('threads.store') }}" method="post">
         @csrf
         <div class="form-group">

@@ -8,6 +8,15 @@
                     <div class="card-header">
                         <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
                         {{ $thread->title }}
+
+                        <span class="float-end">
+                            <form method="post" action="{{ route('threads.destroy', ['channelId' => $channelId, 'thread' => $thread->id]) }}">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-danger">Delete thread</button>
+                            </form>
+                        </span>
                     </div>
 
                     <div class="card-body">
@@ -26,7 +35,7 @@
                 <br>
 
                 @if (auth()->check())
-                    @include('common.sessions')
+                    @include('partials.sessions')
                     <form action="{{ route('replies.store', ['channelId' => $channelId, 'threadId' => $thread->id]) }}"
                         method="POST">
                         @csrf
