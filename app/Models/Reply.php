@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Models\Favorite;
 use App\Traits\Favoritable;
+use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reply extends Model
 {
-    use Favoritable;
+    use Favoritable, RecordsActivity;
 
     protected $fillable = [
         'body',

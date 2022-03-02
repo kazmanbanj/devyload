@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Models\User;
+use ReflectionClass;
 use App\Models\Reply;
+use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model
 {
-    use HasFactory;
+    use HasFactory, RecordsActivity;
 
     protected $fillable = ["user_id", "channel_id", "title", "body"];
 
