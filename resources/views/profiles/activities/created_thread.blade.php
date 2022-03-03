@@ -1,13 +1,22 @@
-<div class="card-header">
-    {{ $profileUser->name }} published <a href="{{ $activity->subject->path() }}">{{ $activity->subject->title }}</a>
+@component('profiles.activities.activity')
+    @slot('heading')
+        {{ $profileUser->name }} published <a href="{{ $activity->subject->path() }}">{{ $activity->subject->title }}</a>
+    @endslot
 
-    <span class="float-end">
+    @slot('time')
         {{ $activity->subject->created_at->diffForHumans() }}
-    </span>
-</div>
+    @endslot
 
-<div class="card-body">
-    <div class="body">
+    @slot('body')
         {{ $activity->subject->body }}
-    </div>
-</div>
+    @endslot
+@endcomponent
+
+
+
+{{-- to override the slot above --}}
+{{-- @include('profiles.activities.activity', [
+    'heading' => 'The heading',
+    'time' => 'The time',
+    'body' => 'The body'
+]) --}}
