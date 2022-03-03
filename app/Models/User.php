@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\Activity;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function threads()
     {
         return $this->hasMany(Thread::class)->latest();
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
     }
 }

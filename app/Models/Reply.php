@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Thread;
 use App\Models\Favorite;
 use App\Traits\Favoritable;
 use App\Traits\RecordsActivity;
@@ -28,5 +29,15 @@ class Reply extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get the thread that owns the Reply
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
     }
 }
