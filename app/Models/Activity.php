@@ -15,4 +15,9 @@ class Activity extends Model
     {
         return $this->morphTo();
     }
+
+    // public static function feed()
+    // {
+        
+    // }
 }
