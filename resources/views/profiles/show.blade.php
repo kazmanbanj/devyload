@@ -7,22 +7,15 @@
             </h5>
 
         <div class="card">
-            @foreach ($profileUser->threads as $thread)
-            <div class="card-header">
-                <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
-                {{ $thread->title }}
+            @foreach ($activities as $date => $activity)
+                <h3 class="card-header">{{ $date }}</h3>
 
-                <span class="float-end">
-                    {{ $thread->created_at->diffForHumans() }}
-                </span>
-            </div>
-
-            <div class="card-body">
-                <div class="body">{{ $thread->body }}</div>
-            </div>
+                @foreach ($activity as $record)
+                    @include("profiles.activities.{$record->type}", ['activity' => $record])
+                @endforeach
             @endforeach
         </div>
-
-        {{-- {{ $threads->links() }} --}}
+        <br>
+        {{-- {{ $activities->links() }} --}}
 </div>
 @endsection

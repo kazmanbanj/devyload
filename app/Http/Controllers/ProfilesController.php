@@ -42,8 +42,17 @@ class ProfilesController extends Controller
     public function show($user)
     {
         $profileUser = User::where('name', $user)->firstOrFail();
+        $activities = $profileUser
+                        ->activities()
+                        ->latest()
+                        ->with('subject')
+                        ->take(50)
+                        ->get()
+                        ->groupBy(function ($activity) {
+                            return $activity->created_at->format('Y-m-d');
+                        });
 
-        return view('profiles.show', compact('profileUser'));
+        return view('profiles.show', compact('profileUser', 'activities'));
     }
 
     /**
