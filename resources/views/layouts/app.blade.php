@@ -33,9 +33,9 @@
         <main class="py-4">
             @yield('content')
         </main>
-
-        {{-- <flash message="Temporary message"></flash> --}}
-        <example></example>
+        
+        {{-- <flash message="{{ session('flash') }}"></flash> --}}
+        <flash message="temporary"></flash>
     </div>
 
     @yield('script')
