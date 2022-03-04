@@ -16,12 +16,16 @@ trait RecordsActivity
                 $model->recordActivity($event);
             });
         }
+
+        static::deleting(function ($model) {
+            $model->activity()->delete();
+        });
     }
 
-    // public function activity()
-    // {
-    //     return $this->morphMany(Activity::class, 'subject');
-    // }
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'subject');
+    }
 
     protected static function getRecordsEvent()
     {
@@ -30,11 +34,11 @@ trait RecordsActivity
 
     public function recordActivity($event)
     {
-        Activity::create([
+        $this->activity()->create([
             'user_id' => auth()->id(),
             'type' => $event . '_' . strtolower((new ReflectionClass($this))->getShortName()),
-            'subject_id' => $this->id,
-            'subject_type' => get_class($this),
+            // 'subject_id' => $this->id,
+            // 'subject_type' => get_class($this),
         ]);
     }
 }
