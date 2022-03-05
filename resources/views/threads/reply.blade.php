@@ -1,4 +1,4 @@
-<div class="card-header d-block">
+<div id="reply-{{ $reply->id }}" class="card-header d-block">
     <p class="">
         <b>
             <a href="{{ route('profile.show', Auth::user()->name) }}">
