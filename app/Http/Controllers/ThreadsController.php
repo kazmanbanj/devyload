@@ -73,6 +73,6 @@ class ThreadsController extends Controller
         // $thread->replies()->delete();
         $thread->delete();
 
-        return redirect()->route('threads')->with('success', 'Deleted Successfully');
+        return redirect()->route('threads')->with('success', 'Thread Deleted Successfully');
     }
 }

@@ -21,11 +21,9 @@
         created() {
             if (this.message) {
                 this.flash(this.message);
-                // this.body = this.message;
-                // this.show = true;
             }
 
-            window.events.$on('flash', message => this.flash(message));
+            // window.events.$on('flash', message => this.flash(message));
         },
 
         methods: {

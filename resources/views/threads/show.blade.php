@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{ route('profile.show', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
+                        <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> posted:
                         {{ $thread->title }}
 
                         <span class="float-end">
@@ -54,13 +54,13 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
+                        <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> posted:
                         {{ $thread->title }}
                     </div>
 
                     <div class="card-body">
                         <div class="body">
-                            This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
+                            This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                         </div>
                     </div>
                 </div>

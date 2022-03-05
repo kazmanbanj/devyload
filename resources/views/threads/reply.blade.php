@@ -1,7 +1,7 @@
 <div class="card-header d-block">
     <p class="">
         <b>
-            <a href="{{ route('profile.show', $reply->creator->name) }}">
+            <a href="{{ route('profile.show', Auth::user()->name) }}">
                 {{ $reply->creator->name }}
             </a>
         </b> said {{ $reply->created_at->diffForHumans() }}

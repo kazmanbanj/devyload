@@ -5280,16 +5280,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var _this = this;
-
     if (this.message) {
-      this.flash(this.message); // this.body = this.message;
-      // this.show = true;
-    }
+      this.flash(this.message);
+    } // window.events.$on('flash', message => this.flash(message));
 
-    window.events.$on('flash', function (message) {
-      return _this.flash(message);
-    });
   },
   methods: {
     flash: function flash(message) {
@@ -5298,11 +5292,11 @@ __webpack_require__.r(__webpack_exports__);
       this.hide();
     },
     hide: function hide() {
-      var _this2 = this;
+      var _this = this;
 
       // $('.alert-flash').delay(3000).fadeOut();
       setTimeout(function () {
-        _this2.show = false;
+        _this.show = false;
       }, 3000);
     }
   } // mounted() {
@@ -5383,12 +5377,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
-
-window.events = new Vue();
-
-window.flash = function (message) {
-  window.events.$emit('flash', message);
-};
+// window.events = new Vue();
+// window.flash = function (message) { 
+//     window.events.$emit('flash', message);
+// }
 
 /***/ }),
 
