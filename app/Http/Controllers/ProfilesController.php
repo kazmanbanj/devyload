@@ -42,7 +42,8 @@ class ProfilesController extends Controller
 
     public function show($user)
     {
-        $profileUser = User::where('name', $user)->firstOrFail();
+        $profileUser = User::where('name', $user)->first();
+        // dd($profileUser);
         $activities = Activity::feed($profileUser);
 
         return view('profiles.show', compact('profileUser', 'activities'));
