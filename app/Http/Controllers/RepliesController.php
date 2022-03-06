@@ -26,4 +26,17 @@ class RepliesController extends Controller
 
         return back()->with('flash', 'Your reply has been left!');
     }
+
+    public function destroy(Reply $reply)
+    {
+        // if ($reply->user_id != auth()->id()) {
+        //     abort(403);
+        // }
+
+        $this->authorize('update', $reply);
+
+        $reply->delete();
+
+        return redirect()->back();
+    }
 }
