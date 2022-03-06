@@ -24,13 +24,11 @@
                     </div>
                 </div>
                 <br>
-                <div class="card mb-2">
-                    <b>Replies</b>
+                <b>Replies</b>
+                @foreach ($replies as $reply)
+                    @include('threads.reply')
+                @endforeach
 
-                    @foreach ($replies as $reply)
-                        @include('threads.reply')
-                    @endforeach
-                </div>
                 {{ $replies->links() }}
                 <br>
 
