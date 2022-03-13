@@ -32,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store');
 
 
+    Route::post('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'store'])->name('thread.subscriptions.store');
+
+
     Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
     Route::delete('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'destroy'])->name('reply.delete');
 
