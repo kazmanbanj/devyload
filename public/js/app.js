@@ -5276,16 +5276,31 @@ __webpack_require__.r(__webpack_exports__);
   props: ['reply'],
   data: function data() {
     return {
-      favoritesCount: this.reply.favoritesCount
+      count: this.reply.favoritesCount,
+      active: this.reply.isFavorited
     };
+  },
+  computed: {
+    classes: function classes() {
+      return ['btn', this.active ? 'btn-primary' : 'btn-outline-secondary'];
+    },
+    endpoint: function endpoint() {
+      return '/replies/' + this.reply.id + '/favorites';
+    }
   },
   methods: {
     toggle: function toggle() {
-      if (this.isFavorited) {
-        axios["delete"]('/replies/' + this.reply.id + '/favorites');
-      } else {
-        axios.post('/replies/' + this.reply.id + '/favorites');
-      }
+      return this.active ? this.destroy() : this.create();
+    },
+    create: function create() {
+      axios.post(this.endpoint);
+      this.active = true;
+      this.count++;
+    },
+    destroy: function destroy() {
+      axios["delete"](this.endpoint);
+      this.active = false;
+      this.count--;
     }
   }
 });
@@ -28669,7 +28684,9 @@ var render = function () {
     _c(
       "button",
       {
-        staticClass: "btn btn-outline-info float-end",
+        staticClass: "float-end",
+        class: _vm.classes,
+        attrs: { type: "submit" },
         on: { click: _vm.toggle },
       },
       [
