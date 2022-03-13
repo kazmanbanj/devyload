@@ -60,6 +60,11 @@
                         <div class="body">
                             This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                         </div>
+
+                        <div class="body mt-3">
+                            <subscribe-button></subscribe-button>
+                            {{-- <button class="btn btn-primary">Subscribe</button> --}}
+                        </div>
                     </div>
                 </div>
             </div>
