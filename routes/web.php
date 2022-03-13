@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+    Route::patch('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'update'])->name('reply.update');
     Route::delete('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'destroy'])->name('reply.delete');
 
 

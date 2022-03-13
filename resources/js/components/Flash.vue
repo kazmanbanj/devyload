@@ -23,7 +23,7 @@
                 this.flash(this.message);
             }
 
-            // window.events.$on('flash', message => this.flash(message));
+            window.events.$on('flash', message => this.flash(message));
         },
 
         methods: {
