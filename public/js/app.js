@@ -5318,7 +5318,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['attributes'],
+  data: function data() {
+    return {
+      editing: false,
+      body: this.attributes.body
+    };
+  }
+});
 
 /***/ }),
 
@@ -5354,6 +5362,7 @@ Vue.component('reply', __webpack_require__(/*! ./components/Reply.vue */ "./reso
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.config.devtools = true;
 var app = new Vue({
   el: '#app'
 });
