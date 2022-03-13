@@ -9,12 +9,13 @@
             </b> said {{ $reply->created_at->diffForHumans() }}
         </p>
 
-        <form method="POST" action="{{ route('favorites', $reply->id) }}" class="float-end">
+        <favorite :reply="{{ $reply }}"></favorite>
+        {{-- <form method="POST" action="{{ route('favorites', $reply->id) }}" class="float-end">
             @csrf
             <button class="btn btn-info" type="submit" {{ $reply->isFavorited() ? 'disabled' : '' }}>
                 {{ $reply->favorites_count }} {{ Illuminate\Support\Str::plural('favorite', $reply->favorites_count) }}
             </button>
-        </form>
+        </form> --}}
     </div>
 
     <div class="card-body">
