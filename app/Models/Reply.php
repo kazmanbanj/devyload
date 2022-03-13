@@ -21,6 +21,8 @@ class Reply extends Model
 
     protected $with = ['creator', 'favorites'];
 
+    protected $appends = ['favoritesCount'];
+
     /**
      * Get the user that owns the Reply
      *
