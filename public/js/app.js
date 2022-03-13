@@ -5292,15 +5292,15 @@ __webpack_require__.r(__webpack_exports__);
     toggle: function toggle() {
       return this.active ? this.destroy() : this.create();
     },
-    create: function create() {
-      axios.post(this.endpoint);
-      this.active = true;
-      this.count++;
-    },
     destroy: function destroy() {
       axios["delete"](this.endpoint);
       this.active = false;
       this.count--;
+    },
+    create: function create() {
+      axios.post(this.endpoint);
+      this.active = true;
+      this.count++;
     }
   }
 });
@@ -5399,6 +5399,12 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.editing = false;
       flash('Updated!');
+    },
+    destroy: function destroy() {
+      axios["delete"]('/replies/' + this.attributes.id);
+      $(this.$el).fadeOut(300, function () {
+        flash('Your reply has been deleted.');
+      });
     }
   }
 });

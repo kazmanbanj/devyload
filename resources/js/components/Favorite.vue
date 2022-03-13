@@ -29,17 +29,17 @@ export default {
         toggle() {
             return this.active ? this.destroy() : this.create();
         },
-        create() {
-            axios.post(this.endpoint);
-
-            this.active = true;
-            this.count++;
-        },
         destroy() {
             axios.delete(this.endpoint);
 
             this.active = false;
             this.count--;
+        },
+        create() {
+            axios.post(this.endpoint);
+
+            this.active = true;
+            this.count++;
         }
     },
 }
