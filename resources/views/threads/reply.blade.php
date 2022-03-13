@@ -9,13 +9,11 @@
             </b> said {{ $reply->created_at->diffForHumans() }}
         </p>
 
-        <favorite :reply="{{ $reply }}"></favorite>
-        {{-- <form method="POST" action="{{ route('favorites', $reply->id) }}" class="float-end">
-            @csrf
-            <button class="btn btn-info" type="submit" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                {{ $reply->favorites_count }} {{ Illuminate\Support\Str::plural('favorite', $reply->favorites_count) }}
-            </button>
-        </form> --}}
+        @if (Auth::check())
+            <div>
+                <favorite :reply="{{ $reply }}"></favorite>
+            </div>
+        @endif
     </div>
 
     <div class="card-body">
@@ -34,14 +32,15 @@
     @can('update', $reply)
         <div class="d-flex ml-2 mb-2">
             <button class="btn btn-warning btn-sm" type="submit" @click="editing = true">Edit</button>
+            <button class="btn btn-danger btn-sm ml-2" type="submit" @click="destroy">Delete</button>
 
-            <form method="POST" action="{{ route('reply.delete', $reply->id) }}">
+            {{-- <form method="POST" action="{{ route('reply.delete', $reply->id) }}">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger btn-sm ml-2" type="submit" onclick="return confirm('Are you sure you want to delete this reply?');">
                     Delete
                 </button>
-            </form>
+            </form> --}}
         </div>
     @endcan
 </div>
