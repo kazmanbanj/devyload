@@ -16,16 +16,13 @@ class FavoritesController extends Controller
 
     public function store(Reply $reply)
     {
-        // if (!$reply->favorites()->where(['user_id' => auth()->id()])->exists()) {
-        //     Favorite::create([
-        //         'user_id' => auth()->user()->id,
-        //         'favorited_id' => $reply->id,
-        //         'favorited_type' => get_class($reply)
-        //     ]);
-        // }
-
         $reply->favorite();
 
         return redirect()->back();
+    }
+
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavorite();
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-outline-info float-end" @click="toggle">
+        <button :class="classes" type="submit" class="float-end" @click="toggle">
             <i class="fa-solid fa-heart"></i>
             <span v-text="favoritesCount"></span>
             <!-- {{ $reply->favorites_count }} -->
@@ -13,17 +13,34 @@ export default {
     props: ['reply'],
     data() {
         return {
-            favoritesCount: this.reply.favoritesCount
+            count: this.reply.favoritesCount,
+            active: this.reply.isFavorited
+        }
+    },
+    computed: {
+        classes() {
+            return ['btn', this.active ? 'btn-primary' : 'btn-outline-secondary'];
+        },
+        endpoint() {
+            return '/replies/' + this.reply.id + '/favorites';
         }
     },
     methods: {
         toggle() {
-            if (this.isFavorited) {
-                axios.delete('/replies/' + this.reply.id + '/favorites');
-            } else {
-                axios.post('/replies/' + this.reply.id + '/favorites');
-            }
+            return this.active ? this.destroy() : this.create();
         },
+        create() {
+            axios.post(this.endpoint);
+
+            this.active = true;
+            this.count++;
+        },
+        destroy() {
+            axios.delete(this.endpoint);
+
+            this.active = false;
+            this.count--;
+        }
     },
 }
 </script>
