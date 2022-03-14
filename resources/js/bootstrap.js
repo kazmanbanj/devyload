@@ -37,7 +37,11 @@ window.Vue = require('vue').default;
 // to be shared across all vue components
 window.Vue.prototype.authorize = function (handler) {
     // Additional admin priviedges
-    return handler(window.App.user);
+    // return true;
+
+    let user = window.App.user;
+
+    return user ? handler(user) : false;
 };
 
 window.events = new Vue();
