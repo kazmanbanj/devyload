@@ -34,14 +34,13 @@
                 {{ $replies->links() }} --}}
                 <br>
 
-                @if (auth()->check())
+                {{-- @if (auth()->check())
                     @include('partials.sessions')
                     <form action="{{ route('replies.store', ['channelId' => $channelId, 'threadId' => $thread->id]) }}"
                         method="POST">
                         @csrf
                         <div class="form-group">
                             <textarea name="body" id="" cols="15" rows="5" class="form-control" placeholder="Add new reply"></textarea>
-                            {{-- <textarea name="body" id="summernote" class="form-control" placeholder="Add new reply" rows="3"></textarea> --}}
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-1">Save</button>
@@ -49,7 +48,7 @@
                 @else
                     <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate in this
                         discussion</p>
-                @endif
+                @endif --}}
             </div>
             <div class="col-md-4">
                 <div class="card">

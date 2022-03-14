@@ -18,11 +18,15 @@ class RepliesController extends Controller
 
     public function store(ReplyRequest $request, $channelId, $threadId, Reply $reply)
     {
-        $reply->create([
+        $reply = $reply->create([
             'body' => $request->body,
             'user_id' => auth()->id(),
             'thread_id' => $threadId,
         ]);
+
+        if (request()->expectsJson()) {
+            return $reply->load('creator');
+        }
 
         return back()->with('flash', 'Your reply has been left!');
     }
