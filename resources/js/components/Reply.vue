@@ -1,7 +1,7 @@
 <template>
     <div class="card mb-2">
-        <div :id="'reply-'+id" class="card-header d-block">
-            <p class="">
+        <div :id="'reply-'+id" class="card-header d-flex">
+            <p>
                 <b>
                     <a :href="'/profiles/'+data.creator.name"
                         v-text="data.creator.name">
@@ -10,7 +10,7 @@
                 said {{ data.created_at }}
             </p>
 
-            <div v-if="signedIn">
+            <div v-if="signedIn" class="ml-auto">
                 <favorite :reply="data"></favorite>
             </div>
         </div>
@@ -33,25 +33,23 @@
             <div class="body" v-else v-text="body"></div>
         </div>
 
-        <!-- @can('update', $reply) -->
-            <div class="d-flex ml-2 mb-2" v-if="canUpdate">
-                <button
-                    class="btn btn-warning btn-sm"
-                    type="submit"
-                    @click="editing = true"
-                >
-                    Edit
-                </button>
-                <a
-                    href="javascript:;"
-                    class="btn btn-danger btn-sm ml-2"
-                    type="submit"
-                    @click="destroy"
-                >
-                    Delete
-                </a>
-            </div>
-        <!-- @endcan -->
+        <div class="d-flex card-footer" v-if="canUpdate">
+            <button
+                class="btn btn-warning btn-sm"
+                type="submit"
+                @click="editing = true"
+            >
+                Edit
+            </button>
+            <a
+                href="javascript:;"
+                class="btn btn-danger btn-sm ml-2"
+                type="submit"
+                @click="destroy"
+            >
+                Delete
+            </a>
+        </div>
     </div>
 </template>
 <script>
