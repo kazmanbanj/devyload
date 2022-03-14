@@ -19,8 +19,6 @@
             <div v-if="editing">
                 <div class="form-group">
                     <textarea
-                        name=""
-                        id=""
                         class="form-control"
                         v-model="body"
                     ></textarea>
@@ -72,9 +70,9 @@ export default {
         signedIn() {
             return window.App.signedIn;
         },
+
         canUpdate() {
             return this.authorize(user => this.data.user_id == user.id);
-            // return this.data.user_id = window.App.user.id
         }
     },
 
@@ -87,6 +85,7 @@ export default {
             this.editing = false;
             flash("Updated!");
         },
+
         destroy() {
             if(confirm("Do you really want to delete?")){
                 axios.delete("/replies/" + this.data.id);

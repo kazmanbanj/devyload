@@ -5542,8 +5542,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["data"],
@@ -5566,7 +5564,7 @@ __webpack_require__.r(__webpack_exports__);
 
       return this.authorize(function (user) {
         return _this.data.user_id == user.id;
-      }); // return this.data.user_id = window.App.user.id
+      });
     }
   },
   methods: {
@@ -29381,7 +29379,6 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control",
-                attrs: { name: "", id: "" },
                 domProps: { value: _vm.body },
                 on: {
                   input: function ($event) {
