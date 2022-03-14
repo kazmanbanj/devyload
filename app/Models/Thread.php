@@ -62,10 +62,10 @@ class Thread extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function addReply($reply)
-    {
-        return $this->replies()->create($reply);
-    }
+    // public function addReply($reply)
+    // {
+    //     return $this->replies()->create($reply);
+    // }
 
     public function scopeFilter($query, $filters)
     {
