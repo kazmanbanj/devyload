@@ -2,7 +2,7 @@
     <div>
         <button :class="classes" type="submit" class="float-end" @click="toggle">
             <i class="fa-solid fa-heart"></i>
-            <span v-text="favoritesCount"></span>
+            <span v-text="count"></span>
             <!-- {{ $reply->favorites_count }} -->
         </button>
     </div>

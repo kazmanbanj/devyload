@@ -5478,8 +5478,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["data"],
@@ -5489,9 +5487,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       editing: false,
-      body: this.data.body,
-      id: this.data.id
+      id: this.data.id,
+      body: this.data.body
     };
+  },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.signedIn;
+    },
+    canUpdate: function canUpdate() {
+      var _this = this;
+
+      return this.authorize(function (user) {
+        return _this.data.user_id == user.id;
+      }); // return this.data.user_id = window.App.user.id
+    }
   },
   methods: {
     update: function update() {
@@ -5653,7 +5663,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
+window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]); // to be shared across all vue components
+
+window.Vue.prototype.authorize = function (handler) {
+  // Additional admin priviedges
+  return handler(window.App.user);
+};
+
 window.events = new Vue();
 
 window.flash = function (message) {
@@ -28974,7 +28990,7 @@ var render = function () {
       [
         _c("i", { staticClass: "fa-solid fa-heart" }),
         _vm._v(" "),
-        _c("span", { domProps: { textContent: _vm._s(_vm.favoritesCount) } }),
+        _c("span", { domProps: { textContent: _vm._s(_vm.count) } }),
       ]
     ),
   ])
@@ -29121,8 +29137,14 @@ var render = function () {
               domProps: { textContent: _vm._s(_vm.data.creator.name) },
             }),
           ]),
-          _vm._v("\n        said " + _vm._s(_vm.data.created_at) + "\n    "),
+          _vm._v(
+            "\n            said " + _vm._s(_vm.data.created_at) + "\n        "
+          ),
         ]),
+        _vm._v(" "),
+        _vm.signedIn
+          ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+          : _vm._e(),
       ]
     ),
     _vm._v(" "),
@@ -29181,31 +29203,33 @@ var render = function () {
           }),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "d-flex ml-2 mb-2" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-warning btn-sm",
-          attrs: { type: "submit" },
-          on: {
-            click: function ($event) {
-              _vm.editing = true
+    _vm.canUpdate
+      ? _c("div", { staticClass: "d-flex ml-2 mb-2" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-warning btn-sm",
+              attrs: { type: "submit" },
+              on: {
+                click: function ($event) {
+                  _vm.editing = true
+                },
+              },
             },
-          },
-        },
-        [_vm._v("\n                Edit\n            ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-danger btn-sm ml-2",
-          attrs: { href: "javascript:;", type: "submit" },
-          on: { click: _vm.destroy },
-        },
-        [_vm._v("\n                Delete\n            ")]
-      ),
-    ]),
+            [_vm._v("\n                Edit\n            ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-danger btn-sm ml-2",
+              attrs: { href: "javascript:;", type: "submit" },
+              on: { click: _vm.destroy },
+            },
+            [_vm._v("\n                Delete\n            ")]
+          ),
+        ])
+      : _vm._e(),
   ])
 }
 var staticRenderFns = []
