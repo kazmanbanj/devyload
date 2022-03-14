@@ -5667,7 +5667,9 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 window.Vue.prototype.authorize = function (handler) {
   // Additional admin priviedges
-  return handler(window.App.user);
+  // return true;
+  var user = window.App.user;
+  return user ? handler(user) : false;
 };
 
 window.events = new Vue();
