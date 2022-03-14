@@ -1,20 +1,18 @@
 <template>
     <div class="card mb-2">
         <div :id="'reply-'+id" class="card-header d-block">
-        <p class="">
-            <b>
-                <a :href="'/profiles/'+data.creator.name"
-                    v-text="data.creator.name">
-                </a>
-            </b>
-            said {{ data.created_at }}
-        </p>
+            <p class="">
+                <b>
+                    <a :href="'/profiles/'+data.creator.name"
+                        v-text="data.creator.name">
+                    </a>
+                </b>
+                said {{ data.created_at }}
+            </p>
 
-        <!-- @if (Auth::check())
-        <div>
-            <favorite :reply="{{ $reply }}"></favorite>
-        </div>
-        @endif -->
+            <div v-if="signedIn">
+                <favorite :reply="data"></favorite>
+            </div>
         </div>
 
         <div class="card-body">
@@ -36,7 +34,7 @@
         </div>
 
         <!-- @can('update', $reply) -->
-            <div class="d-flex ml-2 mb-2">
+            <div class="d-flex ml-2 mb-2" v-if="canUpdate">
                 <button
                     class="btn btn-warning btn-sm"
                     type="submit"
@@ -67,10 +65,21 @@ export default {
     data() {
         return {
             editing: false,
+            id: this.data.id,
             body: this.data.body,
-            id: this.data.id
         };
     },
+
+    computed: {
+        signedIn() {
+            return window.App.signedIn;
+        },
+        canUpdate() {
+            return this.authorize(user => this.data.user_id == user.id);
+            // return this.data.user_id = window.App.user.id
+        }
+    },
+
     methods: {
         update() {
             axios.patch("/replies/" + this.data.id, {

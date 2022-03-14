@@ -14,6 +14,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -32,6 +33,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 window.Vue = require('vue').default;
+
+// to be shared across all vue components
+window.Vue.prototype.authorize = function (handler) {
+    // Additional admin priviedges
+    return handler(window.App.user);
+};
+
 window.events = new Vue();
 
 window.flash = function (message) { 
