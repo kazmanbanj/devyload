@@ -40,7 +40,7 @@
                         method="POST">
                         @csrf
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Add new reply" name="body">
+                            <textarea name="body" id="" cols="15" rows="5" class="form-control" placeholder="Add new reply"></textarea>
                             {{-- <textarea name="body" id="summernote" class="form-control" placeholder="Add new reply" rows="3"></textarea> --}}
                         </div>
 

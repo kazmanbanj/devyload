@@ -5476,8 +5476,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["data"],
@@ -29130,9 +29128,9 @@ var render = function () {
   return _c("div", { staticClass: "card mb-2" }, [
     _c(
       "div",
-      { staticClass: "card-header d-block", attrs: { id: "reply-" + _vm.id } },
+      { staticClass: "card-header d-flex", attrs: { id: "reply-" + _vm.id } },
       [
-        _c("p", {}, [
+        _c("p", [
           _c("b", [
             _c("a", {
               attrs: { href: "/profiles/" + _vm.data.creator.name },
@@ -29145,7 +29143,12 @@ var render = function () {
         ]),
         _vm._v(" "),
         _vm.signedIn
-          ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+          ? _c(
+              "div",
+              { staticClass: "ml-auto" },
+              [_c("favorite", { attrs: { reply: _vm.data } })],
+              1
+            )
           : _vm._e(),
       ]
     ),
@@ -29206,7 +29209,7 @@ var render = function () {
     ]),
     _vm._v(" "),
     _vm.canUpdate
-      ? _c("div", { staticClass: "d-flex ml-2 mb-2" }, [
+      ? _c("div", { staticClass: "d-flex card-footer" }, [
           _c(
             "button",
             {
@@ -29218,7 +29221,7 @@ var render = function () {
                 },
               },
             },
-            [_vm._v("\n                Edit\n            ")]
+            [_vm._v("\n            Edit\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -29228,7 +29231,7 @@ var render = function () {
               attrs: { href: "javascript:;", type: "submit" },
               on: { click: _vm.destroy },
             },
-            [_vm._v("\n                Delete\n            ")]
+            [_vm._v("\n            Delete\n        ")]
           ),
         ])
       : _vm._e(),
