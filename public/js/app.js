@@ -5397,12 +5397,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       endpoint: '/threads/36/115/replies',
       body: ''
     };
+  },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.signedIn;
+    }
   },
   methods: {
     addReply: function addReply() {
@@ -29216,39 +29223,47 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mt-5" }, [
-    _c("div", { staticClass: "form-group" }, [
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.body,
-            expression: "body",
-          },
-        ],
-        staticClass: "form-control",
-        attrs: { name: "body", rows: "5", placeholder: "Add new reply" },
-        domProps: { value: _vm.body },
-        on: {
-          input: function ($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.body = $event.target.value
-          },
-        },
-      }),
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary mt-1",
-        attrs: { type: "submit" },
-        on: { click: _vm.addReply },
-      },
-      [_vm._v("Save")]
-    ),
+    _vm.signedIn
+      ? _c("div", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.body,
+                  expression: "body",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: { name: "body", rows: "5", placeholder: "Add new reply" },
+              domProps: { value: _vm.body },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.body = $event.target.value
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary mt-1",
+              attrs: { type: "submit" },
+              on: { click: _vm.addReply },
+            },
+            [_vm._v("Save")]
+          ),
+        ])
+      : _c("p", { staticClass: "text-center" }, [
+          _vm._v("Please "),
+          _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
+          _vm._v(" to participate in this discussion"),
+        ]),
   ])
 }
 var staticRenderFns = []

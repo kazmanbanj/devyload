@@ -1,18 +1,20 @@
 <template>
     <div class="mt-5">
-        <div class="form-group">
-            <textarea 
-                name="body" 
-                rows="5" 
-                class="form-control" 
-                placeholder="Add new reply"
-                v-model="body"
-            ></textarea>
+        <div v-if="signedIn">
+            <div class="form-group">
+                <textarea 
+                    name="body" 
+                    rows="5" 
+                    class="form-control" 
+                    placeholder="Add new reply"
+                    v-model="body"
+                ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-1" @click="addReply">Save</button>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-1" @click="addReply">Save</button>
-
-        <!-- <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion</p> -->
+        <p class="text-center" v-else>Please <a href="/login">sign in</a> to participate in this discussion</p>
     </div>
 </template>
 
@@ -24,6 +26,13 @@ export default {
             body: ''
         }
     },
+
+    computed: {
+        signedIn() {
+            return window.App.signedIn;
+        }
+    },
+
     methods: {
         addReply() {
             axios.post(this.endpoint, {
