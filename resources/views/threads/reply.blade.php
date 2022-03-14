@@ -1,4 +1,4 @@
-<reply :attributes="{{ $reply }}" inline-template v-cloak>
+{{-- <reply :attributes="{{ $reply }}" inline-template v-cloak>
     <div class="card mb-2">
     <div id="reply-{{ $reply->id }}" class="card-header d-block">
         <p class="">
@@ -33,15 +33,7 @@
         <div class="d-flex ml-2 mb-2">
             <button class="btn btn-warning btn-sm" type="submit" @click="editing = true">Edit</button>
             <button class="btn btn-danger btn-sm ml-2" type="submit" @click="destroy">Delete</button>
-
-            {{-- <form method="POST" action="{{ route('reply.delete', $reply->id) }}">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger btn-sm ml-2" type="submit" onclick="return confirm('Are you sure you want to delete this reply?');">
-                    Delete
-                </button>
-            </form> --}}
         </div>
     @endcan
 </div>
-</reply>
+</reply> --}}
