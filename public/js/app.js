@@ -5400,9 +5400,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['endpoint'],
   data: function data() {
     return {
-      endpoint: '/threads/36/115/replies',
       body: ''
     };
   },
@@ -5463,12 +5463,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      items: this.data
+      items: this.data,
+      endpoint: location.pathname + '/replies'
     };
   },
   methods: {
     add: function add(reply) {
       this.items.push(reply);
+      this.$emit('added');
     },
     remove: function remove(index) {
       this.items.splice(index, 1);
@@ -29310,7 +29312,10 @@ var render = function () {
         )
       }),
       _vm._v(" "),
-      _c("new-reply", { on: { created: _vm.add } }),
+      _c("new-reply", {
+        attrs: { endpoint: _vm.endpoint },
+        on: { created: _vm.add },
+      }),
     ],
     2
   )

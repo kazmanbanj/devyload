@@ -26,7 +26,7 @@
                 </div>
                 <br>
                 <b>Replies</b>
-                <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+                <replies :data="{{ $thread->replies }}" @added="repliesCount++" @removed="repliesCount--"></replies>
                 {{-- @foreach ($replies as $reply)
                     @include('threads.reply')
                 @endforeach
@@ -34,6 +34,7 @@
                 {{ $replies->links() }} --}}
                 <br>
 
+                {{-- moved into new reply --}}
                 {{-- @if (auth()->check())
                     @include('partials.sessions')
                     <form action="{{ route('replies.store', ['channelId' => $channelId, 'threadId' => $thread->id]) }}"
