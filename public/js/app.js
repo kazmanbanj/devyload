@@ -5271,7 +5271,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['reply'],
   data: function data() {
@@ -5360,10 +5359,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.show = false;
       }, 3000);
     }
-  } // mounted() {
-  //     console.log('Component mounted.')
-  // }
-
+  }
 });
 
 /***/ }),

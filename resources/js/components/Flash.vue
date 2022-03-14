@@ -41,10 +41,6 @@
                 }, 3000);
             },
         },
-
-        // mounted() {
-        //     console.log('Component mounted.')
-        // }
     }
 </script>
 
