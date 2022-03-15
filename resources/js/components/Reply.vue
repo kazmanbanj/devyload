@@ -7,7 +7,7 @@
                         v-text="data.creator.name">
                     </a>
                 </b>
-                said {{ data.created_at }}
+                said <span v-text="ago"></span>
             </p>
 
             <div v-if="signedIn" class="ml-auto">
@@ -52,6 +52,7 @@
 </template>
 <script>
 import Favorite from "./Favorite.vue";
+import moment from "moment";
 
 export default {
     props: ["data"],
@@ -67,6 +68,10 @@ export default {
     },
 
     computed: {
+        ago() {
+            return moment(this.data.created_at).fromNow() + '...';
+        },
+
         signedIn() {
             return window.App.signedIn;
         },
@@ -96,7 +101,7 @@ export default {
                 //     flash("Your reply has been deleted.");
                 // });
             }
-        },
+        }
     },
 };
 </script>
