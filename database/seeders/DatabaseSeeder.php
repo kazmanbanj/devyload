@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Reply;
-use App\Models\Thread;
 use App\Models\Channel;
+use App\Models\User;
+use App\Models\Thread;
+use App\Models\Reply;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
