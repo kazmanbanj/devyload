@@ -32,6 +32,8 @@ class RepliesController extends Controller
             'thread_id' => $threadId,
         ]);
 
+        // $reply->thread->increment('replies_count');
+
         if (request()->expectsJson()) {
             return $reply->load('creator');
         }
