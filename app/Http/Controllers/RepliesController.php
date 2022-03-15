@@ -21,7 +21,7 @@ class RepliesController extends Controller
     {
         $thread = Thread::find($threadId);
 
-        return $thread->replies()->paginate();
+        return $thread->replies()->paginate(20);
     }
 
     public function store(ReplyRequest $request, $channelId, $threadId, Reply $reply)
