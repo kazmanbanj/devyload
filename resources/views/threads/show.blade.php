@@ -26,7 +26,8 @@
                 </div>
                 <br>
                 <b>Replies</b>
-                <replies :data="{{ $thread->replies }}" @added="repliesCount++" @removed="repliesCount--"></replies>
+                {{-- <a href="{{ route('replies.index', [$channelId, $thread->id]) }}">Fetch replies</a> --}}
+                <replies @added="repliesCount++" @removed="repliesCount--"></replies>
                 {{-- @foreach ($replies as $reply)
                     @include('threads.reply')
                 @endforeach

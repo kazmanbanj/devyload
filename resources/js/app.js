@@ -20,12 +20,12 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 import Flash from './components/Flash.vue';
-// import Reply from './components/Reply.vue';
+import Paginator from './components/Paginator.vue';
 import Thread from './pages/Thread.vue';
 import SubscribeButton from './components/SubscribeButton.vue';
 
 Vue.component('flash', Flash);
-// Vue.component('reply', Reply);
+Vue.component('paginator', Paginator);
 Vue.component('thread-view', Thread);
 Vue.component('subscribe-button', SubscribeButton);
 
