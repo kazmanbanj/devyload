@@ -4,9 +4,10 @@
             <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
 
-        <paginator></paginator>
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
 
-        <new-reply :endpoint="endpoint" @created="add"></new-reply>
+        <!-- <new-reply :endpoint="endpoint" @created="add"></new-reply> -->
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     data() {
         return {
             dataSet: false,
-            endpoint: location.pathname + '/replies',
+            // endpoint: location.pathname + '/replies',
         }
     },
 
@@ -32,13 +33,18 @@ export default {
     },
 
     methods: {
-        fetch() {
-            axios.get(this.url())
+        fetch(page) {
+            axios.get(this.url(page))
                 .then(this.refresh);
         },
 
-        url() {
-            return location.pathname + '/replies';
+        url(page) {
+            if (! page) {
+                let query = location.search.match(/page=(\d+)/);
+
+                page = query ? query[1] : 1;
+            }
+            return location.pathname + `/replies?page=${page}`;
         },
 
         refresh({data}) {
