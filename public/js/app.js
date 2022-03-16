@@ -5693,10 +5693,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['active'],
+  computed: {
+    classes: function classes() {
+      return ['btn', this.active ? 'btn-primary' : 'btn-secondary'];
+    }
+  },
   methods: {
     subscribe: function subscribe() {
-      axios.post(location.pathname + '/subscriptions');
-      flash('Subcribed');
+      var requestType = this.active ? 'delete' : 'post';
+      axios[requestType](location.pathname + '/subscriptions');
+      this.active = !this.active;
+      var message = this.active ? 'Unsubscribed' : 'Subcribed';
+      flash(message);
     }
   }
 });
@@ -5715,11 +5724,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Replies.vue */ "./resources/js/components/Replies.vue");
+/* harmony import */ var _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SubscribeButton.vue */ "./resources/js/components/SubscribeButton.vue");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['initialRepliesCount'],
   components: {
-    Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -5741,7 +5753,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Flash_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Flash.vue */ "./resources/js/components/Flash.vue");
 /* harmony import */ var _components_Paginator_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Paginator.vue */ "./resources/js/components/Paginator.vue");
 /* harmony import */ var _pages_Thread_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Thread.vue */ "./resources/js/pages/Thread.vue");
-/* harmony import */ var _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/SubscribeButton.vue */ "./resources/js/components/SubscribeButton.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -5763,11 +5774,9 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 
 
-
 Vue.component('flash', _components_Flash_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.component('paginator', _components_Paginator_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.component('thread-view', _pages_Thread_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
-Vue.component('subscribe-button', _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -51180,18 +51189,9 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        on: {
-          click: function ($event) {
-            return _vm.subscribe()
-          },
-        },
-      },
-      [_vm._v("Subscribe")]
-    ),
+    _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
+      _vm._v("Subscribe"),
+    ]),
   ])
 }
 var staticRenderFns = []

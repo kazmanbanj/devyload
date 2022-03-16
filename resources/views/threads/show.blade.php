@@ -65,7 +65,7 @@
                         </div>
 
                         <div class="body mt-3">
-                            <subscribe-button></subscribe-button>
+                            <subscribe-button :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe-button>
                             {{-- <button class="btn btn-primary">Subscribe</button> --}}
                         </div>
                     </div>
