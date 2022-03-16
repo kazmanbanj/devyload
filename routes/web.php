@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'store'])->name('thread.subscriptions.store');
+    Route::delete('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'destroy'])->name('thread.subscriptions.destroy');
 
 
     Route::get('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'index'])->name('replies.index');

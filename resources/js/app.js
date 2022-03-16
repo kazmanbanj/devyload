@@ -22,12 +22,10 @@ window.Vue = require('vue').default;
 import Flash from './components/Flash.vue';
 import Paginator from './components/Paginator.vue';
 import Thread from './pages/Thread.vue';
-import SubscribeButton from './components/SubscribeButton.vue';
 
 Vue.component('flash', Flash);
 Vue.component('paginator', Paginator);
 Vue.component('thread-view', Thread);
-Vue.component('subscribe-button', SubscribeButton);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
