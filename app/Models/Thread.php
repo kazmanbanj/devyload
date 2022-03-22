@@ -64,10 +64,15 @@ class Thread extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // public function addReply($reply)
-    // {
-    //     return $this->replies()->create($reply);
-    // }
+    public function addReply($reply)
+    {
+        return $this->replies()->create($reply);
+
+        // $thread->subscriptions->filter(function ($sub) use ($reply) {
+        //     return $sub->user_id != $reply->user_id;
+        // })
+        // ->each->notify($reply);
+    }
 
     public function scopeFilter($query, $filters)
     {

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reply extends Model
 {
-    use Favoritable, RecordsActivity;
+    use HasFactory, Favoritable, RecordsActivity;
 
     protected $fillable = [
         'body',

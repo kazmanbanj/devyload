@@ -8,6 +8,7 @@ use App\Models\Channel;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
+use App\Notifications\ThreadWasUpdated;
 
 class ThreadsController extends Controller
 {
@@ -41,12 +42,49 @@ class ThreadsController extends Controller
 
     public function store(ThreadRequest $request)
     {
+        // $this->replies->create($reply);
+
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
             'title' => request('title'),
             'body' => request('body')
         ]);
+
+        
+        if (request()->wantsJson()) {
+            return response($thread, 201);
+        }
+
+        // $thread->subscriptions->filter(function ($sub) use ($reply) {
+        //     return $sub->user_id != $reply->user_id;
+        // })
+        // ->each(function ($sub) use ($reply) {
+        //     $sub->user->notify(new ThreadWasUpdated($this, $reply));
+        // });
+
+
+
+
+
+
+        // $thread->subscriptions->filter(function ($sub) use ($reply) {
+        //     return $sub->user_id != $reply->user_id;
+        // })
+        // ->each->notify($reply);
+
+
+
+
+
+
+        
+
+        // foreach ($thread->subscriptions as $subscription) {
+        //     if ($subscription->user_id != $reply->user_id) {
+        //         $subscription->user->notify(new ThreadWasUpdated($this, $reply));
+        //     }
+        // }
 
         return redirect()->route('threads')->with('flash', 'Thread created successfully!');
     }
