@@ -68,10 +68,18 @@ class Thread extends Model
     {
         return $this->replies()->create($reply);
 
-        // $thread->subscriptions->filter(function ($sub) use ($reply) {
-        //     return $sub->user_id != $reply->user_id;
-        // })
-        // ->each->notify($reply);
+        // event(new ThreadHasNewReply($this, $reply));
+        $this->notifySubscribers($reply);
+
+        return $reply;
+    }
+
+    public function notifySubscribers($reply)
+    {
+        $this->subscribers
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);
     }
 
     public function scopeFilter($query, $filters)
