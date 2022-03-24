@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\Activity;
@@ -66,5 +67,18 @@ class User extends Authenticatable
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')
             ->orderBy('created_at', 'desc');
+    }
+
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+    }
+
+    public function read($thread)
+    {
+        return cache()->forever(
+            $this->visitedThreadCacheKey($thread),
+            Carbon::now()
+        );
     }
 }
