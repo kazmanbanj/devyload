@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
@@ -92,6 +93,9 @@ class ThreadsController extends Controller
     public function show($channelId, Thread $thread)
     {
         // $replies = $thread->replies()->paginate(5);
+        $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
+        
+        cache()->forever($key, Carbon::now());
 
         return view('threads.show', compact('channelId', 'thread'));
     }
