@@ -9,7 +9,7 @@
                     <div class="card mt-4">
                         <div class="card-header">
                             <a href="{{ route('threads.show', [$thread->channel->id, $thread->id]) }}">
-                                @if ($thread->hasUpdatesFor(auth()->user()))
+                                @if (auth()->check() && $thread->hasUpdatesFor(auth()->user()))
                                     <strong>
                                         {{ $thread->title }}
                                     </strong>

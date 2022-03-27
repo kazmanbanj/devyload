@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use ReflectionClass;
 use App\Models\Reply;
+use App\Utilities\Spam;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,9 +67,10 @@ class Thread extends Model
 
     public function addReply($reply)
     {
+        // (new Spam)->detect($reply->body);
+        
         return $this->replies()->create($reply);
 
-        // event(new ThreadHasNewReply($this, $reply));
         $this->notifySubscribers($reply);
 
         return $reply;

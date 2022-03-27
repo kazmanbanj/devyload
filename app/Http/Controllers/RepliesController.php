@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reply;
 use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
+use App\Inspections\Spam;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Notifications\DatabaseNotification;
@@ -26,12 +27,16 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store(ReplyRequest $request, $channelId, $threadId, Reply $reply)
+    public function store($channelId, $threadId, Spam $spam)
     {
+        $this->validate(request(), ['body' => 'required']);
+
+        $spam->detect(request('body'));
+
         $thread = Thread::findOrFail($threadId);
 
         $reply = $thread->addReply([
-            'body' => $request->body,
+            'body' => request('body'),
             'user_id' => auth()->id(),
             'thread_id' => $threadId,
         ]);
