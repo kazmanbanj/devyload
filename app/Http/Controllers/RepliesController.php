@@ -27,11 +27,11 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store($channelId, $threadId, Spam $spam)
+    public function store($channelId, $threadId)
     {
         $this->validate(request(), ['body' => 'required']);
 
-        $spam->detect(request('body'));
+        $this->validateReply();
 
         $thread = Thread::findOrFail($threadId);
 
@@ -40,8 +40,6 @@ class RepliesController extends Controller
             'user_id' => auth()->id(),
             'thread_id' => $threadId,
         ]);
-
-        // $reply->thread->increment('replies_count');
 
         if (request()->expectsJson()) {
             return $reply->load('creator');
@@ -70,6 +68,10 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply);
 
+        $this->validate(request(), ['body' => 'required']);
+
+        $this->validateReply();
+
         $reply->update(request(['body']));
     }
 
@@ -88,5 +90,12 @@ class RepliesController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    protected function validateReply()
+    {
+        $this->validate(request(), ['body' => 'required']);
+
+        resolve(Spam::class)->detect(request('body'));
     }
 }

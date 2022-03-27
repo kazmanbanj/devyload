@@ -12,22 +12,10 @@ class InvalidKeywords
 
     public function detect($body)
     {
-        foreach ($this->keywords as $keyword) {
-            if (stripos($body, $keyword) == false) {
+        // foreach ($this->keywords as $keyword) {
+            if (in_array($body, $this->keywords) == true) {
                 throw new Exception("Your reply contains spam");
             }
-        }
-    }
-    
-    protected function detectInvalidKeywords($body)
-    {
-
-    }
-
-    protected function detectKeyHeldDown($body)
-    {
-        if (preg_match('/(.)\\1{4,}/', $body)) {
-            throw new Exception("Your reply contains spam");
-        }
+        // }
     }
 }

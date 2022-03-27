@@ -4,7 +4,7 @@ namespace App\Inspections;
 
 use Exception;
 
-class InvalidKeywords
+class KeyHeldDown
 {
     public function detect($body)
     {
