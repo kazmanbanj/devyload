@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reply;
 use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
+use App\Inspections\Spam;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Notifications\DatabaseNotification;
@@ -26,17 +27,19 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store(ReplyRequest $request, $channelId, $threadId, Reply $reply)
+    public function store($channelId, $threadId)
     {
+        $this->validate(request(), ['body' => 'required']);
+
+        $this->validateReply();
+
         $thread = Thread::findOrFail($threadId);
 
         $reply = $thread->addReply([
-            'body' => $request->body,
+            'body' => request('body'),
             'user_id' => auth()->id(),
             'thread_id' => $threadId,
         ]);
-
-        // $reply->thread->increment('replies_count');
 
         if (request()->expectsJson()) {
             return $reply->load('creator');
@@ -65,6 +68,10 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply);
 
+        $this->validate(request(), ['body' => 'required']);
+
+        $this->validateReply();
+
         $reply->update(request(['body']));
     }
 
@@ -83,5 +90,12 @@ class RepliesController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    protected function validateReply()
+    {
+        $this->validate(request(), ['body' => 'required']);
+
+        resolve(Spam::class)->detect(request('body'));
     }
 }
