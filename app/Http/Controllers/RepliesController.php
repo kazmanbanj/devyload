@@ -29,27 +29,26 @@ class RepliesController extends Controller
 
     public function store($channelId, $threadId)
     {
-        $this->validate(request(), ['body' => 'required']);
+        // $this->validate(request(), ['body' => 'required']);
 
-        $this->validateReply();
+        try {
+            $this->validateReply();
 
-        $thread = Thread::findOrFail($threadId);
+            $thread = Thread::findOrFail($threadId);
 
-        $reply = $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id(),
-            'thread_id' => $threadId,
-        ]);
-
-        if (request()->expectsJson()) {
-            return $reply->load('creator');
+            $reply = $thread->addReply([
+                'body' => request('body'),
+                'user_id' => auth()->id(),
+                'thread_id' => $threadId,
+            ]);
+            
+            $thread->subscriptions->filter(function ($sub) use ($reply) {
+                return $sub->user_id != $reply->user_id;
+            })
+            ->each->notify($reply);
+        } catch (\Exception $e) {
+            return response('Sorry, your reply could not be saved at this time.', 422);
         }
-
-        
-        $thread->subscriptions->filter(function ($sub) use ($reply) {
-            return $sub->user_id != $reply->user_id;
-        })
-        ->each->notify($reply);
 
         // DatabaseNotification::create([
         //     'id' => Uuid::uuid4()->toString(),
@@ -61,18 +60,21 @@ class RepliesController extends Controller
         //     'data' => ['title' => 'this is the body of the notification']
         // ]);
 
-        return back()->with('flash', 'Your reply has been left!');
+            return $reply->load('creator');
+            // return back()->with('flash', 'Your reply has been left!');
     }
 
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        $this->validate(request(), ['body' => 'required']);
+        try {
+            $this->validateReply();
 
-        $this->validateReply();
-
-        $reply->update(request(['body']));
+            $reply->update(request(['body']));
+        } catch (\Exception $e) {
+            return response('Sorry, your reply could not be saved at this time.', 422);
+        }
     }
 
     public function destroy(Reply $reply)
