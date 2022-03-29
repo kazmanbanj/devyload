@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Reply;
 use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
-use App\Inspections\Spam;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Notifications\DatabaseNotification;
@@ -32,7 +31,7 @@ class RepliesController extends Controller
         // $this->validate(request(), ['body' => 'required']);
 
         try {
-            $this->validateReply();
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $thread = Thread::findOrFail($threadId);
 
@@ -69,7 +68,7 @@ class RepliesController extends Controller
         $this->authorize('update', $reply);
 
         try {
-            $this->validateReply();
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply->update(request(['body']));
         } catch (\Exception $e) {
@@ -96,8 +95,6 @@ class RepliesController extends Controller
 
     protected function validateReply()
     {
-        $this->validate(request(), ['body' => 'required']);
-
-        resolve(Spam::class)->detect(request('body'));
+        $this->validate(request(), ['body' => 'required|spamfree']);
     }
 }

@@ -25,8 +25,8 @@ class ThreadRequest extends FormRequest
     {
         return [
             'channel_id' => 'required|exists:channels,id',
-            'title' => 'required',
-            'body' => 'required',
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree',
         ];
     }
 }

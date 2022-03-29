@@ -41,10 +41,8 @@ class ThreadsController extends Controller
         return view('threads.create');
     }
 
-    public function store(ThreadRequest $request, Spam $spam)
+    public function store(ThreadRequest $request)
     {
-        $spam->detect(request('body'));
-
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
