@@ -10,11 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('threads') }}">{{ __('All Threads') }}</a>
-                </li> --}}
                 <li class="nav-item dropdown">
-                    {{-- <a class="nav-link" href="{{ route('threads') }}">{{ __('All Threads') }}</a> --}}
 
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Browse
@@ -30,10 +26,11 @@
                         <a class="nav-link" href="{{ route('threads') }}?unanswered=1">Unanswered Threads</a>
                     </div>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('threads.create') }}">New thread</a>
-                </li>
+                @feature('new-thread', false)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('threads.create') }}">New thread</a>
+                    </li>
+                @endfeature
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,7 +61,7 @@
                     @endif
                 @else
                     <user-notifications></user-notifications>
-                    
+
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
