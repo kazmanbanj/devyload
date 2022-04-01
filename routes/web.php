@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')
-    ->middleware('feature:new-thread')
+    // ->middleware('feature:new-thread')
     ;
 
 
