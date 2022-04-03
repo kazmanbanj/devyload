@@ -24,7 +24,9 @@ Route::get('log-viewer')->middleware('feature:log-viewer');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')
+    // ->middleware('feature:new-thread')
+    ;
 
 
     Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
