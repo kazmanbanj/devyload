@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReplyRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Notifications\DatabaseNotification;
 
 class RepliesController extends Controller
@@ -30,6 +31,10 @@ class RepliesController extends Controller
     {
         // $this->validate(request(), ['body' => 'required']);
 
+        if (Gate::denies('create', new Reply)) {
+            return response('You are posting too frequently. Please take a break.', 422);
+        }
+        
         try {
             $this->validate(request(), ['body' => 'required|spamfree']);
 
