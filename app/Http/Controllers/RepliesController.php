@@ -6,6 +6,7 @@ use App\Models\Reply;
 use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use App\Http\Forms\CreatePostForm;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Notifications\DatabaseNotification;
@@ -27,32 +28,20 @@ class RepliesController extends Controller
         return $thread->replies()->paginate(20);
     }
 
-    public function store($channelId, $threadId)
+    public function store($channelId, $threadId, CreatePostForm $form)
     {
-        // $this->validate(request(), ['body' => 'required']);
+        // if (Gate::denies('create', new Reply)) {
+        //     return response('You are posting too frequently. Please take a break.', 422);
+        // };
 
-        if (Gate::denies('create', new Reply)) {
-            return response('You are posting too frequently. Please take a break.', 422);
-        }
+        $thread = Thread::findOrFail($threadId);
+
+        $reply = $form->persist($thread);
         
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
-
-            $thread = Thread::findOrFail($threadId);
-
-            $reply = $thread->addReply([
-                'body' => request('body'),
-                'user_id' => auth()->id(),
-                'thread_id' => $threadId,
-            ]);
-            
-            $thread->subscriptions->filter(function ($sub) use ($reply) {
-                return $sub->user_id != $reply->user_id;
-            })
-            ->each->notify($reply);
-        } catch (\Exception $e) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
-        }
+        $thread->subscriptions->filter(function ($sub) use ($reply) {
+            return $sub->user_id != $reply->user_id;
+        })
+        ->each->notify($reply);
 
         // DatabaseNotification::create([
         //     'id' => Uuid::uuid4()->toString(),
@@ -64,8 +53,7 @@ class RepliesController extends Controller
         //     'data' => ['title' => 'this is the body of the notification']
         // ]);
 
-            return $reply->load('creator');
-            // return back()->with('flash', 'Your reply has been left!');
+        return $reply->load('creator');
     }
 
     public function update(Reply $reply)

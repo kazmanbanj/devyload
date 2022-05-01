@@ -41,6 +41,7 @@ export default {
                 'body': this.body
             })
             .catch(error => {
+                // flash(error.response.data.errors.body[0], 'danger');
                 flash(error.response.data, 'danger');
             })
             .then(({data}) => {

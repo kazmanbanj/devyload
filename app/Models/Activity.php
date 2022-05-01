@@ -19,7 +19,6 @@ class Activity extends Model
     public static function feed($user, $take = 50)
     {
         return static::where('user_id', $user->id)
-            // $user->activities()
             ->latest()
             ->with('subject')
             ->take($take)
