@@ -5417,6 +5417,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(location.pathname + '/replies', {
         'body': this.body
       })["catch"](function (error) {
+        // flash(error.response.data.errors.body[0], 'danger');
         flash(error.response.data, 'danger');
       }).then(function (_ref) {
         var data = _ref.data;

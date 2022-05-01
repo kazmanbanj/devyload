@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Thread;
-use App\Models\Favorite;
 use App\Traits\Favoritable;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
