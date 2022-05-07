@@ -25,7 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $featureThread = Features::accessible('new-thread');
-// dd($featureThread);
 
         return view('home');
     }
