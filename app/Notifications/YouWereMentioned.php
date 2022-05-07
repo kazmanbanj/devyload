@@ -52,7 +52,7 @@ class YouWereMentioned extends Notification
     {
         return [
             'message' => $this->reply->creator->name . ' mentioned you in ' . $this->reply->thread->title,
-            'link' => $this->thread->path()
+            'link' => $this->reply->path()
         ];
     }
 }

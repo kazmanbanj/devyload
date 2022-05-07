@@ -16,8 +16,8 @@ class CreatePostForm extends FormRequest
      */
     public function authorize()
     {
-        return Gate::denies('create', Reply::class);
-        // return true;
+        // return Gate::denies('create', Reply::class);
+        return true;
     }
 
     protected function failedAuthorization()
