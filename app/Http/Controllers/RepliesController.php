@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Forms\CreatePostForm;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\ThreadReceivedNewReply;
 use App\Notifications\YouWereMentioned;
 use Illuminate\Notifications\DatabaseNotification;
 
@@ -40,17 +41,7 @@ class RepliesController extends Controller
 
         $reply = $form->persist($thread);
 
-        preg_match_all('/\@([^\s]+)/', $reply->body, $matches);
-
-        $names = $matches[1];
-
-        foreach ($names as $name) {
-            $user = User::whereName($name)->first();
-
-            if ($user) {
-                $user->notify(new YouWereMentioned($reply));
-            }
-        }
+        // event(new ThreadReceivedNewReply($reply));
         
         $thread->subscriptions->filter(function ($sub) use ($reply) {
             return $sub->user_id != $reply->user_id;
