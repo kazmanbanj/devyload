@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
-use App\Notifications\ThreadWasUpdated;
 
 class ThreadsController extends Controller
 {
@@ -93,9 +91,11 @@ class ThreadsController extends Controller
         // $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
 
         // cache()->forever($key, Carbon::now());
-
+        
+        $user = User::whereId(auth()->user()->id)->first();
+        
         if (auth()->check()) {
-            auth()->user()->read($thread);
+            $user->read($thread);
         }
 
         return view('threads.show', compact('channelId', 'thread'));

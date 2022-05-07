@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use YlsIdeas\FeatureFlags\Facades\Features;
 
 class HomeController extends Controller
