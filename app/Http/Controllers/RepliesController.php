@@ -2,17 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Reply;
-use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
-use Illuminate\Http\Request;
 use App\Http\Forms\CreatePostForm;
-use App\Http\Requests\ReplyRequest;
-use Illuminate\Support\Facades\Gate;
-use App\Events\ThreadReceivedNewReply;
-use App\Notifications\YouWereMentioned;
-use Illuminate\Notifications\DatabaseNotification;
 
 class RepliesController extends Controller
 {
@@ -28,7 +20,7 @@ class RepliesController extends Controller
     {
         $thread = Thread::find($threadId);
 
-        return $thread->replies()->paginate(20);
+        return $thread->replies()->paginate(15);
     }
 
     public function store($channelId, $threadId, CreatePostForm $form)
@@ -40,8 +32,6 @@ class RepliesController extends Controller
         $thread = Thread::findOrFail($threadId);
 
         $reply = $form->persist($thread);
-
-        // event(new ThreadReceivedNewReply($reply));
         
         $thread->subscriptions->filter(function ($sub) use ($reply) {
             return $sub->user_id != $reply->user_id;
@@ -65,13 +55,9 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply);
 
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+        $this->validate(request(), ['body' => 'required|spamfree']);
 
-            $reply->update(request(['body']));
-        } catch (\Exception $e) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
-        }
+        $reply->update(request(['body']));
     }
 
     public function destroy(Reply $reply)
