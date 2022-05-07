@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Reply;
 use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Forms\CreatePostForm;
 use App\Http\Requests\ReplyRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\YouWereMentioned;
 use Illuminate\Notifications\DatabaseNotification;
 
 class RepliesController extends Controller
@@ -37,6 +39,18 @@ class RepliesController extends Controller
         $thread = Thread::findOrFail($threadId);
 
         $reply = $form->persist($thread);
+
+        preg_match_all('/\@([^\s]+)/', $reply->body, $matches);
+
+        $names = $matches[1];
+
+        foreach ($names as $name) {
+            $user = User::whereName($name)->first();
+
+            if ($user) {
+                $user->notify(new YouWereMentioned($reply));
+            }
+        }
         
         $thread->subscriptions->filter(function ($sub) use ($reply) {
             return $sub->user_id != $reply->user_id;
