@@ -7,6 +7,7 @@ use ReflectionClass;
 use App\Models\Reply;
 use App\Utilities\Spam;
 use App\Traits\RecordsActivity;
+use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -69,19 +70,13 @@ class Thread extends Model
     {
         // (new Spam)->detect($reply->body);
         
-        return $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+        
+        event(new ThreadReceivedNewReply($reply));
 
-        $this->notifySubscribers($reply);
+        // $this->notifySubscribers($reply);
 
         return $reply;
-    }
-
-    public function notifySubscribers($reply)
-    {
-        $this->subscribers
-            ->where('user_id', '!=', $reply->user_id)
-            ->each
-            ->notify($reply);
     }
 
     public function scopeFilter($query, $filters)
