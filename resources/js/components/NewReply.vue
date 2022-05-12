@@ -2,7 +2,8 @@
     <div class="mt-5">
         <div v-if="signedIn">
             <div class="form-group">
-                <textarea 
+                <textarea
+                    id="body"
                     name="body" 
                     rows="5" 
                     class="form-control" 
@@ -17,6 +18,7 @@
         <p class="text-center" v-else>Please <a href="/login">sign in</a> to participate in this discussion</p>
     </div>
 </template>
+
 
 <script>
 import 'at.js';

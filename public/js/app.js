@@ -6620,6 +6620,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -63579,7 +63581,12 @@ var render = function () {
                 },
               ],
               staticClass: "form-control",
-              attrs: { name: "body", rows: "5", placeholder: "Add new reply" },
+              attrs: {
+                id: "body",
+                name: "body",
+                rows: "5",
+                placeholder: "Add new reply",
+              },
               domProps: { value: _vm.body },
               on: {
                 input: function ($event) {
