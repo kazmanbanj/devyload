@@ -24,7 +24,7 @@ class ThreadsController extends Controller
             $threads->where('channel_id', $channel->id);
         };
 
-        return $threads->paginate(20);
+        return $threads->paginate(10);
     }
 
     public function index(Channel $channel, ThreadFilters $filters)
