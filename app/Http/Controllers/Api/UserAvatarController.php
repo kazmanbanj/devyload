@@ -21,6 +21,7 @@ class UserAvatarController extends Controller
         $this->validate(request(), [
             'avatar' => ['required', 'image']
         ]);
+        // dd(request()->file('avatar'));
         
         $user = User::where('id', auth()->user()->id)->first();
 

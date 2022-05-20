@@ -2,8 +2,19 @@
 
 @section('content')
 <div class="container">
-    <h5>{{ $profileUser->name }}
+    <h5>
+        {{ $profileUser->name }}
         <small>joined since {{ $profileUser->created_at->diffForHumans() }}</small>
+        @can('update', $profileUser)
+            <form action="{{ route('avatar', $profileUser) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="avatar" id="avatar">
+
+                <button type="submit" class="btn btn-primary btn-sm">Add avatar</button>
+            </form>
+        @endcan
+
+        <img src="{{ asset($profileUser->avatar_path) }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50">
     </h5>
 
     <div class="card">
