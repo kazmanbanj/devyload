@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Thread;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ThreadPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -19,9 +19,9 @@ class ThreadPolicy
     {
         //
     }
-
-    public function update(User $user, Thread $thread)
+    
+    public function update(User $user, User $signedInUser)
     {
-        return $thread->user_id == $user->id;
+        return $signedInUser->id === $user->id;
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\UserAvatarController;
 use App\Http\Controllers\UserNotificationsController;
 
 /*
@@ -59,5 +60,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('profiles/{user}/notifications/{notification}', [UserNotificationsController::class, 'destroy']);
 
     Route::get('api/users', [UsersController::class, 'index']);
-    Route::post('api/users/{user}/avatar', [UserAvatarController::class, 'store']);
+    Route::post('api/users/{user}/avatar', [UserAvatarController::class, 'store'])->name('avatar');
 });

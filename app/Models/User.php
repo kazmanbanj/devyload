@@ -58,6 +58,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Thread::class)->latest();
     }
+
+    public function avatar()
+    {
+        return asset($this->avatar_path ?: 'avatars/default.jpg');
+    }
     
     public function lastReply()
     {
