@@ -14,7 +14,7 @@
             </form>
         @endcan
 
-        <img src="{{ asset($profileUser->avatar_path) }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50">
+        <img src="/storage/{{ $profileUser->avatar_path }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50">
     </h5>
 
     <div class="card">
