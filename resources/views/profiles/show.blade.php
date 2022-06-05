@@ -3,8 +3,12 @@
 @section('content')
 <div class="container">
     <h5>
+        <img src="{{ $profileUser->avatar() }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50" class="mb-2">
+
         {{ $profileUser->name }}
+
         <small>joined since {{ $profileUser->created_at->diffForHumans() }}</small>
+
         @can('update', $profileUser)
             <form action="{{ route('avatar', $profileUser) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -14,7 +18,6 @@
             </form>
         @endcan
 
-        <img src="/storage/{{ $profileUser->avatar_path }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50">
     </h5>
 
     <div class="card">
