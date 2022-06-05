@@ -3,7 +3,8 @@
 @section('content')
 <div class="container">
     <h5>
-        <img src="{{ $profileUser->avatar() }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50" class="mb-2">
+        <avatar-form :user="{{ $profileUser }}"></avatar-form>
+        {{-- <img src="{{ $profileUser->avatar() }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50" class="mb-2">
 
         {{ $profileUser->name }}
 
@@ -16,7 +17,7 @@
 
                 <button type="submit" class="btn btn-primary btn-sm">Add avatar</button>
             </form>
-        @endcan
+        @endcan --}}
 
     </h5>
 

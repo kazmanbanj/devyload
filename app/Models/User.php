@@ -59,9 +59,9 @@ class User extends Authenticatable
         return $this->hasMany(Thread::class)->latest();
     }
 
-    public function avatar()
+    public function getAvatarPathAttribute($avatar)
     {
-        return asset($this->avatar_path ? '/storage/'.$this->avatar_path : 'images/avatars/default.png');
+        return asset($avatar ? '/storage/'.$avatar : 'images/avatars/default.png');
     }
     
     public function lastReply()
