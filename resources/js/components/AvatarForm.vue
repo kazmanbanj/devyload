@@ -12,7 +12,7 @@
 
         <form v-if="canUpdate" enctype="multipart/form-data">
 
-        <image-upload></image-upload>
+        <image-upload name="avatar" class="form-control" @loaded="onLoad"></image-upload>
 
         </form>
     </div>
@@ -44,20 +44,9 @@ export default {
     },
 
     methods: {
-        onChange(e) {
-            if (! e.target.files.length) return;
-
-            let avatar = e.target.files[0];
-
-            let reader = new FileReader();
-
-            reader.readAsDataURL(avatar);
-
-            reader.onload = e => {
-                this.avatar = e.target.result;
-            };
-
-            this.persist(avatar);
+        onLoad(avatar) {
+            this.avatar = avatar.src;
+            this.persist(avatar.file);
         },
 
         persist(avatar) {

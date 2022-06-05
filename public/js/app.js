@@ -6530,19 +6530,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    onChange: function onChange(e) {
-      var _this2 = this;
-
-      if (!e.target.files.length) return;
-      var avatar = e.target.files[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(avatar);
-
-      reader.onload = function (e) {
-        _this2.avatar = e.target.result;
-      };
-
-      this.persist(avatar);
+    onLoad: function onLoad(avatar) {
+      this.avatar = avatar.src;
+      this.persist(avatar.file);
     },
     persist: function persist(avatar) {
       var data = new FormData();
@@ -6686,7 +6676,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    onChange: function onChange(e) {
+      var _this = this;
+
+      if (!e.target.files.length) return;
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = function (e) {
+        var src = e.target.result;
+
+        _this.$emit('loaded', {
+          src: src,
+          file: file
+        });
+      };
+    }
+  }
+});
 
 /***/ }),
 
@@ -63742,7 +63752,13 @@ var render = function () {
       ? _c(
           "form",
           { attrs: { enctype: "multipart/form-data" } },
-          [_c("image-upload")],
+          [
+            _c("image-upload", {
+              staticClass: "form-control",
+              attrs: { name: "avatar" },
+              on: { loaded: _vm.onLoad },
+            }),
+          ],
           1
         )
       : _vm._e(),
