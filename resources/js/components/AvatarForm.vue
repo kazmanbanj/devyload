@@ -11,17 +11,21 @@
         </div>
 
         <form v-if="canUpdate" enctype="multipart/form-data">
-            <input type="file" name="avatar" id="avatar" accept="image/*" @change="onChange">
+
+        <image-upload></image-upload>
 
         </form>
     </div>
 </template>
 
 <script>
+import ImageUpload from './ImageUpload.vue';
 import moment from "moment";
 
 export default {
     props: ['user'],
+
+    components: { ImageUpload },
 
     data() {
         return {
