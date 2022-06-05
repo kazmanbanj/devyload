@@ -11,9 +11,9 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <img src="/storage/{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
+                        <img src="{{ $thread->creator->avatar() }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
 
-                        <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> posted:
+                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
                         {{ $thread->title }}
 
                         <span class="float-end">
