@@ -15,7 +15,7 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            @foreach ($trending as $thread)
+                            @forelse ($trending as $thread)
                                 <li class="list-group-item list-group-item-action">
                                     <a href="{{ $thread->path }}">
                                         {{ $thread->title }}
@@ -23,7 +23,9 @@
                                         <span title="{{ Illuminate\Support\Str::plural('reply', $thread->replies) }}" class="badge badge-primary badge-pill mt-1 float-right">{{ $thread->replies }}</span>
                                     </a>
                                 </li>
-                            @endforeach
+                            @empty
+                                <p>No trending threads yet.</p>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
