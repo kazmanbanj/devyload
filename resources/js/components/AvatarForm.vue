@@ -1,20 +1,22 @@
 <template>
     <div>
-        <img :src="avatar" :alt="avatarAlt" width="50" height="50" class="mb-2">
-
         <div class="d-flex">
-            <h3 v-text="user.name"></h3>
-            <small class="ml-1" style="margin-top: 12px">
-                joined
-                <span v-text="timeJoined"></span>
-            </small>
+            <img :src="avatar" :alt="avatarAlt" width="50" height="50" class="mb-2">
+
+            <h3 class="ml-2" v-text="user.name" style="margin-top: 12px"></h3>
         </div>
 
-        <form v-if="canUpdate" enctype="multipart/form-data">
+        <small class="ml-1 mt-1">
+            Joined <span v-text="timeJoined"></span>
+        </small>
+
+        <form v-if="canUpdate" enctype="multipart/form-data" class="mt-2">
 
         <image-upload name="avatar" class="form-control" @loaded="onLoad"></image-upload>
 
         </form>
+
+        <hr>
     </div>
 </template>
 

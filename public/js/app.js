@@ -6504,6 +6504,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -63730,28 +63732,33 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("img", {
-      staticClass: "mb-2",
-      attrs: { src: _vm.avatar, alt: _vm.avatarAlt, width: "50", height: "50" },
-    }),
-    _vm._v(" "),
     _c("div", { staticClass: "d-flex" }, [
-      _c("h3", { domProps: { textContent: _vm._s(_vm.user.name) } }),
+      _c("img", {
+        staticClass: "mb-2",
+        attrs: {
+          src: _vm.avatar,
+          alt: _vm.avatarAlt,
+          width: "50",
+          height: "50",
+        },
+      }),
       _vm._v(" "),
-      _c(
-        "small",
-        { staticClass: "ml-1", staticStyle: { "margin-top": "12px" } },
-        [
-          _vm._v("\n            joined\n            "),
-          _c("span", { domProps: { textContent: _vm._s(_vm.timeJoined) } }),
-        ]
-      ),
+      _c("h3", {
+        staticClass: "ml-2",
+        staticStyle: { "margin-top": "12px" },
+        domProps: { textContent: _vm._s(_vm.user.name) },
+      }),
+    ]),
+    _vm._v(" "),
+    _c("small", { staticClass: "ml-1 mt-1" }, [
+      _vm._v("\n        Joined "),
+      _c("span", { domProps: { textContent: _vm._s(_vm.timeJoined) } }),
     ]),
     _vm._v(" "),
     _vm.canUpdate
       ? _c(
           "form",
-          { attrs: { enctype: "multipart/form-data" } },
+          { staticClass: "mt-2", attrs: { enctype: "multipart/form-data" } },
           [
             _c("image-upload", {
               staticClass: "form-control",
@@ -63762,6 +63769,8 @@ var render = function () {
           1
         )
       : _vm._e(),
+    _vm._v(" "),
+    _c("hr"),
   ])
 }
 var staticRenderFns = []
