@@ -8,6 +8,7 @@ use App\Models\Channel;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
+use Illuminate\Support\Facades\Redis;
 
 class ThreadsController extends Controller
 {
@@ -31,7 +32,16 @@ class ThreadsController extends Controller
     {
         $threads = $this->getThreads($channel, $filters);
 
-        return view('threads.index', compact('threads'));
+        if (request()->wantsJson()) {
+            return $threads;
+        }
+
+        // use this to delete records in redis
+        // Redis::del('trending_threads');
+
+        $trending = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
+
+        return view('threads.index', compact('threads', 'trending'));
     }
 
     public function create()
@@ -48,7 +58,7 @@ class ThreadsController extends Controller
             'body' => request('body')
         ]);
 
-        
+
         if (request()->wantsJson()) {
             return response($thread, 201);
         }
@@ -75,7 +85,7 @@ class ThreadsController extends Controller
 
 
 
-        
+
 
         // foreach ($thread->subscriptions as $subscription) {
         //     if ($subscription->user_id != $reply->user_id) {
@@ -91,12 +101,18 @@ class ThreadsController extends Controller
         // $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
 
         // cache()->forever($key, Carbon::now());
-        
+
         $user = User::whereId(auth()->user()->id)->first();
-        
+
         if (auth()->check()) {
             $user->read($thread);
         }
+
+        Redis::zincrby('trending_threads', 1, json_encode([
+            'title' => $thread->title,
+            'path' => $thread->path(),
+            'replies' => $thread->replies_count
+        ]));
 
         return view('threads.show', compact('channelId', 'thread'));
     }
