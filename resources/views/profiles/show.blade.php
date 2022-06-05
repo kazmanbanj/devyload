@@ -4,20 +4,6 @@
 <div class="container">
     <h5>
         <avatar-form :user="{{ $profileUser }}"></avatar-form>
-        {{-- <img src="{{ $profileUser->avatar() }}" alt="{{ $profileUser->name }}'s avatar" width="50" height="50" class="mb-2">
-
-        {{ $profileUser->name }}
-
-        <small>joined since {{ $profileUser->created_at->diffForHumans() }}</small>
-
-        @can('update', $profileUser)
-            <form action="{{ route('avatar', $profileUser) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="avatar" id="avatar">
-
-                <button type="submit" class="btn btn-primary btn-sm">Add avatar</button>
-            </form>
-        @endcan --}}
 
     </h5>
 
@@ -35,6 +21,5 @@
         @endforelse
     </div>
     <br>
-    {{-- {{ $activities->links() }} --}}
 </div>
 @endsection

@@ -4,9 +4,9 @@
             <div class="form-group">
                 <textarea
                     id="body"
-                    name="body" 
-                    rows="5" 
-                    class="form-control" 
+                    name="body"
+                    rows="5"
+                    class="form-control"
                     placeholder="Add new reply"
                     v-model="body"
                 ></textarea>
@@ -25,8 +25,6 @@ import 'at.js';
 import 'jquery.caret';
 
 export default {
-    // props: ['endpoint'],
-
     data() {
         return {
             body: ''
