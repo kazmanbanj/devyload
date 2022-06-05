@@ -74,8 +74,6 @@ class ThreadsController extends Controller
 
 
 
-
-
         // $thread->subscriptions->filter(function ($sub) use ($reply) {
         //     return $sub->user_id != $reply->user_id;
         // })
