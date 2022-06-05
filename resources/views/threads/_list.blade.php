@@ -12,7 +12,7 @@
                 @endif
             </a>
 
-            <p class="">
+            <p>
                 Posted by:
                 <a href="{{ route('profile.show', $thread->creator) }}">
                     {{ $thread->creator->name }}
@@ -26,17 +26,14 @@
                 {{ Illuminate\Support\Str::plural('reply', $thread->replies_count) }}
             </strong>
         </a>
-
-        
     </div>
 
     <div class="card-body">
         <article>
             <div class="body font-weight-light">{{ $thread->body }}</div>
         </article>
-        {{-- <hr> --}}
     </div>
 </div>
 @empty
-<p>No threads yet</p>
+    <p>No threads yet</p>
 @endforelse
