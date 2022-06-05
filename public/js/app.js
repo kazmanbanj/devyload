@@ -6481,6 +6481,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -6497,6 +6499,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['user'],
   data: function data() {
@@ -6506,6 +6512,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    timeJoined: function timeJoined() {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.user.created_at).fromNow() + '...';
+    },
     canUpdate: function canUpdate() {
       var _this = this;
 
@@ -63619,7 +63628,18 @@ var render = function () {
       attrs: { src: _vm.avatar, alt: _vm.avatarAlt, width: "50", height: "50" },
     }),
     _vm._v(" "),
-    _c("h3", { domProps: { textContent: _vm._s(_vm.user.name) } }),
+    _c("div", { staticClass: "d-flex" }, [
+      _c("h3", { domProps: { textContent: _vm._s(_vm.user.name) } }),
+      _vm._v(" "),
+      _c(
+        "small",
+        { staticClass: "ml-1", staticStyle: { "margin-top": "12px" } },
+        [
+          _vm._v("\n            joined\n            "),
+          _c("span", { domProps: { textContent: _vm._s(_vm.timeJoined) } }),
+        ]
+      ),
+    ]),
     _vm._v(" "),
     _vm.canUpdate
       ? _c("form", { attrs: { enctype: "multipart/form-data" } }, [

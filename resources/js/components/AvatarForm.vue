@@ -2,19 +2,24 @@
     <div>
         <img :src="avatar" :alt="avatarAlt" width="50" height="50" class="mb-2">
 
-        <h3 v-text="user.name"></h3>
-
-        <!-- <small>joined since {{ $profileUser->created_at->diffForHumans() }}</small> -->
+        <div class="d-flex">
+            <h3 v-text="user.name"></h3>
+            <small class="ml-1" style="margin-top: 12px">
+                joined
+                <span v-text="timeJoined"></span>
+            </small>
+        </div>
 
         <form v-if="canUpdate" enctype="multipart/form-data">
             <input type="file" name="avatar" id="avatar" accept="image/*" @change="onChange">
 
-            <!-- <button type="submit" class="btn btn-primary btn-sm">Add avatar</button> -->
         </form>
     </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     props: ['user'],
 
@@ -26,6 +31,9 @@ export default {
     },
 
     computed: {
+        timeJoined() {
+            return moment(this.user.created_at).fromNow() + '...';
+        },
         canUpdate() {
             return this.authorize(user => user.id === this.user.id)
         }
