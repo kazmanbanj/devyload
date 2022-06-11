@@ -33,6 +33,10 @@
             <div class="body font-weight-light">{{ $thread->body }}</div>
         </article>
     </div>
+
+    <div class="card-footer">
+        <small class="text-muted">{{ $thread->visits() }} {{ Illuminate\Support\Str::plural('Visit', $thread->visits()) }}</small>
+    </div>
 </div>
 @empty
     <p>No threads yet</p>
