@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use ReflectionClass;
 use App\Models\Reply;
-use App\Utilities\Spam;
+use App\Traits\RecordsVisits;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model
 {
-    use HasFactory, RecordsActivity;
+    use RecordsVisits, RecordsActivity;
 
     protected $fillable = ["user_id", "channel_id", "title", "body"];
 
@@ -60,7 +60,7 @@ class Thread extends Model
     {
         return $this->belongsTo(Channel::class);
     }
-    
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -69,9 +69,9 @@ class Thread extends Model
     public function addReply($reply)
     {
         // (new Spam)->detect($reply->body);
-        
+
         $reply = $this->replies()->create($reply);
-        
+
         event(new ThreadReceivedNewReply($reply));
 
         // $this->notifySubscribers($reply);
