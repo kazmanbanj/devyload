@@ -109,7 +109,7 @@ class ThreadsController extends Controller
 
         $trending->push($thread);
 
-        $thread->recordsVisits();
+        $thread->visits()->record();
 
         return view('threads.show', compact('channelId', 'thread'));
     }
