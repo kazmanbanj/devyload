@@ -18,6 +18,7 @@ class CreateThreadsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('replies_count')->unsigned()->default(0);
+            $table->integer('visits')->unsigned()->default(0);
             $table->string('title');
             $table->longText('body');
             $table->timestamps();

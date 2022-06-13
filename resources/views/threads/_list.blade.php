@@ -35,7 +35,7 @@
     </div>
 
     <div class="card-footer">
-        <small class="text-muted">{{ $thread->visits() }} {{ Illuminate\Support\Str::plural('Visit', $thread->visits()) }}</small>
+        <small class="text-muted">{{ $thread->visits }} {{ Illuminate\Support\Str::plural('Visit', $thread->visits ) }}</small>
     </div>
 </div>
 @empty
