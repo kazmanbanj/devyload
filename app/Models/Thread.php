@@ -9,10 +9,11 @@ use App\Service\Visits;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use HasFactory, RecordsActivity;
 
     protected $fillable = ["user_id", "channel_id", "title", "body"];
 

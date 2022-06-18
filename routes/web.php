@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/threads/{channel}', [App\Http\Controllers\ThreadsController::class, 'index'])->name('channels');
     Route::get('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
     Route::delete('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'destroy'])->name('threads.destroy');
-    Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store');
+    Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store')->middleware('must-be-confirmed');
 
 
     Route::post('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'store'])->name('thread.subscriptions.store');
