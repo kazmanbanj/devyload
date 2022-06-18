@@ -52,6 +52,10 @@ class ThreadsController extends Controller
 
     public function store(ThreadRequest $request)
     {
+        // if (!auth()->user()->confirmed) {
+        //     return redirect('/threads')->with('flash', 'You must first confirm your email address');
+        // }
+
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
