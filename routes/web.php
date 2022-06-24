@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\UserAvatarController;
 use App\Http\Controllers\UserNotificationsController;
+use App\Http\Controllers\Api\RegisterConfirmationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,8 @@ Route::get('log-viewer')->middleware('feature:log-viewer');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')
-    // ->middleware('feature:new-thread')
-    ;
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // ->middleware('feature:new-thread');
 
 
     Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('profiles/{user}/notifications', [UserNotificationsController::class, 'index']);
     Route::delete('profiles/{user}/notifications/{notification}', [UserNotificationsController::class, 'destroy']);
+
+    Route::get('register/confirm', [RegisterConfirmationController::class, 'index']);
 
     Route::get('api/users', [UsersController::class, 'index']);
     Route::post('api/users/{user}/avatar', [UserAvatarController::class, 'store'])->name('avatar');

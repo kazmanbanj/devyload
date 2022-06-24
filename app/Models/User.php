@@ -47,6 +47,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'confirmed' => 'boolean'
     ];
 
     /**
@@ -67,6 +68,16 @@ class User extends Authenticatable
     public function lastReply()
     {
         return $this->hasOne(Reply::class)->latest();
+    }
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+
+        $this->save();
+
+        return redirect('/threads')
+            ->with('flash', 'Your account is now confirmed! You may post to the forum.');
     }
 
     public function activities()
