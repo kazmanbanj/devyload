@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\UserAvatarController;
 use App\Http\Controllers\UserNotificationsController;
-use App\Http\Controllers\Api\RegisterConfirmationController;
+use App\Http\Controllers\Auth\RegisterConfirmationController;
 
 /*
 |--------------------------------------------------------------------------
