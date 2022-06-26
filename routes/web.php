@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profiles/{user}/notifications', [UserNotificationsController::class, 'index']);
     Route::delete('profiles/{user}/notifications/{notification}', [UserNotificationsController::class, 'destroy']);
 
-    Route::get('register/confirm', [RegisterConfirmationController::class, 'index']);
+    Route::get('register/confirm', [RegisterConfirmationController::class, 'index'])->name('register.confirm');
 
     Route::get('api/users', [UsersController::class, 'index']);
     Route::post('api/users/{user}/avatar', [UserAvatarController::class, 'store'])->name('avatar');
