@@ -73,11 +73,9 @@ class User extends Authenticatable
     public function confirm()
     {
         $this->confirmed = true;
-
+        $this->confirmation_token = null;
+        
         $this->save();
-
-        return redirect('/threads')
-            ->with('flash', 'Your account is now confirmed! You may post to the forum.');
     }
 
     public function activities()
