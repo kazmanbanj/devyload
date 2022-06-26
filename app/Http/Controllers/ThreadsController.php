@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
 use App\Service\Trending;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
@@ -60,7 +61,8 @@ class ThreadsController extends Controller
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
             'title' => request('title'),
-            'body' => request('body')
+            'body' => request('body'),
+            'slug' => Str::slug(request('title'))
         ]);
 
 

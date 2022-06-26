@@ -6,6 +6,7 @@ use App\Models\User;
 use ReflectionClass;
 use App\Models\Reply;
 use App\Service\Visits;
+use Illuminate\Support\Str;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,7 @@ class Thread extends Model
 {
     use HasFactory, RecordsActivity;
 
-    protected $fillable = ["user_id", "channel_id", "title", "body"];
+    protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
 
@@ -23,7 +24,7 @@ class Thread extends Model
 
     public function path()
     {
-        return '/threads/' . $this->channel->slug . '/' . $this->id;
+        return '/threads/' . $this->channel->slug . '/' . $this->slug;
     }
 
     protected static function boot()
@@ -122,4 +123,31 @@ class Thread extends Model
     // {
     //     return new Visits($this);
     // }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function setSlugAttribute($value)
+    {
+        if (static::whereSlug($slug = Str::slug($value))->exists()) {
+            $slug = $this->incrementSlug($slug);
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
+
+    public function incrementSlug($slug)
+    {
+        $max = static::whereTitle($this->title)->latest('id')->value('slug');
+
+        if (is_numeric($max[-1])) {
+            return preg_replace_callback('/(\d+)$/', function ($matches) {
+                return $matches[1] + 1;
+            }, $max);
+        }
+
+        return "{$slug}-2";
+    }
 }
