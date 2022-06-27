@@ -15,9 +15,11 @@ class ThreadFactory extends Factory
      */
     public function definition()
     {
-        do {
+        $title = $this->faker->text(15);
+        
+        while (Thread::where('title', $title)->exists()) {
             $title = $this->faker->text(15);
-        } while (Thread::whereTitle($title)->exists());
+        };
 
         return [
             'user_id' => rand(1, 200),
