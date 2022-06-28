@@ -6,6 +6,7 @@ use App\Models\User;
 use ReflectionClass;
 use App\Models\Reply;
 use App\Service\Visits;
+use Illuminate\Support\Str;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,7 @@ class Thread extends Model
 {
     use HasFactory, RecordsActivity;
 
-    protected $fillable = ["user_id", "channel_id", "title", "body"];
+    protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
 
@@ -23,7 +24,7 @@ class Thread extends Model
 
     public function path()
     {
-        return '/threads/' . $this->channel->slug . '/' . $this->id;
+        return '/threads/' . $this->channel->slug . '/' . $this->slug;
     }
 
     protected static function boot()
@@ -41,6 +42,11 @@ class Thread extends Model
             $thread->replies()->each(function ($reply) {
                 $reply->delete();
             });
+        });
+
+        static::created(function ($thread)
+        {
+            $thread->update(['slug' => $thread->title]);
         });
     }
 
@@ -122,4 +128,26 @@ class Thread extends Model
     // {
     //     return new Visits($this);
     // }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $slug = Str::slug($value);
+
+        if (static::whereSlug($slug)->exists()) {
+            $slug = "{$slug}-" . $this->id;
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
+
+    public function markBestReply(Reply $reply)
+    {
+        // $this->best_reply_id = $reply->id;
+        $this->update(['best_reply_id' => $reply->id]);
+    }
 }
