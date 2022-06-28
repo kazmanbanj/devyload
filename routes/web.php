@@ -49,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'destroy'])->name('reply.delete');
 
 
+    Route::post('/replies/{reply}/best', [App\Http\Controllers\BestRepliesController::class, 'store'])->name('best-replies.delete');
+
+
     Route::post('replies/{reply}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('favorites.store');
     Route::delete('replies/{reply}/favorites', [App\Http\Controllers\FavoritesController::class, 'destroy'])->name('favorites.delete');
 
