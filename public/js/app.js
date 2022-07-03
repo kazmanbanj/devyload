@@ -6776,8 +6776,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       // axios.post(this.endpoint, {
+      // console.log(location.pathname);
       axios.post(location.pathname + '/replies', {
-        'body': this.body
+        body: this.body
       })["catch"](function (error) {
         // flash(error.response.data.errors.body[0], 'danger');
         flash(error.response.data, 'danger');
@@ -6995,6 +6996,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7006,7 +7019,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       editing: false,
       id: this.data.id,
-      body: this.data.body
+      body: this.data.body,
+      isBest: false
     };
   },
   computed: {
@@ -7031,7 +7045,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch("/replies/" + this.data.id, {
         body: this.body
       })["catch"](function (error) {
-        flash(error.response.data, 'danger');
+        flash('error.response.data', 'danger');
       }).then(function (_ref) {
         var data = _ref.data;
         _this2.editing = false;
@@ -7045,6 +7059,9 @@ __webpack_require__.r(__webpack_exports__);
         //     flash("Your reply has been deleted.");
         // });
       }
+    },
+    markBestReply: function markBestReply() {
+      this.isBest = true;
     }
   }
 });
@@ -64137,7 +64154,11 @@ var render = function () {
   return _c("div", { staticClass: "card mb-2" }, [
     _c(
       "div",
-      { staticClass: "card-header d-flex", attrs: { id: "reply-" + _vm.id } },
+      {
+        staticClass: "card-header d-flex",
+        class: _vm.bestReply ? "border-success" : "border-primary",
+        attrs: { id: "reply-" + _vm.id },
+      },
       [
         _c("p", [
           _c("b", [
@@ -64214,33 +64235,53 @@ var render = function () {
           }),
     ]),
     _vm._v(" "),
-    _vm.canUpdate
-      ? _c("div", { staticClass: "d-flex card-footer" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-warning btn-sm",
-              attrs: { type: "submit" },
-              on: {
-                click: function ($event) {
-                  _vm.editing = true
+    _c("div", { staticClass: "d-flex card-footer" }, [
+      _vm.canUpdate
+        ? _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-warning btn-sm",
+                attrs: { type: "submit" },
+                on: {
+                  click: function ($event) {
+                    _vm.editing = true
+                  },
                 },
               },
-            },
-            [_vm._v("\n            Edit\n        ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
+              [_vm._v("\n                Edit\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-danger btn-sm ml-2",
+                attrs: { href: "javascript:;", type: "submit" },
+                on: { click: _vm.destroy },
+              },
+              [_vm._v("\n                Delete\n            ")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          directives: [
             {
-              staticClass: "btn btn-danger btn-sm ml-2",
-              attrs: { href: "javascript:;", type: "submit" },
-              on: { click: _vm.destroy },
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.isBest,
+              expression: "! isBest",
             },
-            [_vm._v("\n            Delete\n        ")]
-          ),
-        ])
-      : _vm._e(),
+          ],
+          staticClass: "btn btn-default btn-sm ml-2 pull-right",
+          attrs: { href: "javascript:;", type: "submit" },
+          on: { click: _vm.markBestReply },
+        },
+        [_vm._v("\n            Best Reply\n        ")]
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []

@@ -56,8 +56,9 @@ export default {
     methods: {
         addReply() {
             // axios.post(this.endpoint, {
+            // console.log(location.pathname);
             axios.post(location.pathname + '/replies', {
-                'body': this.body
+                body: this.body
             })
             .catch(error => {
                 // flash(error.response.data.errors.body[0], 'danger');

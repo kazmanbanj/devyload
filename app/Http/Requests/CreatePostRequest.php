@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Forms;
+namespace App\Http\Requests;
 
-use App\Models\Reply;
-use Illuminate\Support\Facades\Gate;
 use App\Exceptions\ThrottleException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePostForm extends FormRequest
+class CreatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,9 +18,18 @@ class CreatePostForm extends FormRequest
         return true;
     }
 
+    /**
+     * Handle a failed authorization attempt.
+     *
+     * @return void
+     *
+     * @throws ThrottleException
+     */
     protected function failedAuthorization()
     {
-        throw new ThrottleException('You are replying too frequently. Please, take a break');
+        throw new ThrottleException(
+            'You are replying too frequently. Please take a break.'
+        );
     }
 
     /**
@@ -35,14 +42,5 @@ class CreatePostForm extends FormRequest
         return [
             'body' => 'required|spamfree'
         ];
-    }
-    
-    public function persist($thread)
-    {
-        return $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id(),
-            'thread_id' => $thread->id,
-        ]);
     }
 }
