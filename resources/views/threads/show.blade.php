@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<thread-view :initial-replies-count={{ $thread->replies_count }} inline-template>
+<thread-view :initial-replies-count={{ $thread->replies_count }} :thread="{{ $thread }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="body mt-3">
-                            <subscribe-button :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe-button>
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}"></subscribe-button>
                             {{-- <button class="btn btn-primary">Subscribe</button> --}}
                         </div>
                     </div>

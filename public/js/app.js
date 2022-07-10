@@ -6776,7 +6776,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       // axios.post(this.endpoint, {
-      // console.log(location.pathname);
+      console.log(location.pathname);
       axios.post(location.pathname + '/replies', {
         body: this.body
       })["catch"](function (error) {

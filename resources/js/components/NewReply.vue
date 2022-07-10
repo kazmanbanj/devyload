@@ -56,7 +56,7 @@ export default {
     methods: {
         addReply() {
             // axios.post(this.endpoint, {
-            // console.log(location.pathname);
+            console.log(location.pathname);
             axios.post(location.pathname + '/replies', {
                 body: this.body
             })
