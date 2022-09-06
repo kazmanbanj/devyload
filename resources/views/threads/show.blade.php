@@ -17,12 +17,12 @@
                         {{ $thread->title }}
 
                         <span class="float-end">
-                            <form method="post" action="{{ route('threads.destroy', ['channelId' => $channelId, 'thread' => $thread->id]) }}">
+                            {{-- <form method="post" action="{{ route('threads.destroy', ['channelId' => $channelId, 'thread' => $thread->id]) }}">
                                 @csrf
                                 @method('DELETE')
 
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this thread?');">Delete thread</button>
-                            </form>
+                            </form> --}}
                         </span>
                     </div>
 
