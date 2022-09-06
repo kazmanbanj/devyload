@@ -77,7 +77,6 @@ import moment from "moment";
 
 export default {
     props: ["data"],
-
     components: { Favorite },
 
     data() {
