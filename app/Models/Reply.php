@@ -13,11 +13,7 @@ class Reply extends Model
 {
     use HasFactory, Favoritable, RecordsActivity;
 
-    protected $fillable = [
-        'body',
-        'thread_id',
-        'user_id',
-    ];
+    protected $guarded = [];
 
     protected $with = ['creator', 'favorites'];
 

@@ -52,9 +52,9 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class)
-            ->withCount('favorites')
-            ->with('creator');
+        return $this->hasMany(Reply::class);
+            // ->withCount('favorites')
+            // ->with('creator');
     }
 
     // public function getReplyCountAttribute()
@@ -75,7 +75,7 @@ class Thread extends Model
     public function addReply($reply)
     {
         // (new Spam)->detect($reply->body);
-
+// dd($reply);
         $reply = $this->replies()->create($reply);
 
         event(new ThreadReceivedNewReply($reply));

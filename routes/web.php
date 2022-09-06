@@ -34,8 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
     Route::get('/threads', [App\Http\Controllers\ThreadsController::class, 'index'])->name('threads');
     Route::get('/threads/{channel}', [App\Http\Controllers\ThreadsController::class, 'index'])->name('channels');
-    Route::get('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
-    Route::delete('/threads/{channelId}/{thread}', [App\Http\Controllers\ThreadsController::class, 'destroy'])->name('threads.destroy');
+    Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
+    Route::delete('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'destroy'])->name('threads.destroy');
     Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store')->middleware('must-be-confirmed');
 
 
@@ -43,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'destroy'])->name('thread.subscriptions.destroy');
 
 
-    Route::get('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'index'])->name('replies.index');
-    Route::post('/threads/{channelId}/{threadId}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
+    Route::get('/threads/{channel}/{thread}/replies', [App\Http\Controllers\RepliesController::class, 'index'])->name('replies.index');
+    Route::post('/threads/{channel}/{thread}/replies', [App\Http\Controllers\RepliesController::class, 'store'])->name('replies.store');
     Route::patch('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'update'])->name('reply.update');
     Route::delete('/replies/{reply}', [App\Http\Controllers\RepliesController::class, 'destroy'])->name('reply.delete');
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Reply;
 use App\Models\Thread;
-use App\Http\Forms\CreatePostForm;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\CreatePostRequest;
 
 class RepliesController extends Controller
 {
@@ -16,22 +18,33 @@ class RepliesController extends Controller
         $this->middleware('auth', ['except' => 'index']);
     }
 
-    public function index($channelId, $threadId)
+    public function index($channelId, Thread $thread)
     {
-        $thread = Thread::find($threadId);
-
         return $thread->replies()->paginate(15);
     }
 
-    public function store($channelId, $threadId, CreatePostForm $form)
+    public function store($channelId, Thread $thread, CreatePostRequest $request)
     {
         // if (Gate::denies('create', new Reply)) {
         //     return response('You are posting too frequently. Please take a break.', 422);
         // };
+        // $thread = Thread::findOrFail($threadId);
 
-        $thread = Thread::findOrFail($threadId);
+        // $reply = $form->persist($thread);
+        // dd(request()->all());
+        // Log::info(request()->all());
+        $reply = $thread->addReply([
+            'body' => $request->body,
+            'user_id' => auth()->id(),
+            // 'thread_id' => $this->thread->id,
+        ]);
 
-        $reply = $form->persist($thread);
+        // return $thread->addReply([
+        //     'body' => request('body'),
+        //     'user_id' => auth()->id()
+        // ])->load('owner');
+
+
         
         $thread->subscriptions->filter(function ($sub) use ($reply) {
             return $sub->user_id != $reply->user_id;
