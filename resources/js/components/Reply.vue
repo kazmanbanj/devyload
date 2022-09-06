@@ -1,6 +1,6 @@
 <template>
     <div class="card mb-2">
-        <div :id="'reply-'+id" class="card-header d-flex" :class="bestReply ? 'border-success' : 'border-primary'">
+        <div :id="'reply-'+id" class="card-header d-flex" :class="isBest ? 'reply-card-header' : ''">
             <p>
                 <b>
                     <a :href="'/profiles/'+data.creator.name"
@@ -55,7 +55,7 @@
 
             <a
                 href="javascript:;"
-                class="btn btn-default btn-sm ml-2 pull-right"
+                class="btn btn-info btn-sm ml-auto"
                 type="submit"
                 @click="markBestReply"
                 v-show="! isBest"
@@ -65,6 +65,12 @@
         </div>
     </div>
 </template>
+<style>
+    .reply-card-header
+    {
+        background-color: #28a7463d;
+    }
+</style>
 <script>
 import Favorite from "./Favorite.vue";
 import moment from "moment";
