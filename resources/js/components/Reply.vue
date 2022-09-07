@@ -125,6 +125,8 @@ export default {
 
         markBestReply() {
             this.isBest = true;
+
+            // axios.post('/replies/' + this.data.id + '/best');
         },
     },
 };

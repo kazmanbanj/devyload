@@ -7053,7 +7053,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     markBestReply: function markBestReply() {
-      this.isBest = true;
+      this.isBest = true; // axios.post('/replies/' + this.data.id + '/best');
     }
   }
 });
