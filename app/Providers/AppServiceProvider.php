@@ -2,8 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Channel;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use YlsIdeas\FeatureFlags\Facades\Features;
+use Barryvdh\Debugbar\ServiceProvider as BarryvdhServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(BarryvdhServiceProvider::class);
+        }
     }
 
     /**
@@ -25,5 +32,20 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        view()->composer('*', function ($view) {
+            $channels = Cache::rememberForever('channels', function () {
+                return Channel::all();
+            });
+
+            $view->with('channels', $channels);
+        });
+
+        Validator::extend('spamfree', 'App\Rules\SpamFree@passes');
+
+        Features::noBlade();
+        Features::noScheduling();
+        Features::noValidations();
+        Features::noCommands();
     }
 }

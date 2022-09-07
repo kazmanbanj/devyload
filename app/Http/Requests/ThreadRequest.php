@@ -24,10 +24,9 @@ class ThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'channel_id' => 'required|exists:channels,id',
-            'title' => 'required',
-            'body' => 'required',
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree',
         ];
     }
 }

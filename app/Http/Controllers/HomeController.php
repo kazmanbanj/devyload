@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use YlsIdeas\FeatureFlags\Facades\Features;
 
 class HomeController extends Controller
 {
@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $featureThread = Features::accessible('new-thread');
+
         return view('home');
     }
 }

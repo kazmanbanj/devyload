@@ -19,13 +19,25 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import Flash from './components/Flash.vue';
+import Paginator from './components/Paginator.vue';
+import Thread from './pages/Thread.vue';
+import UserNotifications from './components/UserNotifications.vue';
+import AvatarForm from './components/AvatarForm.vue';
+
+Vue.component('flash', Flash);
+Vue.component('paginator', Paginator);
+Vue.component('thread-view', Thread);
+Vue.component('user-notifications', UserNotifications);
+Vue.component('avatar-form', AvatarForm);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.config.devtools = true;
 
 const app = new Vue({
     el: '#app',
