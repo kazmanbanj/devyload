@@ -95,6 +95,12 @@ export default {
         }
     },
 
+    created() {
+        window.events.$on('best-reply-selected', id => {
+            this.isBest = (id === this.id);
+        })
+    },
+
     methods: {
         update() {
             axios.patch("/replies/" + this.data.id, {
@@ -124,9 +130,9 @@ export default {
         },
 
         markBestReply() {
-            this.isBest = true;
+            axios.post('/replies/' + this.data.id + '/best');
 
-            // axios.post('/replies/' + this.data.id + '/best');
+            window.events.$emit('best-reply-selected', this.data.id);
         },
     },
 };

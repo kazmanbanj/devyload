@@ -7030,9 +7030,16 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
     }
   },
+  created: function created() {
+    var _this = this;
+
+    window.events.$on('best-reply-selected', function (id) {
+      _this.isBest = id === _this.id;
+    });
+  },
   methods: {
     update: function update() {
-      var _this = this;
+      var _this2 = this;
 
       axios.patch("/replies/" + this.data.id, {
         body: this.body
@@ -7040,7 +7047,7 @@ __webpack_require__.r(__webpack_exports__);
         flash('error.response.data', 'danger');
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.editing = false;
+        _this2.editing = false;
         flash("Updated!");
       });
     },
@@ -7053,7 +7060,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     markBestReply: function markBestReply() {
-      this.isBest = true; // axios.post('/replies/' + this.data.id + '/best');
+      axios.post('/replies/' + this.data.id + '/best');
+      window.events.$emit('best-reply-selected', this.data.id);
     }
   }
 });
