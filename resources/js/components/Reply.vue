@@ -35,7 +35,7 @@
         </div>
 
         <div class="d-flex card-footer">
-            <div v-if="canUpdate">
+            <div v-if="authorize('updateReply', reply)">
                 <button
                     class="btn btn-warning btn-sm"
                     type="submit"
@@ -77,7 +77,6 @@ import moment from "moment";
 
 export default {
     props: ["data"],
-
     components: { Favorite },
 
     data() {
@@ -85,21 +84,14 @@ export default {
             editing: false,
             id: this.data.id,
             body: this.data.body,
-            isBest: false
+            isBest: false,
+            reply: this.data
         };
     },
 
     computed: {
         ago() {
             return moment(this.data.created_at).fromNow() + '...';
-        },
-
-        signedIn() {
-            return window.App.signedIn;
-        },
-
-        canUpdate() {
-            return this.authorize(user => this.data.user_id == user.id);
         }
     },
 
@@ -133,6 +125,8 @@ export default {
 
         markBestReply() {
             this.isBest = true;
+
+            // axios.post('/replies/' + this.data.id + '/best');
         },
     },
 };
