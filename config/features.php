@@ -22,7 +22,7 @@ return [
     */
 
     'feature' => [
-        // 'login' => true,
+        'new-thread'
     ],
 
     /*

@@ -22,8 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('log-viewer')->middleware('feature:log-viewer');
-
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {

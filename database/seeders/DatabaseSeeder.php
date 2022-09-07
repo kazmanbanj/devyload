@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
 use App\Models\Channel;
 use Illuminate\Database\Seeder;
+use Database\Seeders\FeaturesSeeder;
 // use Illuminate\Notifications\DatabaseNotification;
 
 class DatabaseSeeder extends Seeder
@@ -24,6 +25,11 @@ class DatabaseSeeder extends Seeder
         User::factory(200)->create();
         Thread::factory(100)->create();
         Reply::factory(100)->create();
+
+        $this->call([
+            FeaturesSeeder::class,
+        ]);
+
         // Notification::create([
         //     'id' => Uuid::uuid4()->toString(),
         //     'type' => 'App\Notifications\ThreadWasUpdated',
