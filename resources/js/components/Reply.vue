@@ -3,15 +3,15 @@
         <div :id="'reply-'+id" class="card-header d-flex" :class="isBest ? 'reply-card-header' : ''">
             <p>
                 <b>
-                    <a :href="'/profiles/'+data.creator.name"
-                        v-text="data.creator.name">
+                    <a :href="'/profiles/'+reply.creator.name"
+                        v-text="reply.creator.name">
                     </a>
                 </b>
                 said <span v-text="ago"></span>
             </p>
 
             <div v-if="signedIn" class="ml-auto">
-                <favorite :reply="data"></favorite>
+                <favorite :reply="reply"></favorite>
             </div>
         </div>
 
@@ -77,22 +77,21 @@ import Favorite from "./Favorite.vue";
 import moment from "moment";
 
 export default {
-    props: ["data"],
+    props: ["reply"],
     components: { Favorite },
 
     data() {
         return {
             editing: false,
-            id: this.data.id,
-            body: this.data.body,
-            isBest: this.data.isBest,
-            reply: this.data
+            id: this.id,
+            body: this.reply.body,
+            isBest: this.reply.isBest,
         };
     },
 
     computed: {
         ago() {
-            return moment(this.data.created_at).fromNow() + '...';
+            return moment(this.reply.created_at).fromNow() + '...';
         }
     },
 
@@ -104,7 +103,7 @@ export default {
 
     methods: {
         update() {
-            axios.patch("/replies/" + this.data.id, {
+            axios.patch("/replies/" + this.id, {
                 body: this.body,
             })
             .catch(error => {
@@ -120,9 +119,9 @@ export default {
 
         destroy() {
             if(confirm("Do you really want to delete?")){
-                axios.delete("/replies/" + this.data.id);
+                axios.delete("/replies/" + this.id);
 
-                this.$emit('deleted', [this.data.id]);
+                this.$emit('deleted', [this.id]);
 
                 // $(this.$el).fadeOut(300, () => {
                 //     flash("Your reply has been deleted.");
@@ -131,9 +130,9 @@ export default {
         },
 
         markBestReply() {
-            axios.post('/replies/' + this.data.id + '/best');
+            axios.post('/replies/' + this.id + '/best');
 
-            window.events.$emit('best-reply-selected', this.data.id);
+            window.events.$emit('best-reply-selected', this.id);
         },
     },
 };
