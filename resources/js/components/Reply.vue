@@ -34,8 +34,8 @@
             <div class="body" v-else v-html="body"></div>
         </div>
 
-        <div class="d-flex card-footer">
-            <div v-if="authorize('updateReply', reply)">
+        <div class="d-flex card-footer" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+            <div v-if="authorize('owns', reply)">
                 <button
                     class="btn btn-warning btn-sm"
                     type="submit"
@@ -58,8 +58,9 @@
                 class="btn btn-info btn-sm ml-auto"
                 type="submit"
                 @click="markBestReply"
-                v-show="! isBest"
+                v-if="authorize('owns', reply.thread)"
             >
+                <!-- v-show="! isBest" -->
                 Best Reply
             </a>
         </div>

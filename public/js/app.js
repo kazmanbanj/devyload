@@ -7009,6 +7009,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7246,8 +7247,15 @@ var app = new Vue({
 
 var user = window.App.user;
 module.exports = {
-  updateReply: function updateReply(reply) {
-    return reply.user_id === user.id;
+  // updateReply (reply) {
+  //     return reply.user_id === user.id;
+  // },
+  // updateThread (thread) {
+  //     return thread.user_id === user.id;
+  // },
+  owns: function owns(model) {
+    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'user_id';
+    return model[prop] === user.id;
   }
 };
 
@@ -64340,53 +64348,49 @@ var render = function () {
           }),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "d-flex card-footer" }, [
-      _vm.authorize("updateReply", _vm.reply)
-        ? _c("div", [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-warning btn-sm",
-                attrs: { type: "submit" },
-                on: {
-                  click: function ($event) {
-                    _vm.editing = true
+    _vm.authorize("owns", _vm.reply) || _vm.authorize("owns", _vm.reply.thread)
+      ? _c("div", { staticClass: "d-flex card-footer" }, [
+          _vm.authorize("owns", _vm.reply)
+            ? _c("div", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning btn-sm",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function ($event) {
+                        _vm.editing = true
+                      },
+                    },
                   },
+                  [_vm._v("\n                Edit\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-danger btn-sm ml-2",
+                    attrs: { href: "javascript:;", type: "submit" },
+                    on: { click: _vm.destroy },
+                  },
+                  [_vm._v("\n                Delete\n            ")]
+                ),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.authorize("owns", _vm.reply.thread)
+            ? _c(
+                "a",
+                {
+                  staticClass: "btn btn-info btn-sm ml-auto",
+                  attrs: { href: "javascript:;", type: "submit" },
+                  on: { click: _vm.markBestReply },
                 },
-              },
-              [_vm._v("\n                Edit\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-danger btn-sm ml-2",
-                attrs: { href: "javascript:;", type: "submit" },
-                on: { click: _vm.destroy },
-              },
-              [_vm._v("\n                Delete\n            ")]
-            ),
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.isBest,
-              expression: "! isBest",
-            },
-          ],
-          staticClass: "btn btn-info btn-sm ml-auto",
-          attrs: { href: "javascript:;", type: "submit" },
-          on: { click: _vm.markBestReply },
-        },
-        [_vm._v("\n            Best Reply\n        ")]
-      ),
-    ]),
+                [_vm._v("\n            Best Reply\n        ")]
+              )
+            : _vm._e(),
+        ])
+      : _vm._e(),
   ])
 }
 var staticRenderFns = []
