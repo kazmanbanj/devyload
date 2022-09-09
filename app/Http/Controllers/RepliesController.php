@@ -33,6 +33,10 @@ class RepliesController extends Controller
         // $reply = $form->persist($thread);
         // dd(request()->all());
         // Log::info(request()->all());
+        if ($thread->locked) {
+            return response('Thread is locked', 422);
+        };
+
         $reply = $thread->addReply([
             'body' => $request->body,
             'user_id' => auth()->id(),
