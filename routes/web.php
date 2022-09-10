@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('locked-threads/{thread}', [App\Http\Controllers\LockedThreadsController::class, 'store'])->name('locked-threads.store')->middleware('admin');
+    Route::delete('locked-threads/{thread}', [App\Http\Controllers\LockedThreadsController::class, 'destroy'])->name('locked-threads.destroy')->middleware('admin');
 
 
     Route::post('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'store'])->name('thread.subscriptions.store');

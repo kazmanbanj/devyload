@@ -73,7 +73,7 @@
                         <div class="body mt-3 d-flex">
                             <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
 
-                            <button type="button" class="btn btn-light ml-2" v-if="authorize('isAdmin') && !locked" @click="lock">Lock</button>
+                            <button type="button" class="btn btn-light ml-2" v-if="authorize('isAdmin')" @click="toggleLock" v-text="locked ? 'Unlock' : 'Lock'"></button>
                         </div>
                     </div>
                 </div>

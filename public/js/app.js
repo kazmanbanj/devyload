@@ -7184,9 +7184,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    lock: function lock() {
-      this.locked = true;
-      axios.post('/locked-threads/' + this.thread.slug);
+    toggleLock: function toggleLock() {
+      axios[this.locked ? 'delete' : 'post']('/locked-threads/' + this.thread.slug);
+      this.locked = !this.locked;
     }
   }
 });

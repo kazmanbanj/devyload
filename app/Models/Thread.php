@@ -22,6 +22,10 @@ class Thread extends Model
 
     protected $appends = ['isSubscribedTo'];
 
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
+
     public function path()
     {
         return '/threads/' . $this->channel->slug . '/' . $this->slug;
@@ -149,10 +153,5 @@ class Thread extends Model
     {
         // $this->best_reply_id = $reply->id;
         $this->update(['best_reply_id' => $reply->id]);
-    }
-
-    public function lock()
-    {
-        $this->update(['locked' => true]);
     }
 }
