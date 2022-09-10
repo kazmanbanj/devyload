@@ -6881,6 +6881,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -7170,14 +7172,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['initialRepliesCount'],
+  props: ['dataRepliesCount', 'dataLocked'],
   components: {
     Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
-      repliesCount: this.initialRepliesCount
+      repliesCount: this.dataRepliesCount,
+      locked: this.dataLocked
     };
   }
 });
@@ -7248,6 +7251,9 @@ var user = window.App.user;
 module.exports = {
   updateReply: function updateReply(reply) {
     return reply.user_id === user.id;
+  },
+  isAdmin: function isAdmin() {
+    return ['jahojaho', 'jahojaho1'].includes(user.name);
   }
 };
 
@@ -64228,7 +64234,13 @@ var render = function () {
         on: { changed: _vm.fetch },
       }),
       _vm._v(" "),
-      _c("new-reply", { on: { created: _vm.add } }),
+      _vm.$parent.locked
+        ? _c("b", { staticClass: "text-warning" }, [
+            _vm._v(
+              "\n        This thread has been locked. No more replies are allowed.\n    "
+            ),
+          ])
+        : _c("new-reply", { on: { created: _vm.add } }),
     ],
     2
   )
