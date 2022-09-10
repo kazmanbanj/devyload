@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<thread-view :initial-replies-count={{ $thread->replies_count }} :thread="{{ $thread }}" inline-template>
+<thread-view :thread="{{ $thread }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -70,9 +70,10 @@
                             This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> and currently has <span v-text="repliesCount"></span> {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                         </div>
 
-                        <div class="body mt-3">
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}"></subscribe-button>
-                            {{-- <button class="btn btn-primary">Subscribe</button> --}}
+                        <div class="body mt-3 d-flex">
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
+
+                            <button type="button" class="btn btn-light ml-2" v-if="authorize('isAdmin')" @click="toggleLock" v-text="locked ? 'Unlock' : 'Lock'"></button>
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,10 @@ class Thread extends Model
 
     protected $appends = ['isSubscribedTo'];
 
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
+
     public function path()
     {
         return '/threads/' . $this->channel->slug . '/' . $this->slug;

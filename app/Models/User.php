@@ -78,6 +78,11 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function isAdmin()
+    {
+        return in_array($this->name, ['jahojaho', 'jahojaho1']);
+    }
+
     public function activities()
     {
         return $this->hasMany(Activity::class);
