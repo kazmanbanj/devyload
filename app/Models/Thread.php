@@ -85,6 +85,11 @@ class Thread extends Model
         return $reply;
     }
 
+    public function isAdmin()
+    {
+        return in_array($this->name, ['jahojaho', 'jahojaho1']);
+    }
+
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);

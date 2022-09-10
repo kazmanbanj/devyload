@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\UserAvatarController;
 use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\Auth\RegisterConfirmationController;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/threads', [App\Http\Controllers\ThreadsController::class, 'index'])->name('threads');
     Route::get('/threads/{channel}', [App\Http\Controllers\ThreadsController::class, 'index'])->name('channels');
     Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
-
+    Route::patch('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'update'])->name('threads.update');
     Route::delete('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'destroy'])->name('threads.destroy');
     Route::post('/threads', [App\Http\Controllers\ThreadsController::class, 'store'])->name('threads.store')->middleware('must-be-confirmed');
+
+
+    Route::post('locked-threads/{thread}', [App\Http\Controllers\LockedThreadsController::class, 'store'])->name('locked-threads.store')->middleware('admin');
 
 
     Route::post('/threads/{channel}/{thread}/subscriptions', [App\Http\Controllers\ThreadSubscriptionsController::class, 'store'])->name('thread.subscriptions.store');

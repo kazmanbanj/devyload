@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Administrator;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'feature' => \YlsIdeas\FeatureFlags\Middleware\FeatureFlagState::class,
-        'must-be-confirmed' => \App\Http\Middleware\RedirectIfEmailNotConfirmed::class
+        'must-be-confirmed' => \App\Http\Middleware\RedirectIfEmailNotConfirmed::class,
+        'admin' => Administrator::class
     ];
 }
