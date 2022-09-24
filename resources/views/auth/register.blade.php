@@ -43,7 +43,14 @@
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <div class="input-group" id="show_hide_password">
+                                    <input  id="password" class="form-control @error('password') is-invalid @enderror" data-toggle="password" name="password" required autocomplete="new-password" type="password">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <a href="javascript:void(0)"><i id="toggle_password" class="text-secondary fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +64,14 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <div class="input-group" id="show_hide_password_confirm">
+                                    <input id="password-confirm" class="form-control" data-toggle="password" name="password_confirmation" required autocomplete="new-password" type="password">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <a href="javascript:void(0)"><i id="toggle_password" class="text-secondary fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -74,4 +88,36 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+$(document).ready(function() {
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password input').attr("type") == "text"){
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass( "fa-eye-slash" );
+            $('#show_hide_password i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password i').addClass( "fa-eye" );
+        }
+    });
+
+    $("#show_hide_password_confirm a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password_confirm input').attr("type") == "text"){
+            $('#show_hide_password_confirm input').attr('type', 'password');
+            $('#show_hide_password_confirm i').addClass( "fa-eye-slash" );
+            $('#show_hide_password_confirm i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password_confirm input').attr("type") == "password"){
+            $('#show_hide_password_confirm input').attr('type', 'text');
+            $('#show_hide_password_confirm i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password_confirm i').addClass( "fa-eye" );
+        }
+    });
+});
+</script>
 @endsection
