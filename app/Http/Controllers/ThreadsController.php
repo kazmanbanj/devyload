@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
+use App\Http\Requests\UpdateThreadRequest;
 
 class ThreadsController extends Controller
 {
@@ -126,9 +127,15 @@ class ThreadsController extends Controller
         //
     }
 
-    public function update($channelId, Thread $thread)
+    public function update(UpdateThreadRequest $request, $channelId, Thread $thread)
     {
-        //
+        $this->authorize('update', $thread);
+
+        $thread->update([
+            request(['title', 'body'])
+        ]);
+
+        return $thread;
     }
 
     public function destroy($channel, Thread $thread)
