@@ -20,7 +20,7 @@
             </p>
         </div>
 
-        <a href="{{ route('threads.show', [$thread->channel->id, $thread->id]) }}">
+        <a href="{{ route('threads.show', [$thread->channel->slug, $thread->slug]) }}">
             <strong class="float-end">
                 {{ $thread->replies_count }}
                 {{ Illuminate\Support\Str::plural('reply', $thread->replies_count) }}
