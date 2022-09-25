@@ -132,7 +132,8 @@ class ThreadsController extends Controller
         $this->authorize('update', $thread);
 
         $thread->update([
-            request(['title', 'body'])
+            'title' => $request->title,
+            'body' => $request->body
         ]);
 
         return $thread;
