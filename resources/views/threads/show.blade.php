@@ -8,26 +8,45 @@
 <thread-view :thread="{{ $thread }}" inline-template>
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
+            <div class="col-md-8" v-cloak>
+                <div class="card" v-if="editing">
+                    <div class="card-header d-flex">
+                        <input class="form-control" type="text" name="" id="" v-model="form.title">
+                    </div>
 
-                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->title }}
+                    <div class="card-body">
+                        <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea>
+                    </div>
 
-                        <span class="float-end">
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" @click="update">Update</button>
+                        <button class="btn btn-warning btn-sm" @click="resetForm">Cancel</button>
+
+                        {{-- To be worked on later /////////////////////////////// --}}
+                        {{-- <button type="submit" class="float-right btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this thread?');">Delete thread</button> --}}
                             {{-- <form method="post" action="{{ route('threads.destroy', ['channelId' => $channelId, 'thread' => $thread->id]) }}">
                                 @csrf
                                 @method('DELETE')
 
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this thread?');">Delete thread</button>
                             </form> --}}
-                        </span>
+                    </div>
+                </div>
+
+                <div class="card" v-else>
+                    <div class="card-header">
+                        <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
+
+                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
+                        <span v-text="title"></span>
                     </div>
 
                     <div class="card-body">
-                        <div class="body">{{ $thread->body }}</div>
+                        <div class="body" v-text="body"></div>
+                    </div>
+
+                    <div class="card-footer" v-if="authorize('updateReply', thread)">
+                        <button class="btn btn-secondary btn-sm" @click="editing = true">Edit</button>
                     </div>
                 </div>
                 <br>
