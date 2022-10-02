@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('log-viewer')->middleware('feature:log-viewer');
+// Route::get('log-viewer')->middleware('feature:log-viewer');
 
 Auth::routes();
 
