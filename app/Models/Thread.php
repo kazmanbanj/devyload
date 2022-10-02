@@ -7,6 +7,7 @@ use ReflectionClass;
 use App\Models\Reply;
 use App\Service\Visits;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model
 {
-    use HasFactory, RecordsActivity;
+    use HasFactory, RecordsActivity, Searchable;
 
     protected $guarded = [];
 
