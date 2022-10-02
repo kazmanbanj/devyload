@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
+    Route::get('/threads/search', [App\Http\Controllers\SearchController::class, 'show'])->name('search.threads');
     Route::get('/threads', [App\Http\Controllers\ThreadsController::class, 'index'])->name('threads');
     Route::get('/threads/{channel}', [App\Http\Controllers\ThreadsController::class, 'index'])->name('channels');
     Route::get('/threads/{channel}/{thread}', [App\Http\Controllers\ThreadsController::class, 'show'])->name('threads.show');
