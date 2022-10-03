@@ -8,8 +8,9 @@
         @csrf
         <div class="form-group">
             <label for="exampleFormControlInput1">Title</label>
-            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Add a title" value="{{ old('title') }}" required>
+            <input spellcheck="true" type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Add a title" value="{{ old('title') }}" required>
         </div>
+        <p contenteditable="true" spellcheck="true">splel chkec</p>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Channel</label>
             <select class="form-control" id="exampleFormControlSelect1" name="channel_id" required>
