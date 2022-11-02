@@ -2,6 +2,9 @@
 
 window._ = require('lodash');
 
+import Vue from 'vue';
+import InstantSearch from 'vue-instantsearch';
+
 try {
     require('bootstrap');
 } catch (e) {}
@@ -44,6 +47,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // ------------------------------
 
 window.Vue = require('vue').default;
+
+Vue.use(InstantSearch);
 
 let authorizations = require('./authorizations');
 

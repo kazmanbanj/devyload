@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // ->middleware('feature:new-thread');
 
+    Route::view('scan', 'scan');
 
     Route::get('/threads/create', [App\Http\Controllers\ThreadsController::class, 'create'])->name('threads.create');
     Route::get('/threads/search', [App\Http\Controllers\SearchController::class, 'show'])->name('search.threads');
