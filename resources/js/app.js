@@ -24,12 +24,14 @@ import Paginator from './components/Paginator.vue';
 import Thread from './pages/Thread.vue';
 import UserNotifications from './components/UserNotifications.vue';
 import AvatarForm from './components/AvatarForm.vue';
+import Wysiwyg from './components/Wysiwyg.vue';
 
 Vue.component('flash', Flash);
 Vue.component('paginator', Paginator);
 Vue.component('thread-view', Thread);
 Vue.component('user-notifications', UserNotifications);
 Vue.component('avatar-form', AvatarForm);
+Vue.component('wysiwyg', Wysiwyg);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
