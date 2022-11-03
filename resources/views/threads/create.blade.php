@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Body</label>
-            <wysiwyg></wysiwyg>
+            <wysiwyg name="body"></wysiwyg>
             {{-- <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="3" required>{{ old('body') }}</textarea> --}}
         </div>
 

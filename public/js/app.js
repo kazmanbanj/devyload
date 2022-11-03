@@ -7175,10 +7175,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['name', 'value'],
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$refs.trix.addEventListener('trix-change', function (e) {
+      _this.$emit('input', e.target.innerHTML);
+    });
+  }
+});
 
 /***/ }),
 
@@ -77768,9 +77775,12 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("input", { attrs: { id: "trix", type: "hidden" } }),
+      _c("input", {
+        attrs: { id: "trix", type: "hidden", name: _vm.name },
+        domProps: { value: _vm.value },
+      }),
       _vm._v(" "),
-      _c("trix-editor", { attrs: { input: "trix" } }),
+      _c("trix-editor", { ref: "trix", attrs: { input: "trix" } }),
     ],
     1
   )
