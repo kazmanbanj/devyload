@@ -30,7 +30,7 @@
 
     <div class="card-body">
         <article>
-            <div class="body font-weight-light">{{ $thread->body }}</div>
+            <div class="body font-weight-light">{!! $thread->body !!}</div>
         </article>
     </div>
 
