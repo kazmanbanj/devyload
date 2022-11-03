@@ -15,7 +15,9 @@
                     </div>
 
                     <div class="card-body">
-                        <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea>
+                        {{-- <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea> --}}
+
+                        <wysiwyg v-model="form.body" :value="form.body"></wysiwyg>
                     </div>
 
                     <div class="card-footer">
@@ -42,7 +44,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="body" v-text="body"></div>
+                        <div class="body" v-html="body"></div>
                     </div>
 
                     <div class="card-footer" v-if="authorize('updateReply', thread)">
