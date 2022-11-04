@@ -17,7 +17,7 @@
                     <div class="card-body">
                         {{-- <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea> --}}
 
-                        <wysiwyg v-model="form.body" :value="form.body"></wysiwyg>
+                        <wysiwyg v-model="form.body"></wysiwyg>
                     </div>
 
                     <div class="card-footer">
