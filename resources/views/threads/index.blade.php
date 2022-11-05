@@ -38,7 +38,7 @@
                                 @forelse ($trending as $thread)
                                     <li class="list-group-item list-group-item-action">
                                         <a href="{{ $thread->path }}">
-                                            {{ $thread->title }}
+                                            {{ $thread->subject }}
 
                                             <span title="{{ Illuminate\Support\Str::plural('reply', $thread->replies) }}" class="badge badge-primary badge-pill mt-1 float-right">{{ $thread->replies }}</span>
                                         </a>

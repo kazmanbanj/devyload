@@ -30,15 +30,15 @@ class ThreadsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_see_title()
+    public function a_user_can_see_subject()
     {
-        $this->get('/threads')->assertSee($this->thread->title);
+        $this->get('/threads')->assertSee($this->thread->subject);
     }
 
      /** @test */
     public function a_user_can_see_a_particular_thread()
     {        
-        $this->get('/threads/{$this->thread->id}')->assertSee($this->thread->title);
+        $this->get('/threads/{$this->thread->id}')->assertSee($this->thread->subject);
     }
 
     public function a_user_can_read_replies_associated_with_a_thread()

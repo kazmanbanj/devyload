@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
 use App\Service\Trending;
+use App\Helpers\LinkHelper;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
@@ -41,10 +42,23 @@ class ThreadsController extends Controller
         // use this to delete records in redis
         $trending->reset();
 
+        $threadsArray = [];
+        foreach ($threads->toArray()['data'] as $thread) {
+            $body = LinkHelper::linkify($thread['body']);
+
+            preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $body, $result);
+            if (!empty($result['href'])) {
+                $threadsArray[] = array_merge($thread, LinkHelper::getLinkPreview($thread['body']));
+            } else {
+                $threadsArray[] = $thread;
+            }
+        }
+
+
         // $trending = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
         // $trending = $trending->get();
 
-        return view('threads.index', compact('threads', 'trending'));
+        return view('threads.index', compact('threads', 'trending', 'threadsArray'));
     }
 
     public function create()
@@ -61,9 +75,9 @@ class ThreadsController extends Controller
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
-            'title' => request('title'),
+            'subject' => request('subject'),
             'body' => request('body'),
-            'slug' => Str::slug(request('title'))
+            'slug' => Str::slug(request('subject'))
         ]);
 
 
@@ -119,7 +133,15 @@ class ThreadsController extends Controller
         // $thread->visits()->record();
         $thread->increment('visits');
 
-        return view('threads.show', compact('channelId', 'thread'));
+        $body = LinkHelper::linkify($thread->body);
+        preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $body, $result);
+        if (!empty($result['href'])) {
+            $preview = LinkHelper::getLinkPreview($thread->body);
+        } else {
+            $preview = '';
+        }
+
+        return view('threads.show', compact('channelId', 'thread', 'preview'));
     }
 
     public function edit(Thread $thread)
@@ -132,7 +154,7 @@ class ThreadsController extends Controller
         $this->authorize('update', $thread);
 
         $thread->update([
-            'title' => $request->title,
+            'subject' => $request->subject,
             'body' => $request->body
         ]);
 

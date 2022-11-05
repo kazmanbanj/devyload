@@ -6,9 +6,11 @@ use App\Models\User;
 use ReflectionClass;
 use App\Models\Reply;
 use App\Service\Visits;
+use App\Helpers\LinkHelper;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use App\Traits\RecordsActivity;
+use Dusterio\LinkPreview\Client;
 use App\Events\ThreadReceivedNewReply;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
@@ -52,7 +54,7 @@ class Thread extends Model
 
         static::created(function ($thread)
         {
-            $thread->update(['slug' => $thread->title]);
+            $thread->update(['slug' => $thread->subject]);
         });
     }
 
