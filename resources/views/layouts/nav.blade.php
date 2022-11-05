@@ -37,9 +37,11 @@
                     Channels
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        @foreach ($channels as $channel)
+                        @forelse ($channels as $channel)
                             <a class="dropdown-item" href="{{ route('channels', $channel->slug) }}">{{ $channel->name }}</a>
-                        @endforeach
+                        @empty
+                            <p class="ml-3">No channel yet</p>
+                        @endforelse
                     </div>
                 </li>
             </ul>
