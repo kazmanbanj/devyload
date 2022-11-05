@@ -8,6 +8,6 @@
 
 <div class="card-body">
     <div class="body">
-        {{ $body }}
+        {!! $body !!}
     </div>
 </div>

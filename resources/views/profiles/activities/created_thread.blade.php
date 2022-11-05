@@ -8,7 +8,7 @@
     @endslot
 
     @slot('body')
-        {{ $activity->subject->body }}
+        {!! $activity->subject->body !!}
     @endslot
 @endcomponent
 
