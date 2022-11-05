@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use App\Traits\RecordsActivity;
 use App\Events\ThreadReceivedNewReply;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -155,4 +156,9 @@ class Thread extends Model
         // $this->best_reply_id = $reply->id;
         $this->update(['best_reply_id' => $reply->id]);
     }
+
+    // public function getBodyAttribute($body)
+    // {
+    //     return Purify::clean($body);
+    // }
 }
