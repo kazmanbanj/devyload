@@ -9,7 +9,7 @@
         </div>
     </a>
     <a href="{{ $preview['link'] }}" class="link-secondary" id="threadLink" target="_blank">
-        <span class="ml-3"><small>{{ \Illuminate\Support\Str::limit($preview['description'], 120, '...') }}</small></span>
+        <span class="ml-3" style="display: block; word-wrap:break-word; width: auto; white-space: normal;"><small>{{ \Illuminate\Support\Str::limit($preview['description'], 100, '...') }}</small></span>
     </a>
 </div>
 @endif

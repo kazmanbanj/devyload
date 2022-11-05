@@ -40,7 +40,7 @@
                         <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
 
                         <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
-                        <span v-text="thread.subject"></span>
+                        <span v-text="subject"></span>
                     </div>
 
                     <div class="card-body p-0">

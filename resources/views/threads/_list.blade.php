@@ -31,7 +31,7 @@
 
     <div class="card-body p-0">
         <article>
-            <div class="body p-3 font-weight-light">{!! $thread['body'] !!}</div>
+            <div class="body p-3 font-weight-light">{!! \Illuminate\Support\Str::limit($thread['body'], 300, '...') !!}</div>
 
             @if (isset($thread['link']))
                 <div class="mt-2 bg-light">
@@ -44,7 +44,7 @@
                         </div>
                     </a>
                     <a href="{{ $thread['link'] }}" class="link-secondary" id="threadLink" target="_blank">
-                        <span class="ml-3"><small>{{ \Illuminate\Support\Str::limit($thread['description'], 120, '...') }}</small></span>
+                        <span class="ml-3" style="display: block; word-wrap:break-word; width: auto; white-space: normal;"><small>{{ \Illuminate\Support\Str::limit($thread['description'], 100, '...') }}</small></span>
                     </a>
                 </div>
             @endif
