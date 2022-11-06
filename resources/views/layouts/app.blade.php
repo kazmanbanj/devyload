@@ -42,6 +42,10 @@
 
     <style>
         [v-cloak] { display: none; }
+        #threadLink:link { text-decoration: none; }
+        #threadLink:visited { text-decoration: none; }
+        #threadLink:hover { text-decoration: none; }
+        #threadLink:active { text-decoration: none; }
     </style>
 
     @yield('header')

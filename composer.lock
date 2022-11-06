@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f167638b2f5de49214c09927621d808f",
+    "content-hash": "a090214ec058bc014b0ed36ee0faccd1",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -716,6 +716,70 @@
                 }
             ],
             "time": "2022-09-10T18:51:20+00:00"
+        },
+        {
+            "name": "dusterio/link-preview",
+            "version": "v1.2.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dusterio/link-preview.git",
+                "reference": "0be2d5e98540ec97fac2ca8fa39bed18fb6b6d01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dusterio/link-preview/zipball/0be2d5e98540ec97fac2ca8fa39bed18fb6b6d01",
+                "reference": "0be2d5e98540ec97fac2ca8fa39bed18fb6b6d01",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1|^7.1",
+                "illuminate/support": "5.*|6.*|7.*|8.*|9.*",
+                "php": ">=5.5.0",
+                "symfony/css-selector": "^3.0|^4.0|^5.0|^6.0",
+                "symfony/dom-crawler": "^3.0|^4.0|^5.0|^6.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dusterio\\LinkPreview\\Integrations\\LaravelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dusterio\\LinkPreview\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Mysenko",
+                    "email": "denis@mysenko.com",
+                    "homepage": "https://www.mysenko.com"
+                }
+            ],
+            "description": "Link preview generation for PHP with Laravel support",
+            "homepage": "http://github.com/dusterio/link-preview",
+            "keywords": [
+                "laravel",
+                "php",
+                "preview",
+                "scraping",
+                "url"
+            ],
+            "support": {
+                "issues": "https://github.com/dusterio/link-preview/issues",
+                "source": "https://github.com/dusterio/link-preview/tree/v1.2.18"
+            },
+            "time": "2022-03-08T01:01:23+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -3857,6 +3921,79 @@
                 }
             ],
             "time": "2022-01-02T09:55:41+00:00"
+        },
+        {
+            "name": "symfony/dom-crawler",
+            "version": "v6.0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "b659bb16afdeb784699ee08736b22bc6cc352536"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/b659bb16afdeb784699ee08736b22bc6cc352536",
+                "reference": "b659bb16afdeb784699ee08736b22bc6cc352536",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "masterminds/html5": "<2.6"
+            },
+            "require-dev": {
+                "masterminds/html5": "^2.6",
+                "symfony/css-selector": "^5.4|^6.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Eases DOM navigation for HTML and XML documents",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/dom-crawler/tree/v6.0.15"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-10-28T16:22:58+00:00"
         },
         {
             "name": "symfony/error-handler",

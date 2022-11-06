@@ -12,10 +12,10 @@ export default {
             repliesCount: this.thread.replies_count,
             locked: this.thread.locked,
             editing: false,
-            title: this.thread.title,
+            subject: this.thread.subject,
             body: this.thread.body,
             form: {
-                title: this.thread.title,
+                subject: this.thread.subject,
                 body: this.thread.body,
             }
         }
@@ -30,7 +30,7 @@ export default {
         // cancel() {
         //     this.resetForm();
 
-            // this.form.title = this.thread.title;
+            // this.form.subject = this.thread.subject;
             // this.form.body = this.thread.body;
 
             // this.editing = false;
@@ -41,7 +41,7 @@ export default {
 
             axios.patch(uri, this.form).then(() => {
                 this.editing = false;
-                this.title = this.form.title;
+                this.subject = this.form.subject;
                 this.body = this.form.body;
 
                 flash('Your thread has been updated.');
@@ -50,7 +50,7 @@ export default {
 
         resetForm() {
             this.form = {
-                title: this.thread.title,
+                subject: this.thread.subject,
                 body: this.thread.body
             };
 

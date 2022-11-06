@@ -11,7 +11,7 @@
             <div class="col-md-8" v-cloak>
                 <div class="card" v-if="editing">
                     <div class="card-header d-flex">
-                        <input class="form-control" type="text" name="" id="" v-model="form.title">
+                        <input class="form-control" type="text" name="" id="" v-model="form.subject">
                     </div>
 
                     <div class="card-body">
@@ -40,11 +40,12 @@
                         <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
 
                         <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
-                        <span v-text="title"></span>
+                        <span v-text="subject"></span>
                     </div>
 
-                    <div class="card-body">
-                        <div class="body" v-html="body"></div>
+                    <div class="card-body p-0">
+                        <div class="body p-3" v-html="body"></div>
+                        @include('threads._link_preview')
                     </div>
 
                     <div class="card-footer" v-if="authorize('updateReply', thread)">
@@ -83,7 +84,7 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->title }}
+                        {{ $thread->subject }}
                     </div>
 
                     <div class="card-body">

@@ -51,7 +51,7 @@ class YouWereMentioned extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->reply->creator->name . ' mentioned you in ' . $this->reply->thread->title,
+            'message' => $this->reply->creator->name . ' mentioned you in ' . $this->reply->thread->subject,
             'link' => $this->reply->path()
         ];
     }
