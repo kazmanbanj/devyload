@@ -2,14 +2,10 @@
 
 namespace Database\Seeders;
 
-use Notification;
-use App\Models\User;
 use App\Models\Reply;
-use Ramsey\Uuid\Uuid;
 use App\Models\Thread;
-use App\Models\Channel;
 use Illuminate\Database\Seeder;
-// use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,18 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Channel::factory(100)->create();
-        User::factory(200)->create();
-        Thread::factory(100)->create();
-        Reply::factory(100)->create();
-        // Notification::create([
-        //     'id' => Uuid::uuid4()->toString(),
-        //     'type' => 'App\Notifications\ThreadWasUpdated',
-        //     'notifiable_type' => function () {
-        //         return auth()->id() ?: factory('App\User')->create()->id;
-        //     },
-        //     'notifiable_id' => 'App\User',
-        //     'data' => ['title' => 'this is the body of the notification']
-        // ]);
+        if (App::isLocal()) {
+            Thread::factory()->count(5)->create()->each(function ($thread) {
+                $replies = Reply::factory()->count(rand(1, 5))->raw([
+                    'thread_id' => $thread->id,
+                ]);
+
+                foreach ((array) $replies as $replyData) {
+                    $thread->addReply($replyData);
+                }
+            });
+        }
     }
 }

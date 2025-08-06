@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Thread;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -19,7 +18,7 @@ class UserPolicy
     {
         //
     }
-    
+
     public function update(User $user, User $signedInUser)
     {
         return $signedInUser->id === $user->id;

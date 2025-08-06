@@ -19,13 +19,15 @@ class Activity extends Model
     /**
      * Fetch an activity feed for the given user.
      *
-     * @param  User $user
      * @param  int  $take
      * @return \Illuminate\Database\Eloquent\Collection;
      */
-    public static function feed($user, $take = 50)
+    public static function feed(User $user, $take = 50)
     {
-        return static::where('user_id', $user->id)
+        /** @var \App\Models\User $user */
+        $user = $user ?? auth()->user();
+
+        return $user->activities()
             ->latest()
             ->with('subject')
             ->take($take)

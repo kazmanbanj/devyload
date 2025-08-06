@@ -2,35 +2,35 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Thread;
 use App\Traits\Favoritable;
 use App\Traits\RecordsActivity;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    use HasFactory, Favoritable, RecordsActivity;
-
-    protected $guarded = [];
-
-    protected $with = ['creator', 'favorites'];
-
-    protected $appends = ['favoritesCount', 'isFavorited', 'isBest'];
+    use Favoritable, HasFactory, RecordsActivity;
 
     protected static function boot()
     {
         parent::boot();
 
-        static::created(function ($reply) {
-            $reply->thread->increment('replies_count');
-        });
+        // static::created(function ($reply) {
+        //     $reply->thread->increment('replies_count');
+        // });
 
-        static::deleted(function ($reply) {
-            $reply->thread->decrement('replies_count');
-        });
+        // static::deleted(function ($reply) {
+        //     $reply->thread->decrement('replies_count');
+        // });
     }
+
+    protected $guarded = [];
+
+    protected $with = ['creator', 'favorites'];
+
+    protected $appends = ['favorites_count', 'is_favorited', 'isBest'];
+
+    protected $touches = ['thread'];
 
     /**
      * Get the user that owns the Reply
@@ -54,12 +54,12 @@ class Reply extends Model
 
     public function path()
     {
-        return $this->thread->path() . "#reply-{$this->id}";
+        return $this->thread->path()."#reply-{$this->id}";
     }
 
     public function wasJustPublished()
     {
-        return $this->created_at->gt(Carbon::now()->subMinute());
+        return $this->created_at->greaterThanOrEqualTo(now()->subSeconds(60));
     }
 
     public function mentionedUsers()
@@ -76,16 +76,11 @@ class Reply extends Model
 
     public function isBest()
     {
-        return $this->thread->best_reply_id == $this->id;
+        return $this->id == $this->thread->best_reply_id;
     }
 
     public function getIsBestAttribute()
     {
         return $this->isBest();
     }
-
-    // public function getBodyAttribute($body)
-    // {
-    //     return Purify::clean($body);
-    // }
 }

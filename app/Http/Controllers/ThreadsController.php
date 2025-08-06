@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Thread;
-use App\Models\Channel;
-use App\Service\Trending;
-use App\Helpers\LinkHelper;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Filters\ThreadFilters;
+use App\Filters\ThreadFilter;
 use App\Http\Requests\ThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
+use App\Models\Channel;
+use App\Models\Thread;
+use App\Service\Trending;
 
 class ThreadsController extends Controller
 {
@@ -20,18 +16,7 @@ class ThreadsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    protected function getThreads($channel, $filters)
-    {
-        $threads = Thread::latest()->filter($filters);
-
-        if ($channel->exists) {
-            $threads->where('channel_id', $channel->id);
-        };
-
-        return $threads->paginate(10);
-    }
-
-    public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
+    public function index(Channel $channel, ThreadFilter $filters, Trending $trending)
     {
         $threads = $this->getThreads($channel, $filters);
 
@@ -39,26 +24,21 @@ class ThreadsController extends Controller
             return $threads;
         }
 
-        // use this to delete records in redis
-        $trending->reset();
+        return view('threads.index', [
+            'threads' => $threads,
+            'trending' => $trending->get(),
+        ]);
+    }
 
-        $threadsArray = [];
-        foreach ($threads->toArray()['data'] as $thread) {
-            $body = LinkHelper::linkify($thread['body']);
+    protected function getThreads($channel, $filters)
+    {
+        $threads = Thread::query()->latest()->filter($filters);
 
-            preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $body, $result);
-            if (!empty($result['href'])) {
-                $threadsArray[] = array_merge($thread, LinkHelper::getLinkPreview($thread['body']));
-            } else {
-                $threadsArray[] = $thread;
-            }
+        if ($channel->exists) {
+            $threads = $channel->threads();
         }
 
-
-        // $trending = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
-        // $trending = $trending->get();
-
-        return view('threads.index', compact('threads', 'trending', 'threadsArray'));
+        return $threads->paginate(10);
     }
 
     public function create()
@@ -68,80 +48,34 @@ class ThreadsController extends Controller
 
     public function store(ThreadRequest $request)
     {
-        // if (!auth()->user()->confirmed) {
-        //     return redirect('/threads')->with('flash', 'You must first confirm your email address');
-        // }
-
         $thread = Thread::create([
             'user_id' => auth()->id(),
-            'channel_id' => request('channel_id'),
-            'subject' => request('subject'),
-            'body' => request('body'),
-            'slug' => Str::slug(request('subject'))
+            'channel_id' => $request['channel_id'],
+            'subject' => $request['subject'],
+            'body' => $request['body'],
+            'slug' => $request['subject'],
         ]);
-
 
         if (request()->wantsJson()) {
             return response($thread, 201);
         }
+        $request->session()->put('key', 'value');
 
-        // $thread->subscriptions->filter(function ($sub) use ($reply) {
-        //     return $sub->user_id != $reply->user_id;
-        // })
-        // ->each(function ($sub) use ($reply) {
-        //     $sub->user->notify(new ThreadWasUpdated($this, $reply));
-        // });
-
-
-
-
-        // $thread->subscriptions->filter(function ($sub) use ($reply) {
-        //     return $sub->user_id != $reply->user_id;
-        // })
-        // ->each->notify($reply);
-
-
-
-
-
-
-
-
-        // foreach ($thread->subscriptions as $subscription) {
-        //     if ($subscription->user_id != $reply->user_id) {
-        //         $subscription->user->notify(new ThreadWasUpdated($this, $reply));
-        //     }
-        // }
-
-        return redirect()->route('threads')->with('flash', 'Thread created successfully!');
+        return redirect($thread->path())
+            ->with('flash', 'Your thread has been published!');
     }
 
-    public function show($channelId, Thread $thread, Trending $trending)
+    public function show(Channel $channel, Thread $thread, Trending $trending)
     {
-        // $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
-
-        // cache()->forever($key, Carbon::now());
-
-        $user = User::whereId(auth()->user()->id)->first();
-
-        if (auth()->check()) {
-            $user->read($thread);
+        if (\Auth::check()) {
+            \Auth::user()->seen($thread);
         }
+
+        $thread->visits()->record();
 
         $trending->push($thread);
 
-        // $thread->visits()->record();
-        $thread->increment('visits');
-
-        $body = LinkHelper::linkify($thread->body);
-        preg_match_all('/<a[^>]+href=([\'"])(?<href>.+?)\1[^>]*>/i', $body, $result);
-        if (!empty($result['href'])) {
-            $preview = LinkHelper::getLinkPreview($thread->body);
-        } else {
-            $preview = '';
-        }
-
-        return view('threads.show', compact('channelId', 'thread', 'preview'));
+        return view('threads/show', compact('thread'));
     }
 
     public function edit(Thread $thread)
@@ -149,23 +83,21 @@ class ThreadsController extends Controller
         //
     }
 
-    public function update(UpdateThreadRequest $request, $channelId, Thread $thread)
+    public function update($channel, UpdateThreadRequest $request, Thread $thread)
     {
         $this->authorize('update', $thread);
 
-        $thread->update([
-            'subject' => $request->subject,
-            'body' => $request->body
-        ]);
+        $request = $request->validated();
 
-        return $thread;
+        $thread->update($request);
     }
 
     public function destroy($channel, Thread $thread)
     {
-        // $thread->replies()->delete();
+        $this->authorize('delete', $thread);
+
         $thread->delete();
 
-        return redirect()->route('threads')->with('success', 'Thread Deleted Successfully');
+        return redirect()->route('threads.index')->with('success', 'Thread Deleted Successfully');
     }
 }

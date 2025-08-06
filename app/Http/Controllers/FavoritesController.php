@@ -15,11 +15,13 @@ class FavoritesController extends Controller
     {
         $reply->favorite();
 
-        return redirect()->back();
+        return response([], 200);
     }
 
     public function destroy(Reply $reply)
     {
         $reply->unfavorite();
+
+        return response([], 200);
     }
 }

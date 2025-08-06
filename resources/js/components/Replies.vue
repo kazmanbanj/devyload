@@ -4,12 +4,12 @@
             <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
 
-        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
-
-        <b class="text-warning" v-if="$parent.locked">
+        <b class="text-center text-danger" v-if="$parent.locked">
             This thread has been locked. No more replies are allowed.
         </b>
         <new-reply @created="add" v-else></new-reply>
+
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
 
     data() {
         return {
-            dataSet: false,
+            dataSet: {},
             // endpoint: location.pathname + '/replies',
         }
     },

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use YlsIdeas\FeatureFlags\Facades\Features;
-
 class HomeController extends Controller
 {
     /**
@@ -23,7 +21,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $featureThread = Features::accessible('new-thread');
+        // $featureThread = Features::accessible('new-thread');
 
         return view('home');
     }

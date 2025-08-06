@@ -1,24 +1,54 @@
 <template>
-    <div>
-        <input id="trix" type="hidden" :name="name" :value="value">
-        <trix-editor ref="trix" input="trix" :placeholder="placeholder"></trix-editor>
-    </div>
+  <div>
+    <input
+      id="trix"
+      type="hidden"
+      :name="name"
+      :value="value"
+      ref="input"
+    />
+    <trix-editor
+      ref="trix"
+      input="trix"
+      :placeholder="placeholder"
+    ></trix-editor>
+  </div>
 </template>
 
 <script>
-import Trix from 'trix';
+import 'trix'
 
 export default {
-    props: ['name', 'value', 'placeholder', 'shouldClear'],
+  inheritAttrs: false,
+  props: ['name', 'value', 'placeholder', 'shouldClear'],
 
-    mounted() {
-        this.$refs.trix.addEventListener('trix-change', e => {
-            this.$emit('input', e.target.innerHTML);
-        });
+  mounted() {
+    // Watch for changes in the Trix editor
+    this.$refs.trix.addEventListener('trix-change', () => {
+      // Emit updated value
+      const updatedValue = this.$refs.input.value;
+      this.$emit('input', updatedValue);
+    });
 
-        this.$watch('shouldClear', () => {
-            this.$refs.trix.value = '';
-        });
+    // Watch for shouldClear and clear input/editor
+    this.$watch('shouldClear', (newVal) => {
+      if (newVal) {
+        this.clearEditor();
+      }
+    });
+
+    // Set initial value if needed (for two-way binding)
+    if (this.value) {
+      this.$refs.input.value = this.value;
+      this.$refs.trix.editor.loadHTML(this.value);
     }
+  },
+
+  methods: {
+    clearEditor() {
+      this.$refs.input.value = '';
+      this.$refs.trix.editor.loadHTML('');
+    }
+  }
 }
 </script>

@@ -2,20 +2,18 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ThreadsTest extends TestCase
 {
     use DatabaseMigrations, RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,9 +33,9 @@ class ThreadsTest extends TestCase
         $this->get('/threads')->assertSee($this->thread->subject);
     }
 
-     /** @test */
+    /** @test */
     public function a_user_can_see_a_particular_thread()
-    {        
+    {
         $this->get('/threads/{$this->thread->id}')->assertSee($this->thread->subject);
     }
 
