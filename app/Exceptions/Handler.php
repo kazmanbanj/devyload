@@ -2,11 +2,10 @@
 
 namespace App\Exceptions;
 
-use Throwable;
-use App\Exceptions\ThrottleException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -42,16 +41,12 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function ($request, RequestException $exception) {
-            if ($exception instanceof ValidationException) {
-                if ($request->expectsJson()) {
-                    return response('Sorry, validation failed.', 422);
-                }
+            if ($exception instanceof ValidationException && $request->wantsJson()) {
+                return response('Sorry, validation failed.', 422);
             }
 
             if ($exception instanceof ThrottleException) {
-                if ($request->expectsJson()) {
-                    return response('You are replying too frequently. Please, take a break.', 429);
-                }
+                return response('You are replying too frequently. Please, take a break.', 429);
             }
 
             return parent::render($request, $exception);

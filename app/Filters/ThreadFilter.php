@@ -3,12 +3,11 @@
 namespace App\Filters;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 
-class ThreadFilters extends Filters
+class ThreadFilter extends Filter
 {
     protected $filters = ['by', 'popular', 'unanswered'];
-    
+
     protected function by($username)
     {
         $user = User::where('name', $username)->firstOrFail();
@@ -19,12 +18,13 @@ class ThreadFilters extends Filters
     protected function popular()
     {
         $this->builder->getQuery()->orders = [];
-        
+
         return $this->builder->orderBy('replies_count', 'desc');
     }
 
     protected function unanswered()
     {
-        return $this->builder->where('replies_count', 0);
+        return $this->builder->has('replies', 0);
+        // return $this->builder->where('replies_count', 0);
     }
 }

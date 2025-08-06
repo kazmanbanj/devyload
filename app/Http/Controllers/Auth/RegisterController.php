@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -48,7 +48,6 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -63,7 +62,6 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -72,14 +70,13 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'confirmation_token' => Str::limit(md5($data['email'] . Str::random()), 25, '')
+            'confirmation_token' => Str::limit(md5($data['email'].Str::random()), 25, ''),
         ]);
     }
 
     /**
      * The user has been registered.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
      * @return mixed
      */

@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
+use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReplyFactory extends Factory
-{    
+{
     /**
      * Define the model's default state.
      *
@@ -15,9 +16,9 @@ class ReplyFactory extends Factory
     public function definition()
     {
         return [
-            'thread_id' => rand(1, 100),
-            'user_id' => rand(1, 200),
-            'body' => $this->faker->sentence(),
+            'body' => $this->faker->paragraph(),
+            'user_id' => User::factory()->create()->id,
+            'thread_id' => Thread::factory()->create()->id,
         ];
     }
 }

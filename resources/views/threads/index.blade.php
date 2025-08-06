@@ -11,24 +11,45 @@
             <div class="col-md-4">
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h5>Trending threads</h5>
+                        <h5>Search</h5>
                     </div>
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            @forelse ($trending as $thread)
-                                <li class="list-group-item list-group-item-action">
-                                    <a href="{{ $thread->path }}">
-                                        {{ $thread->title }}
+                        <form action="/threads/search" method="GET">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." name="q" value="" class="form-control">
+                            </div>
 
-                                        <span title="{{ Illuminate\Support\Str::plural('reply', $thread->replies) }}" class="badge badge-primary badge-pill mt-1 float-right">{{ $thread->replies }}</span>
-                                    </a>
-                                </li>
-                            @empty
-                                <p>No trending threads yet.</p>
-                            @endforelse
-                        </ul>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+
+                {{-- @if (count($trending)) --}}
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5>Trending threads</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @forelse ($trending as $thread)
+                                    <li class="list-group-item list-group-item-action">
+                                        <a href="{{ $thread->path }}">
+                                            {{ $thread->subject }}
+
+                                            <span title="{{ Illuminate\Support\Str::plural('reply', $thread->replies) }}" class="badge badge-primary badge-pill mt-1 float-right">{{ $thread->replies }}</span>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <p>No trending threads yet.</p>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                {{-- @endif --}}
             </div>
         </div>
 

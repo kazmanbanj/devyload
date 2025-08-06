@@ -1,33 +1,55 @@
 @extends('layouts.app')
 
 @section('header')
-<link href="/css/vendor/jquery.atwho.css" rel="stylesheet">
+<link href="" rel="stylesheet">
 @endsection
 
 @section('content')
-<thread-view :initial-replies-count={{ $thread->replies_count }} :thread="{{ $thread }}" inline-template>
+<thread-view :thread="{{ $thread }}" inline-template>
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
+            <div class="col-md-8" v-cloak>
+                <div class="card" v-if="editing">
+                    <div class="card-header d-flex">
+                        <input class="form-control" type="text" name="" id="" v-model="form.subject">
+                    </div>
 
-                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->title }}
+                    <div class="card-body">
+                        <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea>
 
-                        <span class="float-end">
+                        {{-- <textarea v-model="form.body"></textarea> --}}
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" @click="update">Update</button>
+                        <button class="btn btn-warning btn-sm" @click="resetForm">Cancel</button>
+
+                        {{-- To be worked on later /////////////////////////////// --}}
+                        {{-- <button type="submit" class="float-right btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this thread?');">Delete thread</button> --}}
                             {{-- <form method="post" action="{{ route('threads.destroy', ['channelId' => $channelId, 'thread' => $thread->id]) }}">
                                 @csrf
                                 @method('DELETE')
 
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this thread?');">Delete thread</button>
                             </form> --}}
-                        </span>
+                    </div>
+                </div>
+
+                <div class="card" v-else>
+                    <div class="card-header">
+                        <img src="{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}'s avatar" width="25" height="25" class="mr-1">
+
+                        <a href="{{ route('profile.show', $thread->creator->name) }}">{{ $thread->creator->name }}</a> posted:
+                        <span v-text="subject"></span>
                     </div>
 
-                    <div class="card-body">
-                        <div class="body">{{ $thread->body }}</div>
+                    <div class="card-body p-0">
+                        <div class="body p-3" v-html="body"></div>
+                        @include('threads._link_preview')
+                    </div>
+
+                    <div class="card-footer" v-if="authorize('updateReply', thread)">
+                        <button class="btn btn-secondary btn-sm" @click="editing = true">Edit</button>
                     </div>
                 </div>
                 <br>
@@ -62,7 +84,7 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> posted:
-                        {{ $thread->title }}
+                        {{ $thread->subject }}
                     </div>
 
                     <div class="card-body">
@@ -70,9 +92,10 @@
                             This thread was published {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', Auth::user()->name) }}">{{ $thread->creator->name }}</a> and currently has <span v-text="repliesCount"></span> {{ Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                         </div>
 
-                        <div class="body mt-3">
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}"></subscribe-button>
-                            {{-- <button class="btn btn-primary">Subscribe</button> --}}
+                        <div class="body mt-3 d-flex">
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
+
+                            <button type="button" class="btn btn-light ml-2" v-if="authorize('isAdmin')" @click="toggleLock" v-text="locked ? 'Unlock' : 'Lock'"></button>
                         </div>
                     </div>
                 </div>

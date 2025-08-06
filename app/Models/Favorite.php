@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Traits\RecordsActivity;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
@@ -14,6 +14,6 @@ class Favorite extends Model
 
     public function favorited()
     {
-        return $this->morphTo();
+        return $this->morphTo('favoritable');
     }
 }

@@ -2,14 +2,18 @@
 
 namespace App\Inspections;
 
-use Exception;
-
 class KeyHeldDown
 {
+    protected $patterns = [
+        '/(.)\\1{4,}/u',
+    ];
+
     public function detect($body)
     {
-        if (preg_match('/(.)\\1{4,}/', $body)) {
-            throw new Exception("Your reply contains spam");
+        foreach ($this->patterns as $pattern) {
+            if (preg_match($pattern, $body)) {
+                throw new \Exception('Your reply contains spam');
+            }
         }
     }
 }

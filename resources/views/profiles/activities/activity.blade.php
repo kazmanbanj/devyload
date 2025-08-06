@@ -1,6 +1,6 @@
 <div class="card-header">
     {{ $heading }}
-    
+
     <span class="float-end">
         {{ $time }}
     </span>
@@ -8,6 +8,6 @@
 
 <div class="card-body">
     <div class="body">
-        {{ $body }}
+        {!! $body !!}
     </div>
 </div>

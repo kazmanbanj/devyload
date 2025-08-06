@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Channel;
 use App\Models\Thread;
-use Illuminate\Support\Str;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ThreadFactory extends Factory
 {
@@ -15,18 +17,19 @@ class ThreadFactory extends Factory
      */
     public function definition()
     {
-        $title = $this->faker->text(15);
-        
-        while (Thread::where('title', $title)->exists()) {
-            $title = $this->faker->text(15);
-        };
+        $subject = $this->faker->text(15);
+
+        // while (Thread::where('subject', $subject)->exists()) {
+        //     $subject = $this->faker->text(15);
+        // };
 
         return [
-            'user_id' => rand(1, 200),
-            'channel_id' => rand(1, 20),
-            'title' => $title,
+            'subject' => $subject,
+            'slug' => Str::slug($subject),
             'body' => $this->faker->sentence(),
-            'slug' => Str::slug($title),
+            'locked' => false,
+            'user_id' => User::factory()->create()->id,
+            'channel_id' => Channel::factory()->create()->id,
         ];
     }
 }

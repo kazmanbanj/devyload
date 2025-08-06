@@ -7,8 +7,8 @@
     <form action="{{ route('threads.store') }}" method="post">
         @csrf
         <div class="form-group">
-            <label for="exampleFormControlInput1">Title</label>
-            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Add a title" value="{{ old('title') }}" required>
+            <label for="exampleFormControlInput1">Subject</label>
+            <input spellcheck="true" type="text" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="Add a title" value="{{ old('subject') }}" required>
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Channel</label>
@@ -21,6 +21,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Body</label>
+            {{-- <textarea name="body"></textarea> --}}
             <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="3" required>{{ old('body') }}</textarea>
         </div>
 

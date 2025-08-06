@@ -35,7 +35,7 @@ class Visits
         return Redis::get($this->cacheKey()) ?? 0;
     }
 
-    protected function cacheKey()
+    protected function cacheKey(): string
     {
         return "threads.{$this->thread->id}.visits";
     }

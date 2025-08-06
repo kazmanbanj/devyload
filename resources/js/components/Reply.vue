@@ -17,17 +17,29 @@
 
         <div class="card-body">
             <div v-if="editing">
-                <form @submit="update">
+                <form action="" @submit.prevent="update">
                     <div class="form-group">
-                        <textarea
+                        <!-- <wysiwyg v-model="body"></wysiwyg> -->
+
+                        <!-- <textarea
                             class="form-control"
                             v-model="body"
+                            required
+                        ></textarea> -->
+                        <textarea class="form-control"
+                            name="body"
+                            v-model="body"
+                            @keydown.shift.enter="update"
                             required
                         ></textarea>
                     </div>
 
-                    <button class="btn btn-sm btn-primary">Update</button>
-                    <button class="btn btn-sm btn-link" @click="editing = false" type="button">Cancel</button>
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        Update
+                    </button>
+                    <button class="btn btn-sm btn-link" @click="cancelEdit" type="button">
+                        Cancel
+                    </button>
                 </form>
             </div>
 
@@ -35,19 +47,21 @@
         </div>
 
         <div class="d-flex card-footer">
-            <div v-if="canUpdate">
+            <div v-if="authorize('updateReply', reply)">
                 <button
                     class="btn btn-warning btn-sm"
-                    type="submit"
+                    type="button"
                     @click="editing = true"
+                    v-if="!editing"
                 >
                     Edit
                 </button>
                 <a
                     href="javascript:;"
                     class="btn btn-danger btn-sm ml-2"
-                    type="submit"
+                    type="button"
                     @click="destroy"
+                    v-if="!editing"
                 >
                     Delete
                 </a>
@@ -76,31 +90,37 @@ import Favorite from "./Favorite.vue";
 import moment from "moment";
 
 export default {
-    props: ["data"],
-
     components: { Favorite },
+    props: {
+        data: {
+            type: [Object, Array],
+            required: true
+        },
+    },
 
     data() {
         return {
             editing: false,
             id: this.data.id,
             body: this.data.body,
-            isBest: false
+            isBest: this.data.isBest,
+            reply: this.data
         };
     },
 
     computed: {
+        user() {
+            return window.App.user;
+        },
         ago() {
             return moment(this.data.created_at).fromNow() + '...';
-        },
-
-        signedIn() {
-            return window.App.signedIn;
-        },
-
-        canUpdate() {
-            return this.authorize(user => this.data.user_id == user.id);
         }
+    },
+
+    created() {
+        window.events.$on('best-reply-selected', id => {
+            this.isBest = (id === this.id);
+        })
     },
 
     methods: {
@@ -121,18 +141,26 @@ export default {
 
         destroy() {
             if(confirm("Do you really want to delete?")){
-                axios.delete("/replies/" + this.data.id);
-
-                this.$emit('deleted', [this.data.id]);
-
-                // $(this.$el).fadeOut(300, () => {
-                //     flash("Your reply has been deleted.");
-                // });
+                axios.delete("/replies/" + this.data.id)
+                .then(() => {
+                    this.$emit('deleted');
+                    flash("Your reply has been deleted.")
+                });
             }
         },
 
         markBestReply() {
-            this.isBest = true;
+            axios.post('/replies/' + this.data.id + '/best')
+            .then(() => {
+                window.events.$emit('best-reply-selected', this.data.id);
+                flash('You\'ve successfully marked the best reply.');
+            });
+        },
+
+        cancelEdit() {
+            this.reply.body = this.reply.body;
+
+            this.editing = false;
         },
     },
 };

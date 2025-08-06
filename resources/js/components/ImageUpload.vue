@@ -1,5 +1,5 @@
 <template>
-    <input type="file" name="avatar" id="avatar" accept="image/*" @change="onChange">
+    <input type="file" accept="image/*" @change="onChange">
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
 
             reader.onload = e => {
 
-                let src = e.target.result; 
+                let src = e.target.result;
 
                 this.$emit('loaded', { src, file })
             };

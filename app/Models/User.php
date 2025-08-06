@@ -3,15 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\Reply;
-use App\Models\Thread;
-use App\Models\Activity;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -26,8 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'avatar_path'
+        'avatar_path',
     ];
+
+    protected $appends = ['avatar'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,7 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'email'
+        'email',
     ];
 
     /**
@@ -47,8 +45,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'confirmed' => 'boolean'
+        'confirmed' => 'boolean',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
 
     /**
      * Get all of the threads for the User
@@ -60,11 +63,11 @@ class User extends Authenticatable
         return $this->hasMany(Thread::class)->latest();
     }
 
-    public function getAvatarPathAttribute($avatar)
+    public function avatar()
     {
-        return asset($avatar ? '/storage/'.$avatar : 'images/avatars/default.png');
+        return $this->avatar_path ? '/storage/'.$this->avatar_path : '/storage/avatars/default.png';
     }
-    
+
     public function lastReply()
     {
         return $this->hasOne(Reply::class)->latest();
@@ -74,8 +77,18 @@ class User extends Authenticatable
     {
         $this->confirmed = true;
         $this->confirmation_token = null;
-        
+
         $this->save();
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->avatar();
+    }
+
+    public function isAdmin()
+    {
+        return in_array($this->name, ['jahojaho', 'jahojaho1']);
     }
 
     public function activities()
@@ -91,7 +104,16 @@ class User extends Authenticatable
 
     public function visitedThreadCacheKey($thread)
     {
-        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+        return sprintf('users.%s.visits.%s', $this->id, $thread->id);
+    }
+
+    public function seen($thread)
+    {
+        cache()->forever(
+            $this->visitedThreadCacheKey($thread), Carbon::now()
+        );
+
+        return $this;
     }
 
     public function read($thread)

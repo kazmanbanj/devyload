@@ -1,3 +1,5 @@
+// const authorizations = require('./authorizations');
+
 window._ = require('lodash');
 
 try {
@@ -32,20 +34,37 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+
+// --------------------old auth config
+// window.Vue = require('vue').default;
+// window.Vue.prototype.authorize = function (handler) {
+//     let user = window.App.user;
+//     return user ? handler(user) : false;
+// };
+// ------------------------------
+
 window.Vue = require('vue').default;
 
+let authorizations = require('./authorizations');
+
 // to be shared across all vue components
-window.Vue.prototype.authorize = function (handler) {
-    // Additional admin priviedges
+window.Vue.prototype.authorize = function (...params) {
+    // Additional admin privileges
     // return true;
 
-    let user = window.App.user;
+    if (! window.App.signedIn) return false;
 
-    return user ? handler(user) : false;
+    if (typeof params[0] === 'string') {
+        return authorizations[params[0]](params[1]);
+    }
+
+    return params[0](window.App.user);
 };
+
+Vue.prototype.signedIn = window.App.signedIn;
 
 window.events = new Vue();
 
-window.flash = function (message, level = 'success') { 
+window.flash = function (message, level = 'success') {
     window.events.$emit('flash', { message, level });
 }

@@ -26,6 +26,10 @@
     "dependencies": {
         "at.js": "^1.5.4",
         "jquery.caret": "^0.3.1",
-        "moment": "^2.29.2"
+        "moment": "^2.29.2",
+        "textarea-caret": "^3.1.0",
+        "trix": "^2.0.0-beta.0",
+        "vue-at": "^2.3.2",
+        "vue-instantsearch": "^4.6.0"
     }
 }

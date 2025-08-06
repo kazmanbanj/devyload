@@ -14,9 +14,9 @@ class Trending
     public function push($thread)
     {
         Redis::zincrby($this->cacheKey(), 1, json_encode([
-            'title' => $thread->title,
+            'subject' => $thread->subject,
             'path' => $thread->path(),
-            'replies' => $thread->replies_count
+            'replies' => $thread->replies_count,
         ]));
     }
 

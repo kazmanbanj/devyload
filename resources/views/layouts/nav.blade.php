@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/home') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -37,9 +37,11 @@
                     Channels
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        @foreach ($channels as $channel)
+                        @forelse ($channels as $channel)
                             <a class="dropdown-item" href="{{ route('channels', $channel->slug) }}">{{ $channel->name }}</a>
-                        @endforeach
+                        @empty
+                            <p class="ml-3">No channel yet</p>
+                        @endforelse
                     </div>
                 </li>
             </ul>
