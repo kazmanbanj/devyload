@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePostRequest;
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\CreatePostRequest;
+use App\Rules\SpamFree;
+use Illuminate\Http\Request;
 
 class RepliesController extends Controller
 {
@@ -28,31 +28,21 @@ class RepliesController extends Controller
         if ($thread->locked) {
             return response('Thread is locked', 422);
         }
-        // if (Gate::denies('create', new Reply)) {
-        //     return response('You are posting too frequently. Please take a break.', 422);
-        // };
-        // $thread = Thread::findOrFail($threadId);
-
-        // $reply = $form->persist($thread);
-        // dd(request()->all());
-        // Log::info(request()->all());
+        $request = $request->validated();
         $reply = $thread->addReply([
-            'body' => $request->body,
+            'body' => $request['body'],
             'user_id' => auth()->id(),
-            // 'thread_id' => $this->thread->id,
-        ]);
+        ])->load('creator');
 
         // return $thread->addReply([
         //     'body' => request('body'),
         //     'user_id' => auth()->id()
         // ])->load('owner');
 
-
-        
-        $thread->subscriptions->filter(function ($sub) use ($reply) {
-            return $sub->user_id != $reply->user_id;
-        })
-        ->each->notify($reply);
+        // $thread->subscriptions->filter(function ($sub) use ($reply) {
+        //     return $sub->user_id != $reply->user_id;
+        // })
+        // ->each->notify($reply);
 
         // DatabaseNotification::create([
         //     'id' => Uuid::uuid4()->toString(),
@@ -64,24 +54,26 @@ class RepliesController extends Controller
         //     'data' => ['title' => 'this is the body of the notification']
         // ]);
 
-        return $reply->load('creator');
+        return $reply;
     }
 
-    public function update(Reply $reply)
+    public function update(Reply $reply, Request $request)
     {
         $this->authorize('update', $reply);
 
-        $this->validate(request(), ['body' => 'required|spamfree']);
+        $this->validate($request, [
+            'body' => ['required', 'string', new SpamFree],
+        ]);
 
-        $reply->update(request(['body']));
+        $reply->update([
+            'body' => $request['body']]
+        );
+
+        return response([], 200);
     }
 
     public function destroy(Reply $reply)
     {
-        // if ($reply->user_id != auth()->id()) {
-        //     abort(403);
-        // }
-
         $this->authorize('update', $reply);
 
         $reply->delete();
@@ -90,11 +82,6 @@ class RepliesController extends Controller
             return response(['status' => 'Reply deleted']);
         }
 
-        return redirect()->back();
-    }
-
-    protected function validateReply()
-    {
-        $this->validate(request(), ['body' => 'required|spamfree']);
+        return response([], 200);
     }
 }

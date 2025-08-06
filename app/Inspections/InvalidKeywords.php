@@ -2,20 +2,18 @@
 
 namespace App\Inspections;
 
-use Exception;
-
 class InvalidKeywords
 {
     protected $keywords = [
-        'yahoo customer support'
+        'yahoo customer support',
     ];
 
     public function detect($body)
     {
-        // foreach ($this->keywords as $keyword) {
-            if (in_array($body, $this->keywords) == true) {
-                throw new Exception("Your reply contains spam");
+        foreach ($this->keywords as $keyword) {
+            if (stripos($body, $keyword) !== false) {
+                throw new \Exception('Your reply contains spam');
             }
-        // }
+        }
     }
 }

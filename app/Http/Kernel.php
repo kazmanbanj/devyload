@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'feature' => \YlsIdeas\FeatureFlags\Middleware\FeatureFlagState::class,
         'must-be-confirmed' => \App\Http\Middleware\RedirectIfEmailNotConfirmed::class,
-        'admin' => Administrator::class
+        'admin' => Administrator::class,
     ];
 }

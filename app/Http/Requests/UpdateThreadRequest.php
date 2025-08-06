@@ -24,8 +24,8 @@ class UpdateThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|spamfree',
-            'body' => 'required|spamfree',
+            'subject' => 'required|string|spamfree',
+            'body' => 'required|string|spamfree',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <template>
-    <div class="alert alert-flash" :class="'alert-'+level" role="alert" v-show="show" v-text="body">
-        
+    <div class="alert alert-flash" :class="'alert-'+level" role="alert" v-show="show">
+        {{ body }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -9,7 +9,13 @@
 
 <script>
     export default {
-        props: ['message'],
+        props: {
+            message: {
+                type: String,
+                required: false,
+                default: ''
+            }
+        },
 
         data() {
             return {
@@ -21,7 +27,7 @@
 
         created() {
             if (this.message) {
-                this.flash();
+                this.flash(this.message);
             }
 
             window.events.$on('flash', data => this.flash(data));
@@ -29,17 +35,13 @@
 
         methods: {
             flash(data) {
-                if (data) {
-                    this.body = data.message;
-                    this.level = data.level;
-                };
-
+                this.body = data.message;
+                this.level = data.level;
                 this.show = true;
                 this.hide();
             },
 
             hide() {
-                // $('.alert-flash').delay(3000).fadeOut();
                 setTimeout(() => {
                     this.show = false;
                 }, 3000);

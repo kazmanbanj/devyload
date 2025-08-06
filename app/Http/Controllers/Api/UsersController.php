@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $search = request('name');
+        $search = $request['name'];
 
-        return User::where('name', 'LIKE', "$search%")
-            ->take(5)
+        return User::query()
+            ->where('name', 'LIKE', "$search%")
+            // ->take(5)
             ->pluck('name');
     }
 }

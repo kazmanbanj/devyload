@@ -1,77 +1,112 @@
+
+
+
+
+
+
+
+
+
+
 <template>
-    <div class="mt-5">
-        <div v-if="signedIn">
-            <div class="form-group">
-                <wysiwyg name="body"
-                            v-model="body"
-                            placeholder="Add new reply"
-                            :shouldClear="completed"></wysiwyg>
-                <!-- <textarea
-                    id="body"
-                    name="body"
-                    rows="5"
-                    class="form-control"
-                    placeholder="Add new reply"
-                    v-model="body"
-                ></textarea> -->
-            </div>
+    <div>
+        <template v-if="auth">
+            <!--<form method="POST" action="{{ route('threads.replies.store', [$thread->channel->id, $thread->id]) }}">-->
 
-            <button type="submit" class="btn btn-primary mt-1" @click="addReply">Save</button>
-        </div>
+                <div class="form-group">
+                    <at-ta :members="members">
+                        <textarea   class="form-control"
+                                    name="body"
+                                    placeholder="Have something to say?"
+                                    rows="3"
+                                    v-model="body"
+                                    @keypress.shift.enter="addReply"
+                                    required>
+                        </textarea>
+                    </at-ta>
+                </div>
 
-        <p class="text-center" v-else>Please <a href="/login">sign in</a> to participate in this discussion</p>
+                <button class="btn btn-primary" @click="addReply">Post</button>
+        </template>
+        <template v-else>
+            <p class="text-center">Please <a href="/login">sign in</a> to participate in this discussion.</p>
+        </template>
     </div>
 </template>
 
-
 <script>
-import 'at.js';
-import 'jquery.caret';
+    import AtTa from 'vue-at/dist/vue-at-textarea';
 
-export default {
-    data() {
-        return {
-            body: '',
-            completed: false
-        }
-    },
+    export default {
 
-    mounted() {
-        $('#body').atwho({
-            at: "@",
-            delay: 750,
-            callbacks: {
-                remoteFilter: function(query, callback) {
-                    $.getJSON("/api/users", {name: query},
-                        function (usernames) {
-                            callback(usernames)
-                        }
-                    );
-                }
-            }
-        })
-    },
-
-    methods: {
-        addReply() {
-            // axios.post(this.endpoint, {
-            console.log(location.pathname);
-            axios.post(location.pathname + '/replies', {
-                body: this.body
-            })
-            .catch(error => {
-                // flash(error.response.data.errors.body[0], 'danger');
-                flash(error.response.data, 'danger');
-            })
-            .then(({data}) => {
-                this.body = '';
-                this.completed = true;
-
-                flash('Your reply has been posted');
-
-                this.$emit('created', data);
-            });
+        components: {
+            AtTa,
         },
-    },
-}
+
+        data() {
+            return {
+                body: '',
+                endpoint: location.pathname + '/replies',
+
+                members: []
+            }
+        },
+
+        computed: {
+            auth() {
+                return window.App.signedIn;
+            }
+        },
+
+        methods: {
+            addReply() {
+                axios
+                    .post(this.endpoint, { body: this.body })
+                    .then(({data}) => {
+                        this.body = '';
+
+                        console.log(data);
+
+                        this.$emit('created', data);
+
+                        flash('Your reply has been posted.');
+                    })
+                    .catch(error => {
+                        flash(error.response.data, 'danger');
+                    })
+            },
+
+            fetchUsernames(chunk = '') {
+                axios
+                    .get(`/api/users?username=${chunk}`)
+                    .then(({data}) => {
+                        return this.members = data;
+                    })
+            },
+
+
+            // fetchFromRemote: _.debounce(function (chunk) {
+            //     if (chunk) {
+            //         axios
+            //             .get(`/api/users?username=${chunk}`)
+            //             .then(({data}) => {
+            //                 this.members = data;
+            //             })
+            //     }
+            // }, 500) // delay 500ms after each keystroke
+
+            // async handleAt (chunk) {
+            //     this.members = await this.fetchFromRemote(chunk)
+            // }
+        },
+
+        created() {
+            this.members = this.fetchUsernames();
+        }
+
+    }
 </script>
+
+<style scoped>
+
+</style>

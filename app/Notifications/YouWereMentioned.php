@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -51,8 +50,8 @@ class YouWereMentioned extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->reply->creator->name . ' mentioned you in ' . $this->reply->thread->subject,
-            'link' => $this->reply->path()
+            'message' => $this->reply->creator->name.' mentioned you in '.$this->reply->thread->subject,
+            'link' => $this->reply->path(),
         ];
     }
 }

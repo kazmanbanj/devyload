@@ -13,9 +13,11 @@ class ChannelFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->text(10);
+
         return [
-            'name' => $this->faker->text(10),
-            'slug' => $this->faker->text(10),
+            'name' => $name,
+            'slug' => \Illuminate\Support\Str::slug($name),
         ];
     }
 }

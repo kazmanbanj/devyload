@@ -16,7 +16,7 @@ class Trending
         Redis::zincrby($this->cacheKey(), 1, json_encode([
             'subject' => $thread->subject,
             'path' => $thread->path(),
-            'replies' => $thread->replies_count
+            'replies' => $thread->replies_count,
         ]));
     }
 

@@ -19,7 +19,12 @@
 
 <script>
 export default {
-    props: ['dataSet'],
+    props: {
+        dataSet: {
+            type: [Object, Array],
+            required: true
+        }
+    },
 
     data() {
         return {
@@ -43,7 +48,7 @@ export default {
 
     computed: {
         shouldPaginate() {
-            return !! this.prevUrl || !! this.nextUrl; 
+            return !! this.prevUrl || !! this.nextUrl;
         },
     },
 

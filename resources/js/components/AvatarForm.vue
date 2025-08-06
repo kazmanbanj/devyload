@@ -25,13 +25,16 @@ import ImageUpload from './ImageUpload.vue';
 import moment from "moment";
 
 export default {
-    props: ['user'],
-
     components: { ImageUpload },
-
+    props: {
+        user: {
+            type: [Object, Array],
+            required: false
+        },
+    },
     data() {
         return {
-            avatar: this.user.avatar_path,
+            avatar: this.user.avatar,
             avatarAlt: this.user.name + "'s avatar",
         }
     },
@@ -50,14 +53,17 @@ export default {
             this.avatar = avatar.src;
             this.persist(avatar.file);
         },
-
         persist(avatar) {
             let data = new FormData();
 
             data.append('avatar', avatar);
 
             axios.post(`/api/users/${this.user.name}/avatar`, data)
-                .then(() => flash('Avatar uploaded!'));
+                .then(() => flash('Avatar uploaded!'))
+                .catch(error => {
+                    console.log('fetch to save avatar', error);
+                    alert('Something went wrong');
+            });
         }
     },
 }

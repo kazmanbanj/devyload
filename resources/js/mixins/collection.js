@@ -9,6 +9,8 @@ export default {
             this.items.push(item);
 
             this.$emit('added');
+
+            flash('Reply was added');
         },
 
         remove(index) {

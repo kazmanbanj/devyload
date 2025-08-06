@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<link href="/css/vendor/jquery.atwho.css" rel="stylesheet">
+<link href="" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -15,9 +15,9 @@
                     </div>
 
                     <div class="card-body">
-                        {{-- <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea> --}}
+                        <textarea class="form-control" name="" id="" cols="15" rows="5" v-model="form.body"></textarea>
 
-                        <wysiwyg v-model="form.body"></wysiwyg>
+                        {{-- <textarea v-model="form.body"></textarea> --}}
                     </div>
 
                     <div class="card-footer">
@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="body mt-3 d-flex">
-                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
+                            <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}" v-if="signedIn"></subscribe-button>
 
                             <button type="button" class="btn btn-light ml-2" v-if="authorize('isAdmin')" @click="toggleLock" v-text="locked ? 'Unlock' : 'Lock'"></button>
                         </div>

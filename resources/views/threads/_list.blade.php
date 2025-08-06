@@ -1,9 +1,9 @@
-@forelse ($threadsArray as $thread)
+@forelse ($threads as $thread)
 <div class="card mt-4">
     <div class="card-header">
         <div class="flex">
             <a href="{{ route('threads.show', [$thread['channel']['slug'], $thread['slug']]) }}">
-                {{-- @if (auth()->check() && $thread->hasUpdatesFor(auth()->user())) --}}
+                {{-- @if (auth()->check() && $thread->hasUpdates(auth()->user())) --}}
                 @if (auth()->check())
                     <strong>
                         {{ $thread['subject'] }}

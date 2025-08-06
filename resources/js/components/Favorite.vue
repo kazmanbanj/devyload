@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button :class="classes" type="submit" class="float-end" @click="toggle">
+        <button :class="classes" type="submit" class="btn float-end" @click="toggle">
             <i class="fa-solid fa-heart"></i>
             <span v-text="count"></span>
         </button>
@@ -9,17 +9,21 @@
 
 <script>
 export default {
-    props: ['reply'],
-
+    props: {
+        reply: {
+            type: Object,
+            required: true
+        },
+    },
     data() {
         return {
-            count: this.reply.favoritesCount,
-            active: this.reply.isFavorited
+            count: this.reply.favorites_count,
+            active: this.reply.is_favorited
         }
     },
     computed: {
         classes() {
-            return ['btn', this.active ? 'btn-primary' : 'btn-outline-secondary'];
+            return [this.active ? 'btn-primary' : 'btn-default'];
         },
 
         endpoint() {

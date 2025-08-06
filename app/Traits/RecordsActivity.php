@@ -2,16 +2,18 @@
 
 namespace App\Traits;
 
-use ReflectionClass;
 use App\Models\Activity;
+use Illuminate\Support\Str;
 
 trait RecordsActivity
 {
     protected static function bootRecordsActivity()
     {
-        if (auth()->guest()) return;
-        
-        foreach (static::getRecordsEvent() as $event) {
+        if (auth()->guest()) {
+            return;
+        }
+
+        foreach (self::getActivitiesToRecord() as $event) {
             static::$event(function ($model) use ($event) {
                 $model->recordActivity($event);
             });
@@ -20,6 +22,11 @@ trait RecordsActivity
         static::deleting(function ($model) {
             $model->activity()->delete();
         });
+    }
+
+    protected static function getActivitiesToRecord()
+    {
+        return ['created'];
     }
 
     public function activity()
@@ -36,9 +43,17 @@ trait RecordsActivity
     {
         $this->activity()->create([
             'user_id' => auth()->id(),
-            'type' => $event . '_' . strtolower((new ReflectionClass($this))->getShortName()),
-            // 'subject_id' => $this->id,
-            // 'subject_type' => get_class($this),
+            'type' => $this->getActivityType($event),
         ]);
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    protected function getActivityType($event): string
+    {
+        $type = Str::lower(class_basename($this));
+
+        return "{$event}_{$type}";
     }
 }

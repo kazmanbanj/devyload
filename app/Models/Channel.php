@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Thread;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "slug"];
+    protected $fillable = ['name', 'slug'];
 
     public function getRouteKeyName()
     {
@@ -25,5 +24,10 @@ class Channel extends Model
     public function threads()
     {
         return $this->hasMany(Thread::class);
+    }
+
+    public function path(): string
+    {
+        return "/threads/{$this->slug}";
     }
 }

@@ -1,9 +1,13 @@
 <script>
-import Replies from "../components/Replies.vue";
-import SubscribeButton from '../components/SubscribeButton.vue';
+import Replies from "../components/Replies";
+import SubscribeButton from '../components/SubscribeButton';
 
 export default {
-    props: ['thread'],
+    props: {
+        thread: {
+            type: [Object, Array]
+        },
+    },
 
     components: { Replies, SubscribeButton },
 
@@ -22,9 +26,10 @@ export default {
     },
     methods: {
         toggleLock() {
-            axios[this.locked ? 'delete' : 'post']('/locked-threads/' + this.thread.slug);
-
-            this.locked = ! this.locked;
+            axios[this.locked ? 'delete' : 'post']('/locked-threads/' + this.thread.slug)
+                .then(() => {
+                    this.locked = ! this.locked;
+                });
         },
 
         // cancel() {
@@ -39,7 +44,8 @@ export default {
         update() {
             let uri = `/threads/${this.thread.channel.slug}/${this.thread.slug}`;
 
-            axios.patch(uri, this.form).then(() => {
+            axios.patch(uri, this.form)
+            .then(() => {
                 this.editing = false;
                 this.subject = this.form.subject;
                 this.body = this.form.body;

@@ -10,7 +10,6 @@
             <label for="exampleFormControlInput1">Subject</label>
             <input spellcheck="true" type="text" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="Add a title" value="{{ old('subject') }}" required>
         </div>
-        {{-- <p contenteditable="true" spellcheck="true">splel chkec</p> --}}
         <div class="form-group">
             <label for="exampleFormControlSelect1">Channel</label>
             <select class="form-control" id="exampleFormControlSelect1" name="channel_id" required>
@@ -22,8 +21,8 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Body</label>
-            <wysiwyg name="body"></wysiwyg>
-            {{-- <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="3" required>{{ old('body') }}</textarea> --}}
+            {{-- <textarea name="body"></textarea> --}}
+            <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="3" required>{{ old('body') }}</textarea>
         </div>
 
         <div class="form-inline">

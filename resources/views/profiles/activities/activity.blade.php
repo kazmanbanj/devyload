@@ -1,6 +1,6 @@
 <div class="card-header">
     {{ $heading }}
-    
+
     <span class="float-end">
         {{ $time }}
     </span>

@@ -19,19 +19,13 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-import Flash from './components/Flash.vue';
-import Paginator from './components/Paginator.vue';
-import Thread from './pages/Thread.vue';
-import UserNotifications from './components/UserNotifications.vue';
-import AvatarForm from './components/AvatarForm.vue';
-import Wysiwyg from './components/Wysiwyg.vue';
+Vue.component('thread-view', require('./pages/Thread.vue').default);
 
-Vue.component('flash', Flash);
-Vue.component('paginator', Paginator);
-Vue.component('thread-view', Thread);
-Vue.component('user-notifications', UserNotifications);
-Vue.component('avatar-form', AvatarForm);
-Vue.component('wysiwyg', Wysiwyg);
+Vue.component('flash', require('./components/Flash.vue').default);
+Vue.component('favorite', require('./components/Favorite.vue').default);
+Vue.component('paginator', require('./components/Paginator.vue').default);
+Vue.component('user-notifications', require('./components/UserNotifications.vue').default);
+Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

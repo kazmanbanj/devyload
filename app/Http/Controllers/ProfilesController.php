@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Activity;
+use App\Models\User;
 
 class ProfilesController extends Controller
 {
-    public function show($user)
+    public function show(User $profileUser)
     {
-        $profileUser = User::where('id', $user)->orWhere('name', $user)->first();
         $activities = Activity::feed($profileUser);
 
         return view('profiles.show', compact('profileUser', 'activities'));
